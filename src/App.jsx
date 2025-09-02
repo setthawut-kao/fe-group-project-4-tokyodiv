@@ -1,11 +1,27 @@
-import { Button } from "@/components/ui/button";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
-    </div>
-  );
-}
+import { Home } from "./pages/Home";
+import { MainLayout } from "./components/layouts/MainLayout";
 
-export default App;
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    errorElement: (
+      <div className="min-h-screen flex justify-center items-center">
+        <h1 className="text-4xl">404 - Page Not Found</h1>
+      </div>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+    ],
+  },
+]);
+
+export const App = () => {
+  return <RouterProvider router={router} />;
+};
