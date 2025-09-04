@@ -26,7 +26,11 @@ export const ToggleShowPassword = ({ id, placeholder, required }) => {
         onClick={togglePasswordVisibility}
         className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-neutral-500 hover:text-neutral-900"
       >
-        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+        {showPassword ? (
+          <EyeOff className="w-4 h-4" />
+        ) : (
+          <Eye className="w-4 h-4" />
+        )}
       </Button>
     </div>
   );
