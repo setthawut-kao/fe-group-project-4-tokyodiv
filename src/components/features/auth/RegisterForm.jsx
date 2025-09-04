@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Typography } from "@/components/ui/typography";
 import { ArrowRight, Eye } from "lucide-react";
 
-import { ToggleShowPassword } from "@/components/shared/ToggleShowPassword";
+import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword";
 
 export const RegisterForm = ({ onSwitch }) => {
   return (
@@ -57,7 +57,10 @@ export const RegisterForm = ({ onSwitch }) => {
         </div>
         <div className="flex flex-col gap-3 mt-6">
           <Button type="submit" className="w-full">
-            Create Account <ArrowRight />
+            Create Account <ArrowRight className="w-4 h-4" />
+          </Button>
+          <Button variant="neutral" className="w-full">
+            Cancel
           </Button>
         </div>
       </form>

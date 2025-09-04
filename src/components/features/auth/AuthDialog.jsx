@@ -19,7 +19,7 @@ export function AuthDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button>
-          Login <ArrowRight />
+          Login <ArrowRight className="w-4 h-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-xs lg:max-w-sm">
