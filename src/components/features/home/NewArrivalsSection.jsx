@@ -1,11 +1,14 @@
-import { ProductCard } from "@/components/shared/ProductCard";
+import { ProductCard } from "@/components/features/products/ProductCard";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Typography } from "@/components/ui/typography";
+import { mockupData } from "@/data/mockupData";
 
 export const NewArrivalsSection = () => {
+  const newProducts = mockupData.slice(0, 1);
+
   return (
     <section>
-      <div className="grid grid-cols-2 gap-6 lg:gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
         <div className="flex flex-col gap-10">
           <div>
             <Typography as="h2">Just Re:furbished</Typography>
@@ -13,11 +16,13 @@ export const NewArrivalsSection = () => {
               Freshly refurbished, one-of-a-kind pieces waiting for a new home.
             </Typography>
           </div>
-          <div className="sticky top-0">
-            <ProductCard />
+          <div className="flex w-full sticky top-0 justify-center items-center">
+            {newProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
-        <div className=" bg-white border-4 border-black rounded-xl  hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
+        <div className="hidden lg:block bg-white border-4 border-black rounded-xl  hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
           <div className="sticky top-0">
             <AspectRatio ratio={9 / 16} className="w-full rounded-lg">
               <img

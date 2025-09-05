@@ -7,10 +7,12 @@ import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { AuthDialog } from "@/components/features/auth/AuthDialog";
 import { Container } from "./container";
 import Logo from "@/assets/logo.svg?react";
+import { useAuth } from "@/hooks/useAuth";
+import { UserDropdownMenu } from "../features/auth/UserDropdownMenu";
 
 export const Navbar = () => {
   const scrollDirection = useScrollDirection();
-  const isLoggedIn = false;
+  const { user, isLoggedIn } = useAuth();
 
   return (
     <>
@@ -31,20 +33,7 @@ export const Navbar = () => {
               </Link>
             </div>
             <div className="flex items-center gap-4">
-              {isLoggedIn ? (
-                <>
-                  <Avatar>
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="avatar image"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <Button>Logout</Button>
-                </>
-              ) : (
-                <AuthDialog />
-              )}
+              {isLoggedIn ? <UserDropdownMenu user={user} /> : <AuthDialog />}
             </div>
           </nav>
         </Container>

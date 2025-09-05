@@ -1,6 +1,31 @@
+import { useAuth } from "@/hooks/useAuth";
 import { FeaturedCategorySection } from "@/components/features/home/FeaturedCategorySection";
 import { HeroSection } from "@/components/features/home/HeroSection";
 import { NewArrivalsSection } from "@/components/features/home/NewArrivalsSection";
+import { Button } from "@/components/ui/button";
+
+function DevAuthSwitch() {
+  const { user, login, logout } = useAuth();
+  const mockUser = { name: "Jane Doe" };
+
+  return (
+    <div className="fixed bottom-4 right-4 z-[999] bg-slate-800 text-white p-3 rounded-lg shadow-lg">
+      <h4 className="font-bold text-center mb-2">Dev Switch</h4>
+      {user ? (
+        <div className="flex flex-col items-center gap-2">
+          <p>Logged in as: {user.name}</p>
+          <Button onClick={logout} variant="destructive" size="sm">
+            Force Logout
+          </Button>
+        </div>
+      ) : (
+        <Button onClick={() => login(mockUser)} size="sm">
+          Force Login
+        </Button>
+      )}
+    </div>
+  );
+}
 
 export const HomePage = () => {
   return (
@@ -10,6 +35,7 @@ export const HomePage = () => {
         <NewArrivalsSection />
         <FeaturedCategorySection />
       </section>
+      <DevAuthSwitch />
     </>
   );
 };

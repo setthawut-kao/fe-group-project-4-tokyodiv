@@ -51,10 +51,10 @@ export const FeaturedCategorySection = () => {
 
   return (
     <section>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-10">
-        <div className="bg-white border-4 border-black rounded-xl  hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-10">
+        <div className="hidden lg:block bg-white border-4 border-black rounded-xl  hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
           <div className="sticky top-0">
-            <AspectRatio ratio={9 / 16} className="w-full rounded-lg">
+            <AspectRatio ratio={9 / 16} className="w-full h-full rounded-lg">
               <img
                 src="https://github.com/shadcn.png"
                 alt="Image hero section"
@@ -66,7 +66,7 @@ export const FeaturedCategorySection = () => {
         <div className="flex flex-col lg:col-span-2 gap-10">
           <Typography as="h2">Ready for a New Home!</Typography>
           <div
-            className="flex flex-col lg:flex-row rounded-lg p-1 gap-1.5 lg:gap-3 lg:p-3 sticky top-0 z-50
+            className="flex flex-col lg:flex-row rounded-lg p-1.5 gap-1.5 items-center lg:gap-3 lg:p-3 sticky top-0 z-50
         transition-transform duration-300 ease-in-out
         bg-white border-4 border-black"
           >
@@ -77,7 +77,6 @@ export const FeaturedCategorySection = () => {
                 onCategoryChange={handleCategoryChange}
               />
             </div>
-
             <PaginationControls
               currentPage={currentPage}
               totalPages={totalPages}
@@ -85,7 +84,7 @@ export const FeaturedCategorySection = () => {
               onNext={handleNextPage}
             />
           </div>
-          <div>
+          <div className="flex w-full justify-center">
             <ProductGrid products={paginatedProducts} />
           </div>
         </div>
