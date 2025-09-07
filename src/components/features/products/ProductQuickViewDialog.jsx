@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useCart } from "@/hooks/useCart";
+import { useCartStore } from "@/stores/useCartStore";
 import {
+  Dialog,
+  DialogClose, // 👈 Import DialogClose สำหรับปุ่มปิด
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   Accordion,
@@ -19,61 +22,82 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Typography } from "@/components/ui/typography";
+import ImageCard from "@/components/ui/image-card";
+import { Badge } from "@/components/ui/badge";
+import { ShoppingCart, X, ShoppingBag } from "lucide-react"; // 👈 Import ไอคอนเพิ่ม
 
-export const ProductQuickViewDialog = ({ product }) => {
-  const { addToCart } = useCart;
-
+export const ProductQuickViewDialog = ({ product, showActions = true }) => {
+  // Logic การจัดการ State ยังคงเหมือนเดิม
+  const { cartItems, addToCart, openCart } = useCartStore();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const handleAddToCart = () => {
-    const wasSuccessful = addToCart(product);
-    if (!wasSuccessful) {
+    const isExisting = cartItems.find((item) => item.id === product.id);
+    if (isExisting) {
       setIsAlertOpen(true);
+    } else {
+      addToCart(product);
+      openCart();
     }
   };
+
   return (
     <>
-      <DialogContent className="max-w-3xl">
-        <DialogHeader>
-          <DialogTitle>{product.name}</DialogTitle>
-        </DialogHeader>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <DialogContent className="max-w-sm px-3">
+        <div className="flex flex-col gap-3">
+          <ImageCard caption={product.name} imageUrl={product.imageUrl} />
           <div>
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="rounded-lg"
-            />
-          </div>
-          <div>
-            <p className="text-2xl font-bold">${product.price}</p>
-            <Accordion type="single" collapsible className="w-full mt-4">
-              <AccordionItem value="item-1">
+            <Accordion type="single" collapsible>
+              <AccordionItem value="description">
                 <AccordionTrigger>Description</AccordionTrigger>
                 <AccordionContent>{product.description}</AccordionContent>
               </AccordionItem>
             </Accordion>
-            <div className="mt-6 flex gap-4">
-              <Button onClick={handleAddToCart} className="w-full">
-                Add to Cart
-              </Button>
-              <Button variant="outline" className="w-full">
-                Buy Now
-              </Button>
+          </div>
+
+          <div className="flex flex-col lg:flex-row w-full px-3 py-2 items-center justify-between bg-white rounded-base border-2 border-border shadow-shadow overflow-hidden">
+            <div className="flex flex-col items-center">
+              <Badge variant="neutral" className="self-start">
+                {product.category}
+              </Badge>
+              <div className="flex items-baseline gap-1">
+                <Typography as="h4">{product.price}</Typography>
+                <Typography
+                  as="small"
+                  className="text-neutral-700 font-semibold"
+                >
+                  THB
+                </Typography>
+              </div>
             </div>
+
+            {showActions && (
+              <div className="flex items-center gap-3">
+                <DialogClose asChild>
+                  <Button size="icon" variant="reverse" className="bg-white">
+                    <X className="w-4 h-4" />
+                  </Button>
+                </DialogClose>
+
+                <Button onClick={handleAddToCart} size="icon" variant="neutral">
+                  <ShoppingCart className="w-4 h-4" />
+                </Button>
+
+                <Button>
+                  <Typography as="p">Buy Now</Typography>
+                  <ShoppingBag className="w-4 h-4" />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </DialogContent>
-      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              This item is already in your cart!
-            </AlertDialogTitle>
-          </AlertDialogHeader>
-          <AlertDialogAction>Got it!</AlertDialogAction>
-        </AlertDialogContent>
-      </AlertDialog>
+
+      <AlertDialog
+        open={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+      ></AlertDialog>
     </>
   );
 };

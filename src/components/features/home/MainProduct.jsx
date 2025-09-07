@@ -1,11 +1,12 @@
 import { useMemo, useState } from "react";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Typography } from "@/components/ui/typography";
-import { mockupData } from "@/data/mockupData";
 import { CategorySelector } from "./CategorySelector";
-import { ProductGrid } from "./ProductGrid";
 import { PaginationControls } from "./PaginationControls";
+import { ProductGrid } from "./ProductGrid";
+import { Typography } from "@/components/ui/typography";
+
+import { MOCK_NEW_ARRIVALS } from "@/data/mockProducts";
 
 const CATEGORIES = [
   "Living Room",
@@ -16,12 +17,12 @@ const CATEGORIES = [
 ];
 const ITEMS_PER_PAGE = 6;
 
-export const FeaturedCategorySection = () => {
+export const MainProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const filteredProducts = useMemo(() => {
     console.log(`Filtering for: ${selectedCategory}`);
-    return mockupData.filter((p) => p.category === selectedCategory);
+    return MOCK_NEW_ARRIVALS.filter((p) => p.category === selectedCategory);
   }, [selectedCategory]);
 
   const paginatedProducts = useMemo(() => {
@@ -52,24 +53,30 @@ export const FeaturedCategorySection = () => {
   return (
     <section>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-10">
-        <div className="hidden lg:block bg-white border-4 border-black rounded-xl  hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
-          <div className="sticky top-0">
-            <AspectRatio ratio={9 / 16} className="w-full h-full rounded-lg">
-              <img
-                src="https://github.com/shadcn.png"
-                alt="Image hero section"
-                className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
-              />
-            </AspectRatio>
+        <div className="hidden lg:block">
+          <div className="sticky top-24">
+            <div className="bg-white border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
+              <AspectRatio ratio={9 / 16} className="w-full">
+                <img
+                  src="https://github.com/shadcn.png"
+                  alt="Promotional banner for Main Product."
+                  className="h-full w-full rounded-sm object-cover"
+                />
+              </AspectRatio>
+            </div>
           </div>
         </div>
+
         <div className="flex flex-col lg:col-span-2 gap-10">
-          <Typography as="h2">Ready for a New Home!</Typography>
-          <div
-            className="flex flex-col lg:flex-row rounded-lg p-1.5 gap-1.5 items-center lg:gap-3 lg:p-3 sticky top-0 z-50
-        transition-transform duration-300 ease-in-out
-        bg-white border-4 border-black"
-          >
+          <div>
+            <Typography as="h2">The Collection!</Typography>
+            <Typography as="p" className="text-teal-900">
+              Browse all our available pieces or select a category to find
+              exactly what you're looking for
+            </Typography>
+          </div>
+
+          <div className="flex flex-col lg:flex-row p-1.5 gap-1.5 items-center lg:p-3 sticky top-1 bg-white border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300 ease-out">
             <div className="flex w-full">
               <CategorySelector
                 categories={CATEGORIES}
@@ -77,6 +84,7 @@ export const FeaturedCategorySection = () => {
                 onCategoryChange={handleCategoryChange}
               />
             </div>
+
             <PaginationControls
               currentPage={currentPage}
               totalPages={totalPages}
@@ -84,6 +92,7 @@ export const FeaturedCategorySection = () => {
               onNext={handleNextPage}
             />
           </div>
+
           <div className="flex w-full justify-center">
             <ProductGrid products={paginatedProducts} />
           </div>

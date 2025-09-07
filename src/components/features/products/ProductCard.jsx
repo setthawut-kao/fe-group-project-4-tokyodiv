@@ -1,65 +1,49 @@
-import { Typography } from "@/components/ui/typography";
-import { Button } from "../../ui/button";
-import { ShoppingBag } from "lucide-react";
-import ImageCard from "@/components/ui/image-card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import ImageCard from "@/components/ui/image-card";
+import { Typography } from "@/components/ui/typography";
+
+import { ChevronDown, ShoppingBag } from "lucide-react";
+
 import { ProductQuickViewDialog } from "./ProductQuickViewDialog";
 
-export const ProductCard = ({ product }) => {
-  const displayProduct = product || {
-    id: 1,
-    name: "Product Name",
-    price: "150.00",
-    badge: "cate",
-    imageUrl:
-      "https://hips.hearstapps.com/hmg-prod/images/flowers-trees-and-bushes-reach-their-peak-of-full-bloom-in-news-photo-1678292967.jpg?resize=300:*",
-  };
+export const ProductCard = ({ product, variant = "default" }) => {
+  if (!product) return null;
 
   return (
-    <div className="flex flex-col gap-2">
-      <ImageCard
-        caption={displayProduct.name}
-        imageUrl="https://hips.hearstapps.com/hmg-prod/images/flowers-trees-and-bushes-reach-their-peak-of-full-bloom-in-news-photo-1678292967.jpg?resize=300:*"
-      ></ImageCard>
-      <div className="flex w-[250px] px-3 py-1 items-center gap-3 bg-white rounded-base border-2 border-border shadow-shadow overflow-hidden">
-        <div className="flex gap-1 w-full">
-          <Typography as="p">{displayProduct.price}</Typography>
-          <Badge className="bg-lime-300">{displayProduct.badge}</Badge>
-        </div>
-        <Dialog>
+    <Dialog>
+      <div className="flex flex-col gap-2 h-full">
+        <ImageCard caption={product.name} imageUrl={product.imageUrl} />
+        <div className="flex w-full px-3 py-2 items-center justify-between bg-white rounded-base border-2 border-border shadow-shadow overflow-hidden mt-auto">
+          <div className="flex flex-col items-center">
+            <Badge variant="neutral" className="self-start">
+              {product.category}
+            </Badge>
+            <div className="flex items-baseline gap-1">
+              <Typography as="h4">{product.price}</Typography>
+              <Typography as="small" className="text-neutral-700 font-semibold">
+                THB
+              </Typography>
+            </div>
+          </div>
+
           <DialogTrigger asChild>
-            <Button variant="reverse" className="bg-white">
-              <ShoppingBag className="w-4 h-4" />
+            <Button size="icon">
+              {variant === "default" ? (
+                <ShoppingBag className="h-5 w-5" />
+              ) : (
+                <ChevronDown className="h-5 w-5" />
+              )}
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
-              <DialogDescription>
-                Make changes to your profile here. Click save when you&apos;re
-                done.
-              </DialogDescription>
-            </DialogHeader>
-            <ProductQuickViewDialog product={product} />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="neutral">Cancel</Button>
-              </DialogClose>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        </div>
       </div>
-    </div>
+
+      <ProductQuickViewDialog
+        product={product}
+        showActions={variant === "default"}
+      />
+    </Dialog>
   );
 };

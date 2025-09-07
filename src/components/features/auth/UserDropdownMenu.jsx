@@ -13,11 +13,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useCart } from "@/hooks/useCart";
+import { useCartStore } from "@/stores/useCartStore";
 import { LogOut, Package, ShoppingCart } from "lucide-react";
 
 export const UserDropdownMenu = () => {
-  const { openCart } = useCart();
+  const { openCart } = useCartStore();
 
   return (
     <DropdownMenu>

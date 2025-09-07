@@ -1,18 +1,16 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Typography } from "../ui/typography";
 
+import { Typography } from "../ui/typography";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { AuthDialog } from "@/components/features/auth/AuthDialog";
 import { Container } from "./container";
 import Logo from "@/assets/logo.svg?react";
-import { useAuth } from "@/hooks/useAuth";
 import { UserDropdownMenu } from "../features/auth/UserDropdownMenu";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export const Navbar = () => {
   const scrollDirection = useScrollDirection();
-  const { user, isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuthStore();
 
   return (
     <>

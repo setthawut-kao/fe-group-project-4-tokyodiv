@@ -1,38 +1,27 @@
-import * as SheetPrimitive from "@radix-ui/react-dialog"
-import { X } from "lucide-react"
+import * as SheetPrimitive from "@radix-ui/react-dialog";
+import { X } from "lucide-react";
 
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-function Sheet({
-  ...props
-}) {
+function Sheet({ ...props }) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
-function SheetTrigger({
-  ...props
-}) {
+function SheetTrigger({ ...props }) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
-function SheetClose({
-  ...props
-}) {
+function SheetClose({ ...props }) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
-function SheetPortal({
-  ...props
-}) {
+function SheetPortal({ ...props }) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-function SheetOverlay({
-  className,
-  ...props
-}) {
+function SheetOverlay({ className, ...props }) {
   return (
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
@@ -40,16 +29,12 @@ function SheetOverlay({
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-overlay",
         className
       )}
-      {...props} />
+      {...props}
+    />
   );
 }
 
-function SheetContent({
-  className,
-  children,
-  side = "right",
-  ...props
-}) {
+function SheetContent({ className, children, side = "right", ...props }) {
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -67,10 +52,10 @@ function SheetContent({
             "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t",
           className
         )}
-        {...props}>
+        {...props}
+      >
         {children}
-        <SheetPrimitive.Close
-          className="absolute right-4 top-4 rounded-base ring-offset-white focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+        <SheetPrimitive.Close className="absolute right-4 top-4 rounded-base ring-offset-white focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </SheetPrimitive.Close>
@@ -79,51 +64,43 @@ function SheetContent({
   );
 }
 
-function SheetHeader({
-  className,
-  ...props
-}) {
+function SheetHeader({ className, ...props }) {
   return (
     <div
       data-slot="sheet-header"
       className={cn("flex flex-col gap-1.5 p-4", className)}
-      {...props} />
+      {...props}
+    />
   );
 }
 
-function SheetFooter({
-  className,
-  ...props
-}) {
+function SheetFooter({ className, ...props }) {
   return (
     <div
       data-slot="sheet-footer"
       className={cn("mt-auto flex flex-col gap-3 p-4", className)}
-      {...props} />
+      {...props}
+    />
   );
 }
 
-function SheetTitle({
-  className,
-  ...props
-}) {
+function SheetTitle({ className, ...props }) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
       className={cn("text-foreground font-heading", className)}
-      {...props} />
+      {...props}
+    />
   );
 }
 
-function SheetDescription({
-  className,
-  ...props
-}) {
+function SheetDescription({ className, ...props }) {
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"
       className={cn("text-sm text-foreground font-base", className)}
-      {...props} />
+      {...props}
+    />
   );
 }
 
@@ -138,4 +115,4 @@ export {
   SheetFooter,
   SheetTitle,
   SheetDescription,
-}
+};

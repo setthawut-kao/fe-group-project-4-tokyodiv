@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const PaginationControls = ({
@@ -18,11 +19,13 @@ export const PaginationControls = ({
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
+
       <div className="flex items-center gap-1 border-2 border-border shadow-shadow rounded-base p-1">
         <Typography as="small">{currentPage}</Typography>
         <Typography as="small">of</Typography>
         <Typography as="small">{totalPages || 1}</Typography>
       </div>
+
       <Button
         onClick={onNext}
         disabled={currentPage === totalPages}

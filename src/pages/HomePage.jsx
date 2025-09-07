@@ -1,11 +1,11 @@
-import { useAuth } from "@/hooks/useAuth";
-import { FeaturedCategorySection } from "@/components/features/home/FeaturedCategorySection";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { HeroSection } from "@/components/features/home/HeroSection";
 import { NewArrivalsSection } from "@/components/features/home/NewArrivalsSection";
+import { MainProduct } from "@/components/features/home/MainProduct";
 import { Button } from "@/components/ui/button";
 
 function DevAuthSwitch() {
-  const { user, login, logout } = useAuth();
+  const { user, login, logout } = useAuthStore();
   const mockUser = { name: "Jane Doe" };
 
   return (
@@ -33,9 +33,9 @@ export const HomePage = () => {
       <section className="flex flex-col gap-15 lg:gap-30 my-10 lg:my-20 ">
         <HeroSection />
         <NewArrivalsSection />
-        <FeaturedCategorySection />
+        <MainProduct />
       </section>
-      <DevAuthSwitch />
+      {import.meta.env.MODE === "development" && <DevAuthSwitch />}
     </>
   );
 };
