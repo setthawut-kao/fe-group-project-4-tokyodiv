@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -9,13 +11,15 @@ import { ChevronDown, ShoppingBag } from "lucide-react";
 import { ProductQuickViewDialog } from "./ProductQuickViewDialog";
 
 export const ProductCard = ({ product, variant = "default" }) => {
+  const [isQuickViewOpen, setQuickViewOpen] = useState(false);
+
   if (!product) return null;
 
   return (
-    <Dialog>
+    <Dialog open={isQuickViewOpen} onOpenChange={setQuickViewOpen}>
       <div className="flex flex-col gap-2 h-full">
         <ImageCard caption={product.name} imageUrl={product.imageUrl} />
-        <div className="flex w-full px-3 py-2 items-center justify-between bg-white rounded-base border-2 border-border shadow-shadow overflow-hidden mt-auto">
+        <div className="flex w-full px-3 py-2 gap-3 items-center justify-between bg-white rounded-base border-2 border-border shadow-shadow overflow-hidden mt-auto">
           <div className="flex flex-col items-center">
             <Badge variant="neutral" className="self-start">
               {product.category}
@@ -31,9 +35,9 @@ export const ProductCard = ({ product, variant = "default" }) => {
           <DialogTrigger asChild>
             <Button size="icon">
               {variant === "default" ? (
-                <ShoppingBag className="h-5 w-5" />
+                <ShoppingBag className="w-4 h-4" />
               ) : (
-                <ChevronDown className="h-5 w-5" />
+                <ChevronDown className="w-4 h-4" />
               )}
             </Button>
           </DialogTrigger>
@@ -43,6 +47,7 @@ export const ProductCard = ({ product, variant = "default" }) => {
       <ProductQuickViewDialog
         product={product}
         showActions={variant === "default"}
+        onClose={() => setQuickViewOpen(false)}
       />
     </Dialog>
   );

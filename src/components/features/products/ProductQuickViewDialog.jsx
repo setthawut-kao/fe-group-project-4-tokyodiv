@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useCartStore } from "@/stores/useCartStore";
+import { useNavigate } from "react-router-dom";
+
 import {
-  Dialog,
-  DialogClose, // 👈 Import DialogClose สำหรับปุ่มปิด
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -20,17 +21,22 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import ImageCard from "@/components/ui/image-card";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, X, ShoppingBag } from "lucide-react"; // 👈 Import ไอคอนเพิ่ม
+import { ShoppingCart, X, ShoppingBag } from "lucide-react";
 
-export const ProductQuickViewDialog = ({ product, showActions = true }) => {
-  // Logic การจัดการ State ยังคงเหมือนเดิม
+export const ProductQuickViewDialog = ({
+  product,
+  showActions = true,
+  onClose,
+}) => {
   const { cartItems, addToCart, openCart } = useCartStore();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleAddToCart = () => {
     const isExisting = cartItems.find((item) => item.id === product.id);
@@ -38,13 +44,28 @@ export const ProductQuickViewDialog = ({ product, showActions = true }) => {
       setIsAlertOpen(true);
     } else {
       addToCart(product);
+      if (onClose) onClose();
       openCart();
     }
   };
 
+  const handleBuyNow = () => {
+    const isExisting = cartItems.find((item) => item.id === product.id);
+    if (!isExisting) {
+      addToCart(product);
+    }
+    if (onClose) onClose();
+    navigate("/checkout");
+  };
+
   return (
     <>
-      <DialogContent className="max-w-sm px-3">
+      <DialogContent className="max-w-sm px-4">
+        <DialogHeader className="sr-only">
+          <DialogTitle>{product.name}</DialogTitle>
+          <DialogDescription>{product.description}</DialogDescription>
+        </DialogHeader>
+
         <div className="flex flex-col gap-3">
           <ImageCard caption={product.name} imageUrl={product.imageUrl} />
           <div>
@@ -56,8 +77,8 @@ export const ProductQuickViewDialog = ({ product, showActions = true }) => {
             </Accordion>
           </div>
 
-          <div className="flex flex-col lg:flex-row w-full px-3 py-2 items-center justify-between bg-white rounded-base border-2 border-border shadow-shadow overflow-hidden">
-            <div className="flex flex-col items-center">
+          <div className="flex flex-col lg:flex-row w-full px-3 py-2 gap-3 items-center justify-between bg-white rounded-base border-2 border-border shadow-shadow overflow-hidden">
+            <div className="flex flex-col items-center gap-1">
               <Badge variant="neutral" className="self-start">
                 {product.category}
               </Badge>
@@ -84,7 +105,7 @@ export const ProductQuickViewDialog = ({ product, showActions = true }) => {
                   <ShoppingCart className="w-4 h-4" />
                 </Button>
 
-                <Button>
+                <Button onClick={handleBuyNow}>
                   <Typography as="p">Buy Now</Typography>
                   <ShoppingBag className="w-4 h-4" />
                 </Button>
@@ -94,10 +115,25 @@ export const ProductQuickViewDialog = ({ product, showActions = true }) => {
         </div>
       </DialogContent>
 
-      <AlertDialog
-        open={isAlertOpen}
-        onOpenChange={setIsAlertOpen}
-      ></AlertDialog>
+      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              This item is already in your cart!
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              You can find this item in your shopping cart.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogAction
+            onClick={() => {
+              if (onClose) onClose();
+            }}
+          >
+            Got it!
+          </AlertDialogAction>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

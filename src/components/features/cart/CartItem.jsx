@@ -5,14 +5,14 @@ import { ProductCard } from "../products/ProductCard";
 
 export const CartItem = ({ item, isSelected, onToggleSelection, onRemove }) => {
   return (
-    <div className="flex flex-col gap-3 p-4 border-b">
+    <div className="flex flex-col gap-3 p-6 border-b-1 border-emerald-700 ">
       <div className="flex items-center justify-between">
         <Checkbox
           checked={isSelected}
           onCheckedChange={() => onToggleSelection(item.id)}
         />
-        <Button onClick={() => onRemove(item.id)} variant="ghost" size="icon">
-          <Trash className="h-4 w-4 text-slate-500" />
+        <Button onClick={() => onRemove(item.id)} variant="neutral" size="icon">
+          <Trash className="w-4 h-4" />
         </Button>
       </div>
       <ProductCard product={item} variant="cart" />

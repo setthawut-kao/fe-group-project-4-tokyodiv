@@ -1,27 +1,25 @@
-// src/features/cart/ShoppingCartSheet.jsx
-
 import { useCartStore } from "@/stores/useCartStore";
-import { CartItem } from "./CartItem"; // เราจะใช้ CartItem ที่นี่
+
+import { Button } from "@/components/ui/button";
+import { Typography } from "@/components/ui/typography";
 import {
   Sheet,
   SheetContent,
   SheetFooter,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
 } from "@/components/ui/sheet";
-import { Typography } from "@/components/ui/typography";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-// --- Helper Components ---
-// Component เล็กๆ ที่ใช้แค่ในไฟล์นี้ สามารถประกาศไว้ข้างบนได้
+import { CartItem } from "./CartItem";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight } from "lucide-react";
 
 const EmptyCartView = () => (
   <div className="flex flex-col items-center justify-center h-full text-center">
-    <Typography as="h2" className="text-lg font-semibold">
-      Your cart is empty
-    </Typography>
-    <Typography as="p" className="text-slate-500">
+    <Typography as="h2">Your cart is empty</Typography>
+    <Typography as="p" className="text-emerald-700">
       Find something special to give it a new life.
     </Typography>
   </div>
@@ -35,13 +33,13 @@ const ActiveCartView = ({
 }) => {
   const subtotal = items
     .filter((item) => selectedItemIds.includes(item.id))
-    .reduce((sum, item) => sum + parseFloat(item.price), 0)
+    .reduce((sum, item) => sum + item.price, 0)
     .toFixed(2);
 
   return (
     <div className="flex flex-col h-full">
       <ScrollArea className="flex-1">
-        <div className="px-6 divide-y divide-slate-200">
+        <div className="flex flex-col gap-3">
           {items.map((item) => (
             <CartItem
               key={item.id}
@@ -54,8 +52,8 @@ const ActiveCartView = ({
         </div>
       </ScrollArea>
 
-      <SheetFooter className="mt-auto pt-6 bg-white">
-        <div className="w-full space-y-4">
+      <SheetFooter className="bg-white">
+        <div className="w-full space-y-3">
           <div className="flex justify-between font-semibold text-lg">
             <span>Subtotal</span>
             <span>${subtotal}</span>
@@ -65,16 +63,13 @@ const ActiveCartView = ({
             size="lg"
             disabled={selectedItemIds.length === 0}
           >
-            Proceed to Checkout
+            Proceed to Checkout <ArrowRight />
           </Button>
         </div>
       </SheetFooter>
     </div>
   );
 };
-
-// --- Main Component ---
-// สังเกตว่า Component หลักของเราตอนนี้สั้นและสะอาดมาก
 
 export const ShoppingCartSheet = () => {
   const {
@@ -89,11 +84,16 @@ export const ShoppingCartSheet = () => {
   return (
     <Sheet open={isCartOpen} onOpenChange={closeCart}>
       <SheetContent className="flex flex-col">
-        <SheetHeader>
-          <SheetTitle>Your Shopping Cart ({cartItems.length})</SheetTitle>
+        <SheetHeader className="bg-white">
+          <SheetTitle>
+            Your Shopping Cart <Badge>{cartItems.length}</Badge>
+          </SheetTitle>
+          <SheetDescription>
+            Review and manage the items in your cart here.
+          </SheetDescription>
         </SheetHeader>
 
-        <div className="flex-1 overflow-hidden mt-4">
+        <div className="flex-1 overflow-hidden">
           {cartItems.length === 0 ? (
             <EmptyCartView />
           ) : (
