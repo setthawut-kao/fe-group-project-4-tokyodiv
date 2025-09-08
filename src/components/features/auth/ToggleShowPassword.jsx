@@ -1,9 +1,16 @@
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 
-export const ToggleShowPassword = ({ id, placeholder, required }) => {
+export const ToggleShowPassword = ({
+  id,
+  placeholder,
+  required,
+  value,
+  onChange,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -16,6 +23,8 @@ export const ToggleShowPassword = ({ id, placeholder, required }) => {
         id={id}
         type={showPassword ? "text" : "password"}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
         required={required}
         className="pr-10"
       />

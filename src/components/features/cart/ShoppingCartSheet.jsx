@@ -1,3 +1,5 @@
+import { useAuthStore } from "@/stores/useAuthStore";
+import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/useCartStore";
 
 import { Button } from "@/components/ui/button";
@@ -31,6 +33,17 @@ const ActiveCartView = ({
   removeFromCart,
   toggleItemSelection,
 }) => {
+  const { isLoggedIn, openAuthDialog } = useAuthStore(); // 👈 ดึง state และ action ของ Auth มา
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    if (isLoggedIn) {
+      navigate("/checkout"); // ถ้า login แล้ว ไปต่อได้เลย
+    } else {
+      openAuthDialog(); // ถ้ายังไม่ login ให้เปิด Dialog
+    }
+  };
+
   const subtotal = items
     .filter((item) => selectedItemIds.includes(item.id))
     .reduce((sum, item) => sum + item.price, 0)
@@ -59,6 +72,7 @@ const ActiveCartView = ({
             <span>${subtotal}</span>
           </div>
           <Button
+            onClick={handleCheckout}
             className="w-full"
             size="lg"
             disabled={selectedItemIds.length === 0}

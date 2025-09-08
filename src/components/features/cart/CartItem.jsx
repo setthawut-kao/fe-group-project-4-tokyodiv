@@ -5,8 +5,8 @@ import { ProductCard } from "../products/ProductCard";
 
 export const CartItem = ({ item, isSelected, onToggleSelection, onRemove }) => {
   return (
-    <div className="flex flex-col gap-3 p-6 border-b-1 border-emerald-700 ">
-      <div className="flex items-center justify-between">
+    <div className="flex gap-3 p-6 border-b-1 border-emerald-700 ">
+      <div className="flex flex-col py-2 items-center justify-between">
         <Checkbox
           checked={isSelected}
           onCheckedChange={() => onToggleSelection(item.id)}

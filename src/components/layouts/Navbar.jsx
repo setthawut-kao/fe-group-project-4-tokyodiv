@@ -2,15 +2,16 @@ import { Link } from "react-router-dom";
 
 import { Typography } from "../ui/typography";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
-import { AuthDialog } from "@/components/features/auth/AuthDialog";
 import { Container } from "./container";
 import Logo from "@/assets/logo.svg?react";
 import { UserDropdownMenu } from "../features/auth/UserDropdownMenu";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { ArrowRight } from "lucide-react";
+import { Button } from "../ui/button";
 
 export const Navbar = () => {
   const scrollDirection = useScrollDirection();
-  const { isLoggedIn, user } = useAuthStore();
+  const { isLoggedIn, user, openAuthDialog } = useAuthStore();
 
   return (
     <>
@@ -31,7 +32,13 @@ export const Navbar = () => {
               </Link>
             </div>
             <div className="flex items-center gap-4">
-              {isLoggedIn ? <UserDropdownMenu user={user} /> : <AuthDialog />}
+              {isLoggedIn ? (
+                <UserDropdownMenu user={user} />
+              ) : (
+                <Button onClick={openAuthDialog}>
+                  Login <ArrowRight className="w-4 h-4" />
+                </Button>
+              )}
             </div>
           </nav>
         </Container>
