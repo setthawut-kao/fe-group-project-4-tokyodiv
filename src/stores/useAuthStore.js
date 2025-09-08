@@ -1,22 +1,25 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const API_URL = "http://localhost:8080"; //URL ของ Backend
+const API_URL = "http://localhost:8080/api"; //URL ของ Backend
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
   user: null,
   isLoggedIn: false,
   token: null,
   isAuthDialogOpen: false,
+  postLoginAction: null,
 
-  openAuthDialog: () => set({ isAuthDialogOpen: true }),
-  closeAuthDialog: () => set({ isAuthDialogOpen: false }),
+  openAuthDialog: (action = null) =>
+    set({ isAuthDialogOpen: true, postLoginAction: action }),
+
+  closeAuthDialog: () =>
+    set({ isAuthDialogOpen: false, postLoginAction: null }),
 
   register: async (userData) => {
     try {
       // ยิง request ไปที่ Backend
       const response = await axios.post(`${API_URL}/auth/register`, userData);
-
       if (response.data.success) {
         localStorage.setItem("token", response.data.data.token);
         set({
@@ -24,6 +27,12 @@ export const useAuthStore = create((set) => ({
           token: response.data.data.token,
           isLoggedIn: true,
         });
+
+        const postAction = get().postLoginAction;
+        if (postAction) {
+          postAction(); // ทำงานที่ค้างไว้
+          get().closeAuthDialog(); // ปิด Dialog และเคลียร์ action
+        }
       }
       return response.data;
     } catch (error) {
@@ -42,6 +51,12 @@ export const useAuthStore = create((set) => ({
           token: response.data.data.token,
           isLoggedIn: true,
         });
+
+        const postAction = get().postLoginAction;
+        if (postAction) {
+          postAction(); // ทำงานที่ค้างไว้
+          get().closeAuthDialog(); // ปิด Dialog และเคลียร์ action
+        }
       }
       return response.data;
     } catch (error) {

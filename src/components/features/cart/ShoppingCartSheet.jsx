@@ -16,7 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { CartItem } from "./CartItem";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShoppingBag } from "lucide-react";
 
 const EmptyCartView = () => (
   <div className="flex flex-col items-center justify-center h-full text-center">
@@ -34,13 +34,16 @@ const ActiveCartView = ({
   toggleItemSelection,
 }) => {
   const { isLoggedIn, openAuthDialog } = useAuthStore(); // 👈 ดึง state และ action ของ Auth มา
+  const { closeCart } = useCartStore();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
     if (isLoggedIn) {
-      navigate("/checkout"); // ถ้า login แล้ว ไปต่อได้เลย
+      navigate("/checkout");
     } else {
-      openAuthDialog(); // ถ้ายังไม่ login ให้เปิด Dialog
+      // เมื่อยังไม่ Login ให้ฝากงานไว้ว่า "หลังจาก login เสร็จ ให้ปิดตะกร้า แล้วพาไป checkout"
+      closeCart(); // ปิดตะกร้าก่อนเปิดหน้า login เพื่อ UX ที่ดี
+      openAuthDialog(() => navigate("/checkout"));
     }
   };
 
@@ -77,6 +80,7 @@ const ActiveCartView = ({
             size="lg"
             disabled={selectedItemIds.length === 0}
           >
+            <ShoppingBag />
             Proceed to Checkout <ArrowRight />
           </Button>
         </div>
