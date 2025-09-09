@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api"; //URL ของ Backend
+const API_URL = "http://localhost:8001"; //URL ของ Backend
 
 export const useAuthStore = create((set, get) => ({
   user: null,
@@ -19,7 +19,7 @@ export const useAuthStore = create((set, get) => ({
   register: async (userData) => {
     try {
       // ยิง request ไปที่ Backend
-      const response = await axios.post(`${API_URL}/auth/register`, userData);
+      const response = await axios.post(`${API_URL}/api/auth/signup`, userData);
       if (response.data.success) {
         localStorage.setItem("token", response.data.data.token);
         set({

@@ -1,13 +1,13 @@
-import { useState } from "react"
-import { useAuthStore } from "@/stores/useAuthStore"
+import { useState } from "react";
+import { useAuthStore } from "@/stores/useAuthStore";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Typography } from "@/components/ui/typography"
-import { ArrowRight, Eye } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Typography } from "@/components/ui/typography";
+import { ArrowRight } from "lucide-react";
 
-import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword"
+import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword";
 
 export const RegisterForm = ({ onSwitch, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -16,35 +16,36 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
     email: "",
     password: "",
     confirmPassword: "",
-  })
+  });
 
-  const register = useAuthStore((state) => state.register)
+  const register = useAuthStore((state) => state.register);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!") // TODO: เปลี่ยนเป็น Alert Dialog ในอนาค
-      return // 👈 หยุดการทำงานทันที ถ้ารหัสผ่านไม่ตรงกัน
+      alert("Passwords do not match!"); // TODO: เปลี่ยนเป็น Alert Dialog ในอนาค
+      return; // 👈 หยุดการทำงานทันที ถ้ารหัสผ่านไม่ตรงกัน
     }
 
     const userData = {
-      name: `${formData.firstName} ${formData.lastName}`,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
-    }
+    };
 
-    const result = await register(userData)
+    const result = await register(userData);
     if (result.success) {
-      if (onSuccess) onSuccess()
+      if (onSuccess) onSuccess();
     } else {
-      alert(result.message)
+      alert(result.message);
     }
-  }
+  };
 
   return (
     <div className="grid gap-6">
@@ -75,7 +76,7 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
           <div className="grid gap-2">
             <Label htmlFor="email-register">Email</Label>
             <Input
-              id="email-register"
+              id="email"
               type="email"
               placeholder="Enter your email"
               value={formData.email}
@@ -86,12 +87,11 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
           <div className="grid gap-2">
             <Label htmlFor="password-register">Password</Label>
             <ToggleShowPassword
-              id="password-register"
+              id="password"
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
               required
-              setValue={setPassword} // ✅ เปลี่ยนเป็น prop ที่ชื่อกลางๆ
             />
           </div>
           <div className="grid gap-2">
@@ -102,9 +102,7 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-              setValue={setConfirmPassword} // ✅ ใช้ setConfirmPassword
             />
-            {err && <p className="text-red-500 text-sm">{err}</p>}
           </div>
         </div>
         <div className="flex flex-col gap-3 mt-6">
@@ -127,5 +125,5 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
         </Typography>
       </div>
     </div>
-  )
-}
+  );
+};
