@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MainLayout } from "./components/layouts/MainLayout";
 import { HomePage } from "./pages/HomePage";
 import { CheckOutPage } from "./pages/CheckOutPage";
+import AboutPages from "./pages/AboutPages";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: <CheckOutPage />,
       },
+       {
+        path: "/about-us",
+        element: <AboutPages />,
+      }
     ],
   },
 ]);
