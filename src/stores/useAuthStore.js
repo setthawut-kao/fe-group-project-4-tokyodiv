@@ -1,18 +1,72 @@
 import { create } from "zustand";
+import axios from "axios";
 
-export const useAuthStore = create((set) => ({
+const API_URL = "http://localhost:8080/api"; //URL ของ Backend
+
+export const useAuthStore = create((set, get) => ({
   user: null,
   isLoggedIn: false,
+  token: null,
+  isAuthDialogOpen: false,
+  postLoginAction: null,
 
-  login: (userData) =>
-    set({
-      user: userData,
-      isLoggedIn: true,
-    }),
+  openAuthDialog: (action = null) =>
+    set({ isAuthDialogOpen: true, postLoginAction: action }),
 
-  logout: () =>
-    set({
-      user: null,
-      isLoggedIn: false,
-    }),
+  closeAuthDialog: () =>
+    set({ isAuthDialogOpen: false, postLoginAction: null }),
+
+  register: async (userData) => {
+    try {
+      // ยิง request ไปที่ Backend
+      const response = await axios.post(`${API_URL}/auth/register`, userData);
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.data.token);
+        set({
+          user: response.data.data.user,
+          token: response.data.data.token,
+          isLoggedIn: true,
+        });
+
+        const postAction = get().postLoginAction;
+        if (postAction) {
+          postAction(); // ทำงานที่ค้างไว้
+          get().closeAuthDialog(); // ปิด Dialog และเคลียร์ action
+        }
+      }
+      return response.data;
+    } catch (error) {
+      console.error("Registration failed:", error.response.data);
+      return error.response.data;
+    }
+  },
+
+  login: async (userData) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, userData);
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.data.token);
+        set({
+          user: response.data.data.user,
+          token: response.data.data.token,
+          isLoggedIn: true,
+        });
+
+        const postAction = get().postLoginAction;
+        if (postAction) {
+          postAction(); // ทำงานที่ค้างไว้
+          get().closeAuthDialog(); // ปิด Dialog และเคลียร์ action
+        }
+      }
+      return response.data;
+    } catch (error) {
+      console.error("Login failed:", error.response.data);
+      return error.response.data;
+    }
+  },
+
+  logout: () => {
+    localStorage.removeItem("token");
+    set({ user: null, token: null, isLoggedIn: false });
+  },
 }));

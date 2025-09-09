@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useAuthStore } from "@/stores/useAuthStore"
 import { HeroSection } from "@/components/features/home/HeroSection"
 import { NewArrivalsSection } from "@/components/features/home/NewArrivalsSection"
@@ -26,6 +27,11 @@ function DevAuthSwitch() {
     </div>
   )
 }
+=======
+import { HeroSection } from "@/components/features/home/HeroSection";
+import { NewArrivalsSection } from "@/components/features/home/NewArrivalsSection";
+import { MainProduct } from "@/components/features/home/MainProduct";
+>>>>>>> 1798bb6ac483571ea286220524f1d663364bc13b
 
 export const HomePage = () => {
   return (
@@ -35,7 +41,6 @@ export const HomePage = () => {
         <NewArrivalsSection />
         <MainProduct />
       </section>
-      {import.meta.env.MODE === "development" && <DevAuthSwitch />}
     </>
   )
 }

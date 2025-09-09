@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { useCartStore } from "@/stores/useCartStore";
 import { useNavigate } from "react-router-dom";
 
@@ -34,6 +35,7 @@ export const ProductQuickViewDialog = ({
   showActions = true,
   onClose,
 }) => {
+  const { isLoggedIn, openAuthDialog } = useAuthStore();
   const { cartItems, addToCart, openCart } = useCartStore();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const navigate = useNavigate();
@@ -50,12 +52,20 @@ export const ProductQuickViewDialog = ({
   };
 
   const handleBuyNow = () => {
-    const isExisting = cartItems.find((item) => item.id === product.id);
-    if (!isExisting) {
-      addToCart(product);
+    if (isLoggedIn) {
+      // 💥 ไม่ต้องใช้ getState() ที่นี่
+      // เราใช้ `cartItems` และ `addToCart` ที่ดึงมาจาก hook ด้านบนได้เลย
+      const isExisting = cartItems.find((item) => item.id === product.id);
+      if (!isExisting) {
+        addToCart(product);
+      }
+      // เราควรจะสั่งปิด Dialog ก่อนที่จะ navigate ด้วย
+      if (onClose) onClose();
+      navigate("/checkout");
+    } else {
+      if (onClose) onClose(); // ปิด Quick View ก่อนเปิด Auth Dialog เพื่อ UX ที่ดี
+      openAuthDialog(() => navigate("/checkout"));
     }
-    if (onClose) onClose();
-    navigate("/checkout");
   };
 
   return (

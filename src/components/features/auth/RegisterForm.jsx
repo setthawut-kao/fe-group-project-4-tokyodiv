@@ -1,5 +1,6 @@
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { useState } from "react"
+import { useAuthStore } from "@/stores/useAuthStore"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -7,65 +8,47 @@ import { Typography } from "@/components/ui/typography"
 import { ArrowRight, Eye } from "lucide-react"
 
 import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword"
-import { useNavigate } from "react-router-dom"
-import { useState, useContext } from "react"
-import axios from "axios"
-import { userDataContext } from "../../../context/UserContext.jsx"
 
-export const RegisterForm = ({ onSwitch, setView }) => {
-  const { serverUrl, userData, setUserData } = useContext(userDataContext)
+export const RegisterForm = ({ onSwitch, onSuccess }) => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  })
 
-  const navigate = useNavigate()
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [err, setErr] = useState("")
+  const register = useAuthStore((state) => state.register)
 
-  const handleSignUp = async (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value })
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setErr("")
-    setLoading(true)
 
-    if (password !== confirmPassword) {
-      setLoading(false)
-      setErr("Passwords do not match") // แสดง error ผ่าน state แทน alert
-      return
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!") // TODO: เปลี่ยนเป็น Alert Dialog ในอนาค
+      return // 👈 หยุดการทำงานทันที ถ้ารหัสผ่านไม่ตรงกัน
     }
 
-    try {
-      let result = await axios.post(
-        `${serverUrl}/api/auth/signup`,
-        { firstName, lastName, email, password },
-        { withCredentials: true }
-      )
+    const userData = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      password: formData.password,
+    }
 
-      setUserData(result.data)
-      setLoading(false)
-      // Toast success
-      setView("login")
-      toast.success("Account created successfully!")
-      navigate("/")
-    } catch (error) {
-      console.log(error)
-      setUserData(null)
-      setLoading(false)
-      setErr(error.response.data.message)
-      toast.error(message) // Toast แสดง error จาก server
+    const result = await register(userData)
+    if (result.success) {
+      if (onSuccess) onSuccess()
+    } else {
+      alert(result.message)
     }
   }
 
   return (
-    <div className="grid gap-6 relative">
-      {/* ToastContainer ต้องใส่ไว้ใน component ที่ render */}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        className="absolute top-[20px] rigth-[20px]"
-      />
-      <form onSubmit={handleSignUp}>
+    <div className="grid gap-6">
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-6">
           <div className="grid gap-2">
             <Label htmlFor="firstName">First Name</Label>
@@ -73,9 +56,9 @@ export const RegisterForm = ({ onSwitch, setView }) => {
               id="firstName"
               type="text"
               placeholder="Enter your first name"
+              value={formData.firstName}
+              onChange={handleChange}
               required
-              onChange={(e) => setFirstName(e.target.value)}
-              value={firstName}
             />
           </div>
           <div className="grid gap-2">
@@ -84,9 +67,9 @@ export const RegisterForm = ({ onSwitch, setView }) => {
               id="lastName"
               type="text"
               placeholder="Enter your last name"
+              value={formData.lastName}
+              onChange={handleChange}
               required
-              onChange={(e) => setLastName(e.target.value)}
-              value={lastName}
             />
           </div>
           <div className="grid gap-2">
@@ -95,9 +78,9 @@ export const RegisterForm = ({ onSwitch, setView }) => {
               id="email-register"
               type="email"
               placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
               required
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
             />
           </div>
           <div className="grid gap-2">
@@ -105,8 +88,9 @@ export const RegisterForm = ({ onSwitch, setView }) => {
             <ToggleShowPassword
               id="password-register"
               placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
               required
-              value={password}
               setValue={setPassword} // ✅ เปลี่ยนเป็น prop ที่ชื่อกลางๆ
             />
           </div>
@@ -115,8 +99,9 @@ export const RegisterForm = ({ onSwitch, setView }) => {
             <ToggleShowPassword
               id="confirmPassword"
               placeholder="Confirm your password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
               required
-              value={confirmPassword}
               setValue={setConfirmPassword} // ✅ ใช้ setConfirmPassword
             />
             {err && <p className="text-red-500 text-sm">{err}</p>}
@@ -126,9 +111,6 @@ export const RegisterForm = ({ onSwitch, setView }) => {
           <Button type="submit" className="w-full">
             Create Account <ArrowRight className="w-4 h-4" />
           </Button>
-          {/* <Button variant="neutral" className="w-full">
-            Cancel
-          </Button> */}
         </div>
       </form>
       <div className="flex justify-center">
