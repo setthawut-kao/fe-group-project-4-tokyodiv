@@ -9,7 +9,6 @@ export const ToggleShowPassword = ({
   placeholder,
   required,
   value,
-
   onChange,
 }) => {
   const [showPassword, setShowPassword] = useState(false);

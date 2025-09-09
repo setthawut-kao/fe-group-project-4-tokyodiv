@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Typography } from "@/components/ui/typography";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Eye } from "lucide-react";
 
 import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword";
 
@@ -40,10 +40,17 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
     };
 
     const result = await register(userData);
-    if (result.success) {
+
+    console.log("API Response from Backend:", result);
+
+    if (result && result.success) {
       if (onSuccess) onSuccess();
     } else {
-      alert(result.message);
+      const errorMessage =
+        result?.message ||
+        result?.error ||
+        "An unknown error occurred. Please try again.";
+      alert(errorMessage);
     }
   };
 

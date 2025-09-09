@@ -9,7 +9,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Typography } from "../ui/typography";
 
-// import NewArrive from "@/assets/images/home-page/NewArrive";
 import { AspectRatio } from "../ui/aspect-ratio";
 
 export const PostFrame = ({

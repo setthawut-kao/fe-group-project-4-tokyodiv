@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 
 export const OrderSummary = ({ subtotal, onConfirm, isConfirmDisabled }) => {
-  const shippingFee = 0; // สมมติว่าค่าส่งฟรีสำหรับ MVP
+  const shippingFee = 0;
   const total = subtotal + shippingFee;
 
   return (

@@ -1,6 +1,6 @@
-import { useAuthStore } from "@/stores/useAuthStore"
+import { useAuthStore } from "@/stores/useAuthStore";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,23 +8,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { LoginForm } from "./LoginForm"
-import { RegisterForm } from "./RegisterForm"
+} from "@/components/ui/dialog";
+import { LoginForm } from "./LoginForm";
+import { RegisterForm } from "./RegisterForm";
 
 export function AuthDialog() {
   // ดึง state และ action สำหรับควบคุมตัวเองมาจาก store
-  const { isAuthDialogOpen, closeAuthDialog, postLoginAction } = useAuthStore()
-  const [view, setView] = useState("login")
+  const { isAuthDialogOpen, closeAuthDialog, postLoginAction } = useAuthStore();
+  const [view, setView] = useState("login");
 
   // ฟังก์ชันนี้จะถูกเรียกจากข้างใน Form เมื่อ login/register สำเร็จ
   const handleSuccess = () => {
     // เช็คว่ามี "งานที่ต้องทำต่อ" ค้างอยู่หรือไม่
     if (postLoginAction) {
-      postLoginAction() // 👈 ทำงานที่ค้างไว้ (เช่น navigate ไป checkout)
+      postLoginAction(); // 👈 ทำงานที่ค้างไว้ (เช่น navigate ไป checkout)
     }
-    closeAuthDialog() // 👈 ปิด Dialog
-  }
+    closeAuthDialog(); // 👈 ปิด Dialog
+  };
 
   return (
     <Dialog open={isAuthDialogOpen} onOpenChange={closeAuthDialog}>
@@ -50,5 +50,5 @@ export function AuthDialog() {
         )}
       </DialogContent>
     </Dialog>
-  )
+  );
 }
