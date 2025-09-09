@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Typography } from "@/components/ui/typography"
-import { ArrowRight, Eye } from "lucide-react"
-=======
 import { useState } from "react";
 import { useAuthStore } from "@/stores/useAuthStore";
 
@@ -13,9 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Typography } from "@/components/ui/typography";
 import { ArrowRight } from "lucide-react";
->>>>>>> 1798bb6ac483571ea286220524f1d663364bc13b
 
-import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword"
+import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword";
 
 export const LoginForm = ({ onSwitch, onSuccess }) => {
   // 1. สร้าง State สำหรับฟอร์ม
@@ -72,12 +64,6 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
           <Button type="submit" className="w-full">
             Login <ArrowRight className="w-4 h-4" />
           </Button>
-<<<<<<< HEAD
-          {/* <Button variant="neutral" className="w-full">
-            Cancel
-          </Button> */}
-=======
->>>>>>> 1798bb6ac483571ea286220524f1d663364bc13b
         </div>
       </form>
       <div className="flex justify-center">
@@ -94,5 +80,5 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
         </Typography>
       </div>
     </div>
-  )
-}
+  );
+};
