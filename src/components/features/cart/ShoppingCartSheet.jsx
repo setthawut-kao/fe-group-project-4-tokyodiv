@@ -53,7 +53,7 @@ const ActiveCartView = ({
     .toFixed(2);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col w-full h-full">
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-3">
           {items.map((item) => (
@@ -70,9 +70,16 @@ const ActiveCartView = ({
 
       <SheetFooter className="bg-white">
         <div className="w-full space-y-3">
-          <div className="flex justify-between font-semibold text-lg">
-            <span>Subtotal</span>
-            <span>${subtotal}</span>
+          <div className="flex justify-between">
+            <div>
+              <Typography as="p">Subtotal</Typography>
+            </div>
+            <div className="flex items-baseline gap-1">
+              <Typography as="h4">{subtotal}</Typography>
+              <Typography as="small" className="text-neutral-700 font-semibold">
+                THB
+              </Typography>
+            </div>
           </div>
           <Button
             onClick={handleCheckout}

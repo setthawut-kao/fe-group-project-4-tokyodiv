@@ -1,27 +1,38 @@
-import { useCartStore } from "@/stores/useCartStore";
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart } from "lucide-react";
+import { useCartStore } from "@/stores/useCartStore";
+import { motion } from "motion/react";
 
 export const CartFAB = () => {
-  // ดึงข้อมูลและ action ที่จำเป็นจาก cartStore
-  const { cartItems, openCart } = useCartStore();
+  const cartItems = useCartStore((state) => state.cartItems);
+  const openCart = useCartStore((state) => state.openCart);
+
   const itemCount = cartItems.length;
 
-  // ถ้าไม่มีของในตะกร้า ไม่ต้องแสดงผลอะไรเลย
   if (itemCount === 0) {
     return null;
   }
 
   return (
-    <Button
-      onClick={openCart}
-      size="icon"
-      className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50"
+    <motion.div
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1 }}
+      className="fixed bottom-6 right-6 z-50"
     >
-      <ShoppingCart className="h-6 w-6" />
-      <Badge className="absolute -top-1 -right-1">{itemCount}</Badge>
-    </Button>
+      <Button
+        onClick={openCart}
+        size="icon"
+        className="relative w-12 h-12 rounded-full border-2 border-border shadow-shadow"
+      >
+        <ShoppingCart className="w-4 h-4" />
+        <Badge
+          variant="neutral"
+          className="absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center rounded-full"
+        >
+          {itemCount}
+        </Badge>
+      </Button>
+    </motion.div>
   );
 };
