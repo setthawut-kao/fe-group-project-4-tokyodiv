@@ -1,12 +1,12 @@
-import { useAuthStore } from "@/stores/useAuthStore";
-import { HeroSection } from "@/components/features/home/HeroSection";
-import { NewArrivalsSection } from "@/components/features/home/NewArrivalsSection";
-import { MainProduct } from "@/components/features/home/MainProduct";
-import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/stores/useAuthStore"
+import { HeroSection } from "@/components/features/home/HeroSection"
+import { NewArrivalsSection } from "@/components/features/home/NewArrivalsSection"
+import { MainProduct } from "@/components/features/home/MainProduct"
+import { Button } from "@/components/ui/button"
 
 function DevAuthSwitch() {
-  const { user, login, logout } = useAuthStore();
-  const mockUser = { name: "Jane Doe" };
+  const { user, login, logout } = useAuthStore()
+  const mockUser = { name: "Jane Doe" }
 
   return (
     <div className="fixed bottom-4 right-4 z-[999] bg-slate-800 text-white p-3 rounded-lg shadow-lg">
@@ -24,7 +24,7 @@ function DevAuthSwitch() {
         </Button>
       )}
     </div>
-  );
+  )
 }
 
 export const HomePage = () => {
@@ -37,5 +37,5 @@ export const HomePage = () => {
       </section>
       {import.meta.env.MODE === "development" && <DevAuthSwitch />}
     </>
-  );
-};
+  )
+}

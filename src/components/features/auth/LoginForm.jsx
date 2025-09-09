@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Typography } from "@/components/ui/typography";
-import { ArrowRight, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Typography } from "@/components/ui/typography"
+import { ArrowRight, Eye } from "lucide-react"
 
-import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword";
+import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword"
 
 export const LoginForm = ({ onSwitch }) => {
   return (
@@ -28,9 +28,9 @@ export const LoginForm = ({ onSwitch }) => {
           <Button type="submit" className="w-full">
             Login <ArrowRight className="w-4 h-4" />
           </Button>
-          <Button variant="neutral" className="w-full">
+          {/* <Button variant="neutral" className="w-full">
             Cancel
-          </Button>
+          </Button> */}
         </div>
       </form>
       <div className="flex justify-center">
@@ -47,5 +47,5 @@ export const LoginForm = ({ onSwitch }) => {
         </Typography>
       </div>
     </div>
-  );
-};
+  )
+}

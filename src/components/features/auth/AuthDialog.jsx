@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -7,13 +7,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { LoginForm } from "./LoginForm";
-import { RegisterForm } from "./RegisterForm";
-import { ArrowRight } from "lucide-react";
+} from "@/components/ui/dialog"
+import { LoginForm } from "./LoginForm"
+import { RegisterForm } from "./RegisterForm"
+import { ArrowRight } from "lucide-react"
 
 export function AuthDialog() {
-  const [view, setView] = useState("login");
+  const [view, setView] = useState("login")
 
   return (
     <Dialog>
@@ -34,9 +34,9 @@ export function AuthDialog() {
         {view === "login" ? (
           <LoginForm onSwitch={() => setView("register")} />
         ) : (
-          <RegisterForm onSwitch={() => setView("login")} />
+          <RegisterForm onSwitch={() => setView("login")} setView={setView} />
         )}
       </DialogContent>
     </Dialog>
-  );
+  )
 }

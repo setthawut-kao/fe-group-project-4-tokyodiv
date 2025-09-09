@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,12 +12,12 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useCartStore } from "@/stores/useCartStore";
-import { LogOut, Package, ShoppingCart } from "lucide-react";
+} from "@/components/ui/dropdown-menu"
+import { useCartStore } from "@/stores/useCartStore"
+import { LogOut, Package, ShoppingCart } from "lucide-react"
 
 export const UserDropdownMenu = () => {
-  const { openCart } = useCartStore();
+  const { openCart } = useCartStore()
 
   return (
     <DropdownMenu>
@@ -44,5 +44,5 @@ export const UserDropdownMenu = () => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
+  )
+}
