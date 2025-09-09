@@ -24,18 +24,21 @@ export const UserDropdownMenu = ({ user }) => {
   // ถ้ายังไม่มีข้อมูล user (อาจจะกำลังโหลด) ก็ไม่ต้องแสดงผลอะไร
   if (!user) return null;
 
-  // ฟังก์ชันสำหรับสร้างตัวย่อจากชื่อ
+  // สร้างชื่อเต็มจาก firstName และ lastName
+  const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+
   const getInitials = (name) => {
-    if (!name) return ""; // ป้องกัน error ถ้าชื่อเป็นค่าว่าง
+    if (!name) return "";
+    // ตอนนี้เราจะ split จาก fullName ที่เราสร้างขึ้น
     return name
       .split(" ")
-      .map((n) => n[0]) // ดึงตัวอักษรแรก
-      .slice(0, 2) // เอาแค่ 2 ตัวแรก (เผื่อมีชื่อกลาง)
-      .join("") // รวมกลับเป็น string
-      .toUpperCase(); // ทำให้เป็นตัวพิมพ์ใหญ่
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
   };
 
-  const userInitials = getInitials(user.name);
+  const userInitials = getInitials(fullName);
 
   return (
     <DropdownMenu>

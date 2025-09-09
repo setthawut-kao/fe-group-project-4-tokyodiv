@@ -50,7 +50,7 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password-login">Password</Label>
+            <Label htmlFor="password">Password</Label>
             <ToggleShowPassword
               id="password-login"
               placeholder="Password"

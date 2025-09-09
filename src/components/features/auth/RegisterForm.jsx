@@ -33,16 +33,24 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
     }
 
     const userData = {
-      name: `${formData.firstName} ${formData.lastName}`,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
     };
 
     const result = await register(userData);
-    if (result.success) {
+
+    console.log("API Response from Backend:", result);
+
+    if (result && result.success) {
       if (onSuccess) onSuccess();
     } else {
-      alert(result.message);
+      const errorMessage =
+        result?.message ||
+        result?.error ||
+        "An unknown error occurred. Please try again.";
+      alert(errorMessage);
     }
   };
 
@@ -75,7 +83,7 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
           <div className="grid gap-2">
             <Label htmlFor="email-register">Email</Label>
             <Input
-              id="email-register"
+              id="email"
               type="email"
               placeholder="Enter your email"
               value={formData.email}
@@ -86,7 +94,7 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
           <div className="grid gap-2">
             <Label htmlFor="password-register">Password</Label>
             <ToggleShowPassword
-              id="password-register"
+              id="password"
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
