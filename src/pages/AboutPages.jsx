@@ -1,25 +1,139 @@
-import React from 'react'
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useState } from "react";
 
-const AboutPages = () => {
+function FlipCard({ frontImg, name, backText }) {
+  const [flipped, setFlipped] = useState(false);
+
   return (
-    <Card className="w-full max-w-sm">
-  <CardHeader>
-    <CardTitle>Name</CardTitle>
-  </CardHeader>
-</Card>
+    <div
+        // ขนาดของcard
+      className="w-64 h-64 [perspective:1000px] cursor-pointer"
+      onClick={() => setFlipped(!flipped)}
+    >
+      <div
+        className={`relative w-full h-full duration-500 [transform-style:preserve-3d] ${
+          flipped ? "[transform:rotateY(180deg)]" : ""
+        }`}
+      >
+        {/* ด้านหน้า */}
+        <div className="absolute w-full h-full bg-green-100 border-4 border-black rounded-lg shadow-[6px_6px_0_0_#000] flex flex-col items-center justify-center [backface-visibility:hidden]">
+          {/* <h2 className="font-bold text-xl mb-2">{name}</h2> */}
+          <img
+            src={frontImg}
+            alt={name}
+            className="w-full h-full object-cover rounded"
+          />
+        </div>
 
-  )
+        {/* ด้านหลัง (ข้อความ) */}
+        <div className="absolute w-full h-full bg-yellow-200 border-4 border-black rounded-lg shadow-[6px_6px_0_0_#000] flex items-center justify-center text-center px-4 text-lg font-semibold [transform:rotateY(180deg)] [backface-visibility:hidden]">
+          {backText}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default AboutPages
+export default function App() {
+  return (
+    <div>
+        <h className='text-4xl m-5 flex justify-center'>About Us</h>
+        <div className="min-h-screen flex items-start justify-center gap-6 ">
+            <FlipCard
+                // name="Cat 1"
+                frontImg="src/assets/images/creator/cat.jpg"
+                backText="Kao"
+            />
+            <FlipCard
+                // name="Cat 2"
+                frontImg="src/assets/images/creator/cat1.jpg"
+                backText="Gad"
+            />
+            <FlipCard
+                // name="Cat 3"
+                frontImg="src/assets/images/creator/cat2.jpg"
+                backText="kim"
+            />
+            <FlipCard
+                // name="Cat 4"
+                frontImg="src/assets/images/creator/cat3.jpg"
+                backText="Bae"
+            />
+            <FlipCard
+                // name="Cat 5"
+                frontImg="src/assets/images/creator/cat4.jpg"
+                backText="Ja"
+            />
+        </div>
+    </div>
+    
+  );
+}
+
+
+// import { Button } from "@/components/ui/button"
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card"
+// import { Input } from "@/components/ui/input"
+// import { Label } from "@/components/ui/label"
+
+// const AboutPages = () => {
+//   return (
+//     <div className='flex '>
+//         {/* card1 */}
+//         <Card className="w-full max-w-sm m-5">
+//             <CardHeader>
+//                 <CardTitle className='flex justify-center text-3xl'>NAME</CardTitle>
+//                 <CardContent>
+//                     <img src='src/assets/images/creator/cat.jpg'></img>
+//                 </CardContent>
+//             </CardHeader>
+//         </Card>
+//         {/* card2 */}
+//         <Card className="w-full max-w-sm m-5">
+//             <CardHeader>
+//                 <CardTitle className='flex justify-center text-3xl'>NAME</CardTitle>
+//                 <CardContent>
+//                     <img src='src/assets/images/creator/cat1.jpg'></img>
+//                 </CardContent>
+//             </CardHeader>
+//         </Card>
+//         {/* card3 */}
+//         <Card className="w-full max-w-sm m-5">
+//             <CardHeader>
+//                 <CardTitle className='flex justify-center text-3xl'>NAME</CardTitle>
+//                 <CardContent>
+//                     <img src='src/assets/images/creator/cat2.jpg'></img>
+//                 </CardContent>
+//             </CardHeader>
+//         </Card>
+//         {/* card4 */}
+//         <Card className="w-full max-w-sm m-5">
+//             <CardHeader>
+//                 <CardTitle className='flex justify-center text-3xl'>NAME</CardTitle>
+//                 <CardContent>
+//                     <img src='src/assets/images/creator/cat3.jpg'></img>
+//                 </CardContent>
+//             </CardHeader>
+//         </Card>
+//         {/* card5 */}
+//         <Card className="w-full max-w-sm m-5">
+//             <CardHeader>
+//                 <CardTitle className='flex justify-center text-3xl'>NAME</CardTitle>
+//                 <CardContent>
+//                     <img src='src/assets/images/creator/cat4.jpg'></img>
+//                 </CardContent>
+//             </CardHeader>
+//         </Card>
+//     </div>
+    
+
+//   )
+// }
+
+// export default AboutPages
