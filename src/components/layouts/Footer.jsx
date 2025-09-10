@@ -91,7 +91,7 @@ export const Footer = () => {
               </div>
               <div className="mx-auto">
                 <Button asChild>
-                  <Link to="/about">
+                  <Link to="/about-us">
                     Learn More About Us <ArrowRight />
                   </Link>
                 </Button>
