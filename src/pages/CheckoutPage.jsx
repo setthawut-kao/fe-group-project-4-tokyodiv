@@ -68,10 +68,10 @@ export const CheckoutPage = () => {
         </div>
 
         <div className="lg:col-span-1 space-y-3 lg:sticky top-28">
-          <div className="p-6 bg-white rounded-base border-2 border-border shadow-shadow">
+          <div className="bg-white p-6 rounded-base border-2 border-border shadow-shadow">
             <ShippingForm formData={formData} setFormData={setFormData} />
           </div>
-          <div className="p-6 bg-white rounded-base border-2 border-border shadow-shadow">
+          <div className="bg-white p-6 rounded-base border-2 border-border shadow-shadow">
             <OrderSummary
               subtotal={subtotal}
               onConfirm={handleConfirmOrder}

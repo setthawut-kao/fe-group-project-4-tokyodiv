@@ -23,6 +23,7 @@ const router = createBrowserRouter([
           animationData={errorAnimationData}
           loop={true}
           autoplay={true}
+          className="w-140 h-140"
         />
       </section>
     ),

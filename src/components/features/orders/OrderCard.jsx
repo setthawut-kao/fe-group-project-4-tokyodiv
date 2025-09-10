@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
+
 import { ArrowRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 export const OrderCard = ({ order }) => {
   const navigate = useNavigate();
@@ -13,47 +15,46 @@ export const OrderCard = ({ order }) => {
   });
 
   return (
-    <div className="bg-white border-2 border-black rounded-lg shadow-[8px_8px_0px_#000] p-6 space-y-4">
-      <div className="flex flex-wrap gap-4 justify-between items-center border-b pb-3 mb-3">
-        <div>
-          <Typography as="h3" className="text-xl font-bold">
+    <div className="bg-white rounded-base border-2 border-border shadow-shadow p-6 space-y-3">
+      <div className="flex flex-col items-start border-b pb-3">
+        <div className="flex gap-3 items-center">
+          <Typography as="h4">
             Order{" "}
             <span className="text-emerald-700">
               #{order._id.slice(-6).toUpperCase()}
             </span>
           </Typography>
-          <Typography as="p" className="text-sm text-slate-500">
-            Placed on {orderDate}
-          </Typography>
+          <div>
+            <Badge variant="outline">{order.status || "Processing"}</Badge>
+          </div>
         </div>
-        <Badge variant="outline">{order.status || "Processing"}</Badge>
+        <Typography as="p" className="text-neutral-600">
+          Placed on {orderDate}
+        </Typography>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 text-slate-700">
+      <div className="grid grid-cols-2 gap-3">
         <div>
-          <Typography as="p" className="font-semibold">
-            Total Amount:
-          </Typography>
-          <Typography as="p" className="text-lg font-bold">
-            ${order.totalAmount.toFixed(2)}
-          </Typography>
+          <Typography as="p">Total Amount:</Typography>
+          <div className="flex items-baseline gap-1">
+            <Typography as="h4">{order.totalAmount.toFixed(2)}</Typography>
+            <Typography as="p" className="text-neutral-700">
+              THB
+            </Typography>
+          </div>
         </div>
-        <div className="text-right">
-          <Typography as="p" className="font-semibold">
-            Items:
-          </Typography>
-          <Typography as="p" className="text-lg font-bold">
-            {order.products.length}
-          </Typography>
+        <div className="flex flex-col justify-between text-right">
+          <Typography as="p">Items</Typography>
+          <Typography as="h4">{order.products.length}</Typography>
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t flex justify-end">
+      <div className="mt-3 pt-3 border-t flex justify-end">
         <Button
-          variant="outline"
+          variant="neutral"
           onClick={() => navigate(`/orders/${order._id}`)}
         >
-          View Details <ArrowRight className="ml-2 h-4 w-4" />
+          View Details <ArrowRight className="w-4 h-4" />
         </Button>
       </div>
     </div>
