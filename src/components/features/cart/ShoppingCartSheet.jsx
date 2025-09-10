@@ -39,10 +39,10 @@ const ActiveCartView = ({
 
   const handleCheckout = () => {
     if (isLoggedIn) {
+      closeCart();
       navigate("/checkout");
     } else {
-      // เมื่อยังไม่ Login ให้ฝากงานไว้ว่า "หลังจาก login เสร็จ ให้ปิดตะกร้า แล้วพาไป checkout"
-      closeCart(); // ปิดตะกร้าก่อนเปิดหน้า login เพื่อ UX ที่ดี
+      closeCart();
       openAuthDialog(() => navigate("/checkout"));
     }
   };
@@ -53,7 +53,7 @@ const ActiveCartView = ({
     .toFixed(2);
 
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col h-full">
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-3">
           {items.map((item) => (

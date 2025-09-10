@@ -1,69 +1,105 @@
 import { useState } from "react";
-
-import { CheckoutItem } from "@/components/features/checkout/CheckoutItem";
-import { OrderSummary } from "@/components/features/checkout/OrderSummary";
-import { ShippingForm } from "@/components/features/checkout/ShippingForm";
-import { Button } from "@/components/ui/button";
-import { Typography } from "@/components/ui/typography";
+import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/useCartStore";
-import { ArrowLeft } from "lucide-react";
 
-export const CheckOutPage = () => {
-  const { cartItems, selectedItemIds } = useCartStore();
+import { ProductCard } from "@/components/features/products/ProductCard";
+import { Typography } from "@/components/ui/typography";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { ShippingForm } from "@/components/features/checkout/ShippingForm";
+import { OrderSummary } from "@/components/features/checkout/OrderSummary";
+import { TitleBar } from "@/components/shared/TitleBar";
 
-  // State สำหรับฟอร์ม
+export const CheckoutPage = () => {
+  const { cartItems, selectedItemIds, clearCheckedOutItems } = useCartStore();
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     recipientName: "",
     phoneNumber: "",
     address: "",
   });
-
-  // State สำหรับควบคุม Alert
   const [isConfirmAlertOpen, setIsConfirmAlertOpen] = useState(false);
 
-  // กรองเฉพาะสินค้าที่ถูกเลือกมาแสดง
   const itemsToCheckout = cartItems.filter((item) =>
     selectedItemIds.includes(item.id)
   );
-
-  // คำนวณราคารวม
   const subtotal = itemsToCheckout.reduce((sum, item) => sum + item.price, 0);
 
+  const isFormValid =
+    formData.recipientName && formData.phoneNumber && formData.address;
+
   const handleConfirmOrder = () => {
-    // TODO: เช็คว่าฟอร์มถูกกรอกครบถ้วนหรือไม่
+    if (!isFormValid) {
+      alert("Please fill in all shipping details.");
+      return;
+    }
     setIsConfirmAlertOpen(true);
   };
 
   const handleFinalSubmit = () => {
-    // TODO: รวบรวมข้อมูลทั้งหมด (formData, itemsToCheckout) แล้วยิง API ไปยัง Backend
-    console.log("Submitting order...", { formData, itemsToCheckout });
-    // TODO: เมื่อสำเร็จ ให้ navigate ไปหน้า /order-success
+    console.log("Submitting order to backend:", { formData, itemsToCheckout });
+    clearCheckedOutItems();
+    navigate("/order-success");
   };
 
   return (
-    <section className="flex flex-col gap-10 lg:gap-30 my-10 lg:my-20 ">
-      <div className="flex gap-3">
-        <Button variant="neutral" size="icon">
-          <ArrowLeft className="w-4 h-4" />
-        </Button>
-        <Typography as="h2">Checkout</Typography>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          <div className="bg-white border-2 border-black rounded-lg p-2 space-y-2">
+    <section>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-10 my-3 lg:my-10 items-start relative">
+        <div className="lg:col-span-2 space-y-6 p-6 bg-white rounded-base border-2 border-border shadow-shadow">
+          <TitleBar title="Checkout" />
+          <Typography as="h4">
+            Review Your Items ({itemsToCheckout.length})
+          </Typography>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {itemsToCheckout.map((item) => (
-              <CheckoutItem key={item.id} item={item} />
+              <ProductCard key={item.id} product={item} variant="cart" />
             ))}
           </div>
-          <div className="space-y-8">
+        </div>
+
+        <div className="lg:col-span-1 space-y-3 lg:sticky top-28">
+          <div className="p-6 bg-white rounded-base border-2 border-border shadow-shadow">
             <ShippingForm formData={formData} setFormData={setFormData} />
+          </div>
+          <div className="p-6 bg-white rounded-base border-2 border-border shadow-shadow">
             <OrderSummary
               subtotal={subtotal}
               onConfirm={handleConfirmOrder}
-              isConfirmDisabled={itemsToCheckout.length === 0}
+              isConfirmDisabled={itemsToCheckout.length === 0 || !isFormValid}
             />
           </div>
         </div>
       </div>
+
+      <AlertDialog
+        open={isConfirmAlertOpen}
+        onOpenChange={setIsConfirmAlertOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Your Order</AlertDialogTitle>
+            <AlertDialogDescription>
+              Please confirm your shipping details.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleFinalSubmit}>
+              Confirm & Place Order
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>
   );
 };

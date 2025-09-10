@@ -5,7 +5,7 @@ import { MainProduct } from "@/components/features/home/MainProduct";
 export const HomePage = () => {
   return (
     <>
-      <section className="flex flex-col gap-15 lg:gap-30 my-10 lg:my-20 ">
+      <section className="flex flex-col gap-15 lg:gap-30 my-10 lg:my-20">
         <HeroSection />
         <NewArrivalsSection />
         <MainProduct />

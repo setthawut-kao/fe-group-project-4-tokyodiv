@@ -52,7 +52,7 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
             <ToggleShowPassword
-              id="password-login"
+              id="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}

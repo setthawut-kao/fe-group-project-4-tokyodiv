@@ -48,4 +48,14 @@ export const useCartStore = create((set) => ({
         return { selectedItemIds: [...state.selectedItemIds, productId] };
       }
     }),
+
+  clearCheckedOutItems: () =>
+    set((state) => ({
+      // กรอง cartItems เดิม ให้เหลือแต่ชิ้นที่ "ไม่ถูกเลือก"
+      cartItems: state.cartItems.filter(
+        (item) => !state.selectedItemIds.includes(item.id)
+      ),
+      // ล้างรายการที่ถูกเลือกทั้งหมด
+      selectedItemIds: [],
+    })),
 }));

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { PaginationControls } from "./PaginationControls";
+import { PaginationControls } from "../../shared/PaginationControls";
 import { PostFrame } from "@/components/shared/PostFrame";
 import { ProductCard } from "../products/ProductCard";
 import { Typography } from "@/components/ui/typography";

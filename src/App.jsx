@@ -3,17 +3,28 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { MainLayout } from "./components/layouts/MainLayout";
 import { HomePage } from "./pages/HomePage";
-import { CheckOutPage } from "./pages/CheckOutPage";
 import AboutPages from "./pages/AboutPages";
+// import { ProtectedRoute } from "./components/shared/ProtectedRoute";
+import { CheckoutPage } from "./pages/CheckoutPage";
+import { OrderSuccessPage } from "./pages/OrderSuccessPage";
+import { OrderHistoryPage } from "./pages/OrderHistoryPage";
+import { OrderDetailPage } from "./pages/OrderDetailPage";
+
+import Lottie from "lottie-react";
+import errorAnimationData from "@/assets/animations/error_animation.json";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     errorElement: (
-      <div className="min-h-screen flex justify-center items-center">
-        <h1 className="text-4xl">404 - Page Not Found</h1>
-      </div>
+      <section className="w-full h-screen flex justify-center items-center">
+        <Lottie
+          animationData={errorAnimationData}
+          loop={true}
+          autoplay={true}
+        />
+      </section>
     ),
     children: [
       {
@@ -21,13 +32,42 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/checkout",
-        element: <CheckOutPage />,
-      },
-       {
         path: "/about-us",
         element: <AboutPages />,
-      }
+      },
+      // {
+      //   element: <ProtectedRoute />,
+      //   children: [
+      //     {
+      //       path: "/checkout",
+      //       element: <CheckoutPage />,
+      //     },
+      //     {
+      //       path: "/order-success",
+      //       element: <OrderSuccessPage />,
+      //     },
+      //     {
+      //       path: "/orders",
+      //       element: <OrderHistoryPage />,
+      //     },
+      //   ],
+      // },
+      {
+        path: "/checkout",
+        element: <CheckoutPage />,
+      },
+      {
+        path: "/order-success",
+        element: <OrderSuccessPage />,
+      },
+      {
+        path: "/orders",
+        element: <OrderHistoryPage />,
+      },
+      {
+        path: "/orders/:orderId",
+        element: <OrderDetailPage />,
+      },
     ],
   },
 ]);

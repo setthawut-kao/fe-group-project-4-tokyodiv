@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { CategorySelector } from "./CategorySelector";
-import { PaginationControls } from "./PaginationControls";
-import { ProductGrid } from "./ProductGrid";
+import { CategorySelector } from "../../shared/CategorySelector";
+import { PaginationControls } from "../../shared/PaginationControls";
+import { ProductGrid } from "../products/ProductGrid";
 import { Typography } from "@/components/ui/typography";
 
 import { MOCK_NEW_ARRIVALS } from "@/data/mockProducts";
