@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { MainLayout } from "./components/layouts/MainLayout";
 import { HomePage } from "./pages/HomePage";
-import AboutPages from "./pages/AboutPages";
 // import { ProtectedRoute } from "./components/shared/ProtectedRoute";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { OrderSuccessPage } from "./pages/OrderSuccessPage";
@@ -12,6 +11,7 @@ import { OrderDetailPage } from "./pages/OrderDetailPage";
 
 import Lottie from "lottie-react";
 import errorAnimationData from "@/assets/animations/error_animation.json";
+import { AboutPages } from "./pages/AboutPages";
 
 const router = createBrowserRouter([
   {

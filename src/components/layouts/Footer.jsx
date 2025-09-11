@@ -33,11 +33,12 @@ export const Footer = () => {
                 <Typography as="h2">Get to know us</Typography>
               </div>
               <div className="mx-auto">
-                <Button asChild>
+              
+                {/* <Button asChild>
                   <Link to="/about-us">
                     Learn More About Us <ArrowRight />
                   </Link>
-                </Button>
+                </Button> */}
               </div>
               <div className="mx-auto">
                 <Typography as="small">
