@@ -135,7 +135,7 @@ export const OrderDetailPage = () => {
 
   if (error) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
+      <div className="fixed inset-0 flex flex-col justify-center items-center bg-background z-50 p-4 text-center">
         <Lottie
           animationData={errorAnimationData}
           loop={true}
@@ -153,7 +153,12 @@ export const OrderDetailPage = () => {
 
   if (!order) {
     return (
-      <div className="flex flex-col gap-3 max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-10 justify-center items-center min-h-[70vh] text-center">
+      <div className="fixed inset-0 flex flex-col justify-center items-center bg-background z-50 p-4 text-center">
+        <Lottie
+          animationData={errorAnimationData}
+          loop={true}
+          className="w-60 h-60"
+        />
         <Typography as="h2">Order Not Found</Typography>
         <Typography as="p">
           The order details you are looking for could not be found.

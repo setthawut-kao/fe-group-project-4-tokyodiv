@@ -145,10 +145,8 @@ export const OrderHistoryPage = () => {
         {orders.length > 0 ? (
           orders.map((order) => <OrderCard key={order._id} order={order} />)
         ) : (
-          <div className="p-8 text-center bg-white border-2 border-black rounded-lg shadow-[4px_4px_0px_#000]">
-            <Typography as="p" className="text-slate-600 text-lg">
-              You haven't placed any orders yet.
-            </Typography>
+          <div className="p-8 text-center bg-white rounded-base border-2 border-border shadow-shadow">
+            <Typography as="h4">You haven't placed any orders yet.</Typography>
             <Button className="mt-4" onClick={() => navigate("/")}>
               Start Shopping
             </Button>

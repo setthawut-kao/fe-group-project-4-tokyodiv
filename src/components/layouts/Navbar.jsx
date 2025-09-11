@@ -35,7 +35,7 @@ export const Navbar = () => {
               {isLoggedIn ? (
                 <UserDropdownMenu user={user} />
               ) : (
-                <Button onClick={openAuthDialog}>
+                <Button onClick={openAuthDialog} className="cursor-pointer">
                   Login <ArrowRight className="w-4 h-4" />
                 </Button>
               )}
