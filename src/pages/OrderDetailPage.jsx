@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import { Container } from "@/components/shared/Container"; // 👈 ลบออก
-import { Typography } from "@/components/ui/typography";
-// import { ProductCard } from "@/features/products/ProductCard";
 
-import { TitleBar } from "@/components/shared/TitleBar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ProductCard } from "@/components/features/products/ProductCard";
+import { Textarea } from "@/components/ui/textarea";
+import { TitleBar } from "@/components/shared/TitleBar";
+import { Typography } from "@/components/ui/typography";
+
+import Lottie from "lottie-react";
+import loadingAnimationData from "@/assets/animations/loading_animation.json";
+import errorAnimationData from "@/assets/animations/error_animation.json";
 
 // --- MOCK DATA TEMPORARY ---
 const MOCK_ORDERS = [
@@ -60,15 +63,28 @@ const MOCK_ORDERS = [
       address: "789 Backend Blvd, API City 20000",
     },
   },
+  {
+    _id: "65f0a1b2c3d4e5f6a7b8c9s0",
+    orderDate: "2024-02-22T14:30:00.000Z",
+    totalAmount: 2000.0,
+    status: "Delivered",
+    products: [
+      {
+        _id: "prod4",
+        name: "Industrial Coffee Table",
+        imageUrl: "/placeholders/table1.webp",
+        price: 2000,
+        quantity: 1,
+      },
+    ],
+    shippingDetails: {
+      recipientName: "Test User 1",
+      phoneNumber: "0812345678",
+      address: "789 Backend Blvd, API City 20000",
+    },
+  },
 ];
 // --- END MOCK DATA ---
-
-import Lottie from "lottie-react";
-import loadingAnimationData from "@/assets/animations/loading_animation.json";
-import errorAnimationData from "@/assets/animations/error_animation.json";
-import { ProductCard } from "@/components/features/products/ProductCard";
-// import axios from "@/lib/axios"; // 👈 ไม่มี axios แล้ว
-// import { useAuthStore } from "@/stores/useAuthStore"; // 👈 ไม่มี useAuthStore แล้ว
 
 export const OrderDetailPage = () => {
   const { orderId } = useParams();
@@ -78,13 +94,12 @@ export const OrderDetailPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // --- SIMULATE API CALL WITH MOCK DATA ---
     const fetchOrderDetails = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // หน่วงเวลา 1 วินาที
-        const foundOrder = MOCK_ORDERS.find((o) => o._id === orderId); // ค้นหาจาก Mock Data
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const foundOrder = MOCK_ORDERS.find((o) => o._id === orderId);
         setOrder(foundOrder);
       } catch (err) {
         console.error(`Failed to fetch order ${orderId}:`, err);
@@ -108,11 +123,11 @@ export const OrderDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex justify-center items-center min-h-[70vh]">
+      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
         <Lottie
           animationData={loadingAnimationData}
           loop={true}
-          className="w-32 h-32"
+          className="w-60 h-60"
         />
       </div>
     );
@@ -120,13 +135,13 @@ export const OrderDetailPage = () => {
 
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col justify-center items-center min-h-[70vh] text-center">
+      <div className="fixed inset-0 flex flex-col justify-center items-center bg-background z-50 p-4 text-center">
         <Lottie
           animationData={errorAnimationData}
-          loop={false}
-          className="w-32 h-32"
+          loop={true}
+          className="w-60 h-60"
         />
-        <Typography as="p" className="text-red-500 mt-4 text-lg font-semibold">
+        <Typography as="p" className="text-red-500">
           {error}
         </Typography>
         <Button className="mt-4" onClick={() => navigate("/orders")}>
@@ -138,11 +153,14 @@ export const OrderDetailPage = () => {
 
   if (!order) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col justify-center items-center min-h-[70vh] text-center">
-        <Typography as="h2" className="text-2xl font-bold">
-          Order Not Found
-        </Typography>
-        <Typography as="p" className="text-slate-600 mt-2">
+      <div className="fixed inset-0 flex flex-col justify-center items-center bg-background z-50 p-4 text-center">
+        <Lottie
+          animationData={errorAnimationData}
+          loop={true}
+          className="w-60 h-60"
+        />
+        <Typography as="h2">Order Not Found</Typography>
+        <Typography as="p">
           The order details you are looking for could not be found.
         </Typography>
         <Button className="mt-4" onClick={() => navigate("/orders")}>
@@ -161,40 +179,30 @@ export const OrderDetailPage = () => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {" "}
-      {/* 👈 ใช้ div แทน Container */}
+    <div className="lex flex-col gap-3 lg:gap-6 my-10 lg:my-20">
       <TitleBar
         title={`Order Details #${order._id.slice(-6).toUpperCase()}`}
         onBack={() => navigate("/orders")}
       />
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
-        <div className="lg:col-span-3 flex flex-wrap gap-4 justify-between items-center bg-white p-4 rounded-lg border-2 border-black">
-          <Typography as="p" className="text-lg font-semibold">
-            Ordered On: {orderDate}
-          </Typography>
-          <Badge variant="outline" className="px-4 py-2 text-base">
-            {order.status || "Processing"}
-          </Badge>
+      <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-10 items-start">
+        <div className="flex flex-wrap lg:col-span-3 gap-4 justify-between items-center p-3 bg-white rounded-base border-2 border-border shadow-shadow">
+          <Typography as="h4">Ordered On: {orderDate}</Typography>
+          <Badge className="px-2 py-1">{order.status || "Processing"}</Badge>
         </div>
 
         <div className="lg:col-span-2 space-y-4">
-          <Typography as="h3" className="text-xl font-semibold">
-            Items ({order.products.length})
-          </Typography>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <Typography as="h3">Items ({order.products.length})</Typography>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-10">
             {order.products.map((item) => (
               <ProductCard key={item._id} product={item} variant="cart" />
             ))}
           </div>
         </div>
 
-        <div className="lg:col-span-1 space-y-8 lg:sticky top-28">
-          <div className="space-y-6">
-            <Typography as="h2" className="text-2xl font-bold">
-              Shipping Details
-            </Typography>
-            <div>
+        <div className="lg:col-span-1 space-y-3 lg:sticky top-28">
+          <div className="bg-white p-6 space-y-3 rounded-base border-2 border-border shadow-shadow">
+            <Typography as="h4">Shipping Details</Typography>
+            <div className="grid gap-2">
               <Label htmlFor="recipientName">Full Name</Label>
               <Input
                 id="recipientName"
@@ -203,7 +211,7 @@ export const OrderDetailPage = () => {
                 disabled
               />
             </div>
-            <div>
+            <div className="grid gap-2">
               <Label htmlFor="phoneNumber">Phone Number</Label>
               <Input
                 id="phoneNumber"
@@ -212,7 +220,7 @@ export const OrderDetailPage = () => {
                 disabled
               />
             </div>
-            <div>
+            <div className="grid gap-2">
               <Label htmlFor="address">Address</Label>
               <Textarea
                 id="address"
@@ -223,13 +231,11 @@ export const OrderDetailPage = () => {
             </div>
           </div>
 
-          <div className="p-6 bg-white border-4 border-black rounded-lg shadow-[8px_8px_0px_#000] space-y-4">
-            <Typography as="h2" className="text-2xl font-bold">
-              Order Total
-            </Typography>
-            <div className="flex justify-between font-bold text-xl border-t pt-4">
+          <div className="bg-white p-6 space-y-3 rounded-base border-2 border-border shadow-shadow">
+            <Typography as="h4">Order Total</Typography>
+            <div className="flex justify-between border-t pt-3">
               <span>Total Paid</span>
-              <span>${order.totalAmount?.toFixed(2) || "0.00"}</span>
+              <span>{order.totalAmount?.toFixed(2) || "0.00"}</span>
             </div>
           </div>
         </div>

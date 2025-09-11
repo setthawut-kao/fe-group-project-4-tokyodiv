@@ -61,7 +61,7 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
           </div>
         </div>
         <div className="flex flex-col gap-3 mt-6">
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full cursor-pointer">
             Login <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
@@ -73,7 +73,7 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
             type="button"
             variant="reverse"
             onClick={onSwitch}
-            className="bg-white hover:underline focus:outline-none"
+            className="bg-white hover:underline focus:outline-none cursor-pointer"
           >
             Register
           </Button>

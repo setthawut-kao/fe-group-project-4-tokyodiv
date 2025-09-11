@@ -6,10 +6,26 @@ import { PostFrame } from "@/components/shared/PostFrame";
 import { ProductCard } from "../products/ProductCard";
 import { Typography } from "@/components/ui/typography";
 
+import Lottie from "lottie-react";
+// import loadingAnimationData from "@/assets/animations/loading_animation.json";
 import { MOCK_NEW_ARRIVALS } from "@/data/mockProducts";
 
 export const NewArrivalsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // const [isLoading, setIsLoading] = useState(true);
+  // if (isLoading) {
+  //   return (
+  //     // 👈 แก้ไข div ตรงนี้
+  //     <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
+  //       <Lottie
+  //         animationData={loadingAnimationData}
+  //         loop={true}
+  //         className="w-48 h-48"
+  //       />
+  //     </div>
+  //   );
+  // }
 
   const handleNext = () => {
     const nextIndex = (currentIndex + 1) % MOCK_NEW_ARRIVALS.length;

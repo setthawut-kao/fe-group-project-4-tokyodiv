@@ -1,3 +1,5 @@
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { AspectRatio } from "../ui/aspect-ratio";
 import {
   Card,
   CardContent,
@@ -6,10 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Typography } from "../ui/typography";
 
-import { AspectRatio } from "../ui/aspect-ratio";
+import imageArrivals from "@/assets/images/home-page/NewArrive.webp";
 
 export const PostFrame = ({
   children,
@@ -38,7 +39,7 @@ export const PostFrame = ({
           <div className="flex flex-shrink-0 w-20 h-20">
             <AspectRatio ratio={1 / 1}>
               <img
-                src="https://github.com/shadcn.png"
+                src={imageArrivals}
                 alt="Icon fire"
                 className="object-cover h-full w-full rounded-2xl"
               />

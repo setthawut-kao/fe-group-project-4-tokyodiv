@@ -1,7 +1,8 @@
-// src/pages/OrderSuccessPage.jsx
 import { Link } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
+
 import Lottie from "lottie-react";
 import successAnimationData from "@/assets/animations/success_animation.json";
 

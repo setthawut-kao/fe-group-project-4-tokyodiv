@@ -51,7 +51,7 @@ export const MainProduct = () => {
   };
 
   return (
-    <section>
+    <section id="main-product">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-10">
         <div className="hidden lg:block">
           <div className="sticky top-24">

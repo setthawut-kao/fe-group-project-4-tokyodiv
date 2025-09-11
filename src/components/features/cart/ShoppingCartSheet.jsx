@@ -83,7 +83,7 @@ const ActiveCartView = ({
           </div>
           <Button
             onClick={handleCheckout}
-            className="w-full"
+            className="w-full cursor-pointer"
             size="lg"
             disabled={selectedItemIds.length === 0}
           >

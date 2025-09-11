@@ -56,7 +56,7 @@ export const CheckoutPage = () => {
     <section>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-10 my-3 lg:my-10 items-start relative">
         <div className="lg:col-span-2 space-y-6 p-6 bg-white rounded-base border-2 border-border shadow-shadow">
-          <TitleBar title="Checkout" />
+          <TitleBar title="Checkout" onBack={() => navigate(-1)} />
           <Typography as="h4">
             Review Your Items ({itemsToCheckout.length})
           </Typography>
@@ -68,10 +68,10 @@ export const CheckoutPage = () => {
         </div>
 
         <div className="lg:col-span-1 space-y-3 lg:sticky top-28">
-          <div className="p-6 bg-white rounded-base border-2 border-border shadow-shadow">
+          <div className="bg-white p-6 rounded-base border-2 border-border shadow-shadow">
             <ShippingForm formData={formData} setFormData={setFormData} />
           </div>
-          <div className="p-6 bg-white rounded-base border-2 border-border shadow-shadow">
+          <div className="bg-white p-6 rounded-base border-2 border-border shadow-shadow">
             <OrderSummary
               subtotal={subtotal}
               onConfirm={handleConfirmOrder}

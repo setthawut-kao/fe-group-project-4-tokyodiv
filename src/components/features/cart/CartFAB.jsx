@@ -23,7 +23,7 @@ export const CartFAB = () => {
       <Button
         onClick={openCart}
         size="icon"
-        className="relative w-12 h-12 rounded-full border-2 border-border shadow-shadow"
+        className="relative w-12 h-12 rounded-full border-2 border-border shadow-shadow cursor-pointer"
       >
         <ShoppingCart className="w-4 h-4" />
         <Badge

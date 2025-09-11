@@ -1,3 +1,5 @@
+import { Link } from "react-scroll";
+
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
@@ -23,11 +25,13 @@ export const HeroSection = () => {
             className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
           />
         </AspectRatio>
-        <Button className="absolute right-2 bottom-2 lg:right-10 lg:bottom-10">
-          <ShoppingBag className="w-4 h-4" />
-          Explore Collection
-          <ArrowRight className="w-4 h-4" />
-        </Button>
+        <Link to="main-product" smooth={true} duration={1200}>
+          <Button className="absolute right-2 bottom-2 lg:right-10 lg:bottom-10 cursor-pointer">
+            <ShoppingBag className="w-4 h-4" />
+            Explore Collection
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        </Link>
       </div>
     </section>
   );
