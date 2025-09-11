@@ -35,39 +35,42 @@ function FlipCard({ frontImg, name, backText }) {
   );
 }
 
-export default function App() {
+import React from 'react'
+
+
+export const AboutPages = () => {
   return (
     <div>
         <h className='text-4xl m-5 flex justify-center'>About Us</h>
         <div className="min-h-screen flex items-start justify-center gap-6 ">
             <FlipCard
                 // name="Cat 1"
-                frontImg="src/assets/images/creator/cat.jpg"
-                backText="Kao"
+                frontImg="src/assets/images/creator/kao.webp"
+                backText="Setthawut(Kao)"
             />
             <FlipCard
                 // name="Cat 2"
-                frontImg="src/assets/images/creator/cat1.jpg"
-                backText="Gad"
+                frontImg="src/assets/images/creator/gad.webp"
+                backText="Nuttapat(Gad)"
             />
             <FlipCard
                 // name="Cat 3"
-                frontImg="src/assets/images/creator/cat2.jpg"
-                backText="kim"
+                frontImg="src/assets/images/creator/kim.webp"
+                backText="Thanawat(kim)"
             />
             <FlipCard
                 // name="Cat 4"
-                frontImg="src/assets/images/creator/cat3.jpg"
-                backText="Bae"
+                frontImg="src/assets/images/creator/bae.webp"
+                backText="Wanpen(Bae)"
             />
             <FlipCard
                 // name="Cat 5"
-                frontImg="src/assets/images/creator/cat4.jpg"
-                backText="Ja"
+                frontImg="src/assets/images/creator/Ja.webp"
+                backText="Thunyaluk(Ja)"
             />
         </div>
     </div>
-    
-  );
+  )
 }
+
 

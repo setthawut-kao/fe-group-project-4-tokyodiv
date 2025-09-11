@@ -40,6 +40,11 @@ export const Navbar = () => {
                 </Button>
               )}
             </div>
+            <Button asChild>
+                  <Link to="/about-us">
+                    Learn More About Us <ArrowRight />
+                  </Link>
+                </Button>
           </nav>
         </Container>
       </header>
