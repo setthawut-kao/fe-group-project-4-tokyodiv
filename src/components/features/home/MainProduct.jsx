@@ -5,6 +5,7 @@ import { CategorySelector } from "../../shared/CategorySelector";
 import { PaginationControls } from "../../shared/PaginationControls";
 import { ProductGrid } from "../products/ProductGrid";
 import { Typography } from "@/components/ui/typography";
+import element from "@/assets/images/home-page/banner_element-2.svg";
 
 import { MOCK_NEW_ARRIVALS } from "@/data/mockProducts";
 
@@ -58,7 +59,7 @@ export const MainProduct = () => {
             <div className="bg-white border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
               <AspectRatio ratio={9 / 16} className="w-full">
                 <img
-                  src="https://github.com/shadcn.png"
+                  src={element}
                   alt="Promotional banner for Main Product."
                   className="h-full w-full rounded-sm object-cover"
                 />

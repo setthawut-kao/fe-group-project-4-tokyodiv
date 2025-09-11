@@ -5,6 +5,7 @@ import { PaginationControls } from "../../shared/PaginationControls";
 import { PostFrame } from "@/components/shared/PostFrame";
 import { ProductCard } from "../products/ProductCard";
 import { Typography } from "@/components/ui/typography";
+import element from "@/assets/images/home-page/banner_element-1.svg";
 
 import Lottie from "lottie-react";
 // import loadingAnimationData from "@/assets/animations/loading_animation.json";
@@ -76,14 +77,16 @@ export const NewArrivalsSection = () => {
         </div>
 
         <div className="hidden lg:block">
-          <div className=" bg-white border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition ease-out duration-300">
-            <AspectRatio ratio={9 / 16} className="w-full">
-              <img
-                src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=1887&auto=format&fit=crop"
-                alt="Promotional banner for new arrivals."
-                className="h-full w-full rounded-sm object-cover"
-              />
-            </AspectRatio>
+          <div className="sticky top-24">
+            <div className="bg-white border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
+              <AspectRatio ratio={9 / 16} className="w-full">
+                <img
+                  src={element}
+                  alt="Promotional banner for Main Product."
+                  className="w-full h-full object-cover"
+                />
+              </AspectRatio>
+            </div>
           </div>
         </div>
       </div>

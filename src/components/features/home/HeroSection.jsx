@@ -3,6 +3,7 @@ import { Link } from "react-scroll";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
+import elementHeroSection from "@/assets/images/hero/hero-section_elements.svg";
 
 import { ArrowRight, ShoppingBag } from "lucide-react";
 
@@ -17,12 +18,15 @@ export const HeroSection = () => {
         </Typography>
       </div>
 
-      <div className=" relative border-4 border-black rounded-xl hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition ease-out duration-300">
-        <AspectRatio ratio={21 / 9} className="w-full rounded-lg">
+      <div className=" relative border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition ease-out duration-300">
+        <AspectRatio
+          ratio={21 / 9}
+          className="w-full rounded-lg bg-white overflow-hidden"
+        >
           <img
-            src="https://github.com/shadcn.png"
+            src={elementHeroSection}
             alt="Image hero section"
-            className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
+            className="w-40 h-30 lg:w-130 lg:h-120 object-cover absolute bottom-10 left-4 -rotate-8 lg:rotate-0 z-1 lg:bottom-8 lg:left-60"
           />
         </AspectRatio>
         <Link to="main-product" smooth={true} duration={1200}>
