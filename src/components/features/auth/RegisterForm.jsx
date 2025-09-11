@@ -5,9 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Typography } from "@/components/ui/typography";
-import { ArrowRight, Eye } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword";
+
+import avatar1 from "@/assets/images/avatar/avatar-1.svg";
+import avatar2 from "@/assets/images/avatar/avatar-2.svg";
+import avatar3 from "@/assets/images/avatar/avatar-3.svg";
+import avatar4 from "@/assets/images/avatar/avatar-4.svg";
+
+const avatarPool = [avatar1, avatar2, avatar3, avatar4];
+
+const getRandomAvatar = () => {
+  const randomIndex = Math.floor(Math.random() * avatarPool.length);
+  return avatarPool[randomIndex];
+};
 
 export const RegisterForm = ({ onSwitch, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -32,11 +44,14 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
       return; // 👈 หยุดการทำงานทันที ถ้ารหัสผ่านไม่ตรงกัน
     }
 
+    const randomAvatarUrl = getRandomAvatar();
+
     const userData = {
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
+      avatarUrl: randomAvatarUrl,
     };
 
     const result = await register(userData);
