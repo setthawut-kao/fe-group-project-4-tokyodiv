@@ -33,7 +33,7 @@ export const ProductCard = ({ product, variant = "default" }) => {
           </div>
 
           <DialogTrigger asChild>
-            <Button size="icon">
+            <Button size="icon" className="cursor-pointer">
               {variant === "default" ? (
                 <ShoppingBag className="w-4 h-4" />
               ) : (

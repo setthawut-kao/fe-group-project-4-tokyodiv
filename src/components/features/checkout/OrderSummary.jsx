@@ -40,7 +40,7 @@ export const OrderSummary = ({ subtotal, onConfirm, isConfirmDisabled }) => {
       <Button
         onClick={onConfirm}
         disabled={isConfirmDisabled}
-        className="w-full"
+        className="w-full cursor-pointer"
         size="lg"
       >
         Confirm Order

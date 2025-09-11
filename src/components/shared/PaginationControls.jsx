@@ -12,6 +12,7 @@ export const PaginationControls = ({
   return (
     <div className="flex items-center gap-3">
       <Button
+        className="cursor-pointer"
         onClick={onPrev}
         disabled={currentPage === 1}
         size="icon"
@@ -27,6 +28,7 @@ export const PaginationControls = ({
       </div>
 
       <Button
+        className="cursor-pointer"
         onClick={onNext}
         disabled={currentPage === totalPages}
         size="icon"

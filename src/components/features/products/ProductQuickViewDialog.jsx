@@ -53,7 +53,6 @@ export const ProductQuickViewDialog = ({
 
   const handleBuyNow = () => {
     if (isLoggedIn) {
-      // 💥 ไม่ต้องใช้ getState() ที่นี่
       // เราใช้ `cartItems` และ `addToCart` ที่ดึงมาจาก hook ด้านบนได้เลย
       const isExisting = cartItems.find((item) => item.id === product.id);
       if (!isExisting) {
@@ -106,16 +105,25 @@ export const ProductQuickViewDialog = ({
             {showActions && (
               <div className="flex items-center gap-3">
                 <DialogClose asChild>
-                  <Button size="icon" variant="reverse" className="bg-white">
+                  <Button
+                    size="icon"
+                    variant="reverse"
+                    className="bg-white cursor-pointer"
+                  >
                     <X className="w-4 h-4" />
                   </Button>
                 </DialogClose>
 
-                <Button onClick={handleAddToCart} size="icon" variant="neutral">
+                <Button
+                  onClick={handleAddToCart}
+                  size="icon"
+                  variant="neutral"
+                  className="cursor-pointer"
+                >
                   <ShoppingCart className="w-4 h-4" />
                 </Button>
 
-                <Button onClick={handleBuyNow}>
+                <Button onClick={handleBuyNow} className="cursor-pointer">
                   <Typography as="p">Buy Now</Typography>
                   <ShoppingBag className="w-4 h-4" />
                 </Button>

@@ -8,10 +8,16 @@ export const CartItem = ({ item, isSelected, onToggleSelection, onRemove }) => {
     <div className="flex flex-col gap-1 p-6 w-full border-b-1 border-emerald-700 ">
       <div className="flex py-2 items-center justify-between">
         <Checkbox
+          className="cursor-pointer"
           checked={isSelected}
           onCheckedChange={() => onToggleSelection(item.id)}
         />
-        <Button onClick={() => onRemove(item.id)} variant="neutral" size="icon">
+        <Button
+          onClick={() => onRemove(item.id)}
+          variant="neutral"
+          size="icon"
+          className="cursor-pointer"
+        >
           <Trash className="w-4 h-4" />
         </Button>
       </div>

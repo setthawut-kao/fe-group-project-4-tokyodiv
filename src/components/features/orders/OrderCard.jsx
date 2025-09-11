@@ -51,6 +51,7 @@ export const OrderCard = ({ order }) => {
 
       <div className="mt-3 pt-3 border-t flex justify-end">
         <Button
+          className="cursor-pointer"
           variant="neutral"
           onClick={() => navigate(`/orders/${order._id}`)}
         >
