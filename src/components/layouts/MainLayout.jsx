@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { useAuthStore } from "@/stores/useAuthStore";
 
 import { Container } from "./container";
@@ -9,7 +9,7 @@ import { Footer } from "./Footer";
 import { CartFAB } from "../features/cart/CartFAB";
 import { AuthDialog } from "../features/auth/AuthDialog";
 
-import Lottie from "lottie-react";
+import { Animation } from "@/components/shared/Animation";
 import loadingAnimationData from "@/assets/animations/loading_animation.json";
 
 export const MainLayout = () => {
@@ -22,13 +22,11 @@ export const MainLayout = () => {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
-        <Lottie
-          animationData={loadingAnimationData}
-          loop={true}
-          className="w-60 h-60"
-        />
-      </div>
+      <Animation
+        type="fullPage"
+        loop={true}
+        animationData={loadingAnimationData}
+      />
     );
   }
 
@@ -41,6 +39,7 @@ export const MainLayout = () => {
         </Container>
       </main>
       <Footer />
+      <ScrollRestoration />
 
       {/* --- Global Components --- */}
       {/* Component เหล่านี้จะลอยอยู่เหนือทุกหน้า และพร้อมถูกเรียกใช้งาน */}

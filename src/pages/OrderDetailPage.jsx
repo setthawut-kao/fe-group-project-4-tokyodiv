@@ -13,7 +13,7 @@ import { Typography } from "@/components/ui/typography";
 
 import { formatCurrency, formatDate } from "@/lib/utils";
 
-import Lottie from "lottie-react";
+import { Animation } from "@/components/shared/Animation";
 import loadingAnimationData from "@/assets/animations/loading_animation.json";
 import errorAnimationData from "@/assets/animations/error_animation.json";
 
@@ -53,47 +53,36 @@ export const OrderDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
-        <Lottie
-          animationData={loadingAnimationData}
-          loop={true}
-          className="w-60 h-60"
-        />
-      </div>
+      <Animation
+        type="fullPage"
+        loop={true}
+        animationData={loadingAnimationData}
+      />
     );
   }
 
   if (error) {
     return (
-      <div className="fixed inset-0 flex flex-col justify-center items-center bg-background z-50 p-4 text-center">
-        <Lottie
-          animationData={errorAnimationData}
-          loop={true}
-          className="w-60 h-60"
-        />
-        <Typography as="p" className="text-red-500">
-          {error}
-        </Typography>
-        <Button className="mt-4" onClick={() => navigate("/orders")}>
-          Back to Order History
-        </Button>
-      </div>
+      <Animation
+        type="fullPage"
+        loop={true}
+        animationData={errorAnimationData}
+        message={error}
+      />
     );
   }
 
   if (!order) {
     return (
-      <div className="fixed inset-0 flex flex-col justify-center items-center bg-background z-50 p-4 text-center">
-        <Lottie
-          animationData={errorAnimationData}
+      <div>
+        <Animation
+          type="fullPage"
           loop={true}
-          className="w-60 h-60"
+          animationData={errorAnimationData}
+          message={error}
         />
-        <Typography as="h2">Order Not Found</Typography>
-        <Typography as="p">
-          The order details you are looking for could not be found.
-        </Typography>
-        <Button className="mt-4" onClick={() => navigate("/orders")}>
+        ;
+        <Button className="mt-3" onClick={() => navigate("/orders")}>
           Back to Order History
         </Button>
       </div>

@@ -3,19 +3,17 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 
-import Lottie from "lottie-react";
+import { Animation } from "@/components/shared/Animation";
 import successAnimationData from "@/assets/animations/success_animation.json";
 
 export const OrderSuccessPage = () => {
   return (
     <section className="flex flex-col gap-3 lg:gap-6 my-10 lg:my-20 items-center">
-      <div className="w-48 h-48">
-        <Lottie
-          animationData={successAnimationData}
-          loop={true}
-          autoplay={true}
-        />
-      </div>
+      <Animation
+        animationData={successAnimationData}
+        className="w-48 h-48"
+        loop={true}
+      />
 
       <div className="space-y-3">
         <Typography as="h2" className="text-center">

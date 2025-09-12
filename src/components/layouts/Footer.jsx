@@ -8,6 +8,12 @@ import { Container } from "./Container";
 import fileImgLogo from "@/assets/images/footer/gen-th.webp";
 import { ArrowRight, Facebook, Instagram, Twitter } from "lucide-react";
 
+const socialLinks = [
+  { name: "Facebook", to: "/", icon: Facebook },
+  { name: "Instagram", to: "/", icon: Instagram },
+  { name: "Twitter", to: "/", icon: Twitter },
+];
+
 export const Footer = () => {
   return (
     <footer className="w-full mt-20 lg:mt-40 pb-10 lg:pb-20 text-center bg-white rounded-base border-t-4 border-border shadow-shadow">
@@ -33,12 +39,11 @@ export const Footer = () => {
                 <Typography as="h2">Get to know us</Typography>
               </div>
               <div className="mx-auto">
-              
-                {/* <Button asChild>
-                  <Link to="/about-us">
-                    Learn More About Us <ArrowRight />
+                <Button asChild>
+                  <Link to="/about-us" className="flex items-center gap-2">
+                    Learn More About Us <ArrowRight className="w-4 h-4" />
                   </Link>
-                </Button> */}
+                </Button>
               </div>
               <div className="mx-auto">
                 <Typography as="small">
@@ -53,15 +58,16 @@ export const Footer = () => {
               &copy; {new Date().getFullYear()} Re:Furnish. All Rights Reserved.
             </Typography>
             <div className="flex items-center gap-4">
-              <a href="#" aria-label="Facebook">
-                <Facebook />
-              </a>
-              <a href="#" aria-label="Instagram">
-                <Instagram />
-              </a>
-              <a href="#" aria-label="Twitter">
-                <Twitter />
-              </a>
+              {socialLinks.map((social) => (
+                <Link
+                  key={social.name}
+                  to={social.to}
+                  aria-label={social.name}
+                  className="text-neutral-600 hover:text-emerald-700 transition-colors"
+                >
+                  <social.icon />
+                </Link>
+              ))}
             </div>
           </section>
         </div>

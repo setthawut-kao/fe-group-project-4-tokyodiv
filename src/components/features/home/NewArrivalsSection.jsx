@@ -8,7 +8,7 @@ import { ProductCard } from "../products/ProductCard";
 import { Typography } from "@/components/ui/typography";
 import element from "@/assets/images/home-page/banner_element-1.svg";
 
-import Lottie from "lottie-react";
+import { Animation } from "@/components/shared/Animation";
 import loadingAnimationData from "@/assets/animations/loading_animation.json";
 import errorAnimationData from "@/assets/animations/error_animation.json";
 
@@ -45,30 +45,28 @@ export const NewArrivalsSection = () => {
     const prevIndex = (currentIndex - 1 + products.length) % products.length;
     setCurrentIndex(prevIndex);
   };
+
   if (isLoading) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
-        <Lottie
-          animationData={loadingAnimationData}
-          loop={true}
-          className="w-60 h-60"
-        />
-      </div>
+      <Animation
+        type="fullPage"
+        loop={true}
+        animationData={loadingAnimationData}
+      />
     );
   }
 
   if (error) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
-        <Lottie
-          animationData={errorAnimationData}
-          loop={true}
-          className="w-60 h-60"
-          message={error}
-        />
-      </div>
+      <Animation
+        type="fullPage"
+        loop={true}
+        animationData={errorAnimationData}
+        message={error}
+      />
     );
   }
+
   if (products.length === 0) return null;
 
   const currentProduct = products[currentIndex];

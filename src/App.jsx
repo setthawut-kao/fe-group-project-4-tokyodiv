@@ -46,6 +46,10 @@ const router = createBrowserRouter([
             path: "/order-success",
             element: <OrderSuccessPage />,
           },
+          // {
+          //   path: "/profile",
+          //   element: <ProfilePage />,
+          // },
           {
             path: "/orders",
             element: <OrderHistoryPage />,
