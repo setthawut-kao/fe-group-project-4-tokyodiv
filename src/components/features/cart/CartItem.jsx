@@ -10,10 +10,10 @@ export const CartItem = ({ item, isSelected, onToggleSelection, onRemove }) => {
         <Checkbox
           className="cursor-pointer"
           checked={isSelected}
-          onCheckedChange={() => onToggleSelection(item.id)}
+          onCheckedChange={onToggleSelection}
         />
         <Button
-          onClick={() => onRemove(item.id)}
+          onClick={onRemove}
           variant="neutral"
           size="icon"
           className="cursor-pointer"

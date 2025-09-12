@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchProducts } from "@/services/productService";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { PaginationControls } from "../../shared/PaginationControls";
@@ -8,38 +9,69 @@ import { Typography } from "@/components/ui/typography";
 import element from "@/assets/images/home-page/banner_element-1.svg";
 
 import Lottie from "lottie-react";
-// import loadingAnimationData from "@/assets/animations/loading_animation.json";
-import { MOCK_NEW_ARRIVALS } from "@/data/mockProducts";
+import loadingAnimationData from "@/assets/animations/loading_animation.json";
+import errorAnimationData from "@/assets/animations/error_animation.json";
 
 export const NewArrivalsSection = () => {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // const [isLoading, setIsLoading] = useState(true);
-  // if (isLoading) {
-  //   return (
-  //     // 👈 แก้ไข div ตรงนี้
-  //     <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
-  //       <Lottie
-  //         animationData={loadingAnimationData}
-  //         loop={true}
-  //         className="w-48 h-48"
-  //       />
-  //     </div>
-  //   );
-  // }
+  useEffect(() => {
+    const getNewArrivals = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchProducts({ sort: "createdAt", limit: 6 });
+        setProducts(data.products || []);
+      } catch (err) {
+        setError("Failed to load new arrivals.");
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getNewArrivals();
+  }, []);
 
   const handleNext = () => {
-    const nextIndex = (currentIndex + 1) % MOCK_NEW_ARRIVALS.length;
+    if (products.length === 0) return;
+    const nextIndex = (currentIndex + 1) % products.length;
     setCurrentIndex(nextIndex);
   };
 
   const handlePrev = () => {
-    const prevIndex =
-      (currentIndex - 1 + MOCK_NEW_ARRIVALS.length) % MOCK_NEW_ARRIVALS.length;
+    if (products.length === 0) return;
+    const prevIndex = (currentIndex - 1 + products.length) % products.length;
     setCurrentIndex(prevIndex);
   };
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
+        <Lottie
+          animationData={loadingAnimationData}
+          loop={true}
+          className="w-60 h-60"
+        />
+      </div>
+    );
+  }
 
-  const currentProduct = MOCK_NEW_ARRIVALS[currentIndex];
+  if (error) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
+        <Lottie
+          animationData={errorAnimationData}
+          loop={true}
+          className="w-60 h-60"
+          message={error}
+        />
+      </div>
+    );
+  }
+  if (products.length === 0) return null;
+
+  const currentProduct = products[currentIndex];
 
   return (
     <section>
@@ -65,7 +97,7 @@ export const NewArrivalsSection = () => {
                   onPrev={handlePrev}
                   onNext={handleNext}
                   currentPage={currentIndex + 1}
-                  totalPages={MOCK_NEW_ARRIVALS.length}
+                  totalPages={products.length}
                 />
               }
             >

@@ -10,6 +10,8 @@ import { ChevronDown, ShoppingBag } from "lucide-react";
 
 import { ProductQuickViewDialog } from "./ProductQuickViewDialog";
 
+import { formatCurrency } from "@/lib/utils";
+
 export const ProductCard = ({ product, variant = "default" }) => {
   const [isQuickViewOpen, setQuickViewOpen] = useState(false);
 
@@ -25,7 +27,7 @@ export const ProductCard = ({ product, variant = "default" }) => {
               {product.category}
             </Badge>
             <div className="flex items-baseline gap-1">
-              <Typography as="h4">{product.price}</Typography>
+              <Typography as="h4">{formatCurrency(product.price)}</Typography>
               <Typography as="small" className="text-neutral-700 font-semibold">
                 THB
               </Typography>

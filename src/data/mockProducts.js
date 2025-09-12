@@ -1,38 +1,31 @@
 import { faker } from "@faker-js/faker";
 
-// 1. กำหนดหมวดหมู่ที่เรามี
+// 1. ใช้หมวดหมู่ให้ตรงกับที่ใช้ใน MainProduct.jsx
 export const CATEGORIES = [
   "Living Room",
   "Bedroom",
-  "Kitchen",
-  "Home Office",
-  "Decorations",
+  "Dining & Kitchen",
+  "Decor & Lighting",
 ];
 
-const MOCK_PRODUCTS_LIST = [];
-let currentId = 1;
+const generatedProducts = [];
 
-// 2. วนลูปตามหมวดหมู่แต่ละอัน
+// 2. สร้างสินค้าทั้งหมด 48 ชิ้น (12 ชิ้นต่อหมวดหมู่)
 CATEGORIES.forEach((category) => {
-  // 3. ในแต่ละหมวดหมู่, สร้างสินค้า 12 ชิ้น
   for (let i = 0; i < 12; i++) {
-    MOCK_PRODUCTS_LIST.push({
-      id: currentId++,
+    generatedProducts.push({
+      _id: faker.database.mongodbObjectId(), // 👈 3. เปลี่ยนจาก id เป็น _id และใช้ ObjectId ของปลอม
       category: category,
       name: faker.commerce.productName(),
-      price: parseFloat(faker.commerce.price({ min: 1000, max: 20000 })), // สร้างราคาเป็นตัวเลข
-      imageUrl: "https://github.com/shadcn.png", // สร้าง URL รูปภาพสมจริง
+      price: parseFloat(
+        faker.commerce.price({ min: 1000, max: 20000, dec: 0 })
+      ), // ไม่เอาทศนิยม
+      imageUrl: `https://picsum.photos/seed/${faker.string.uuid()}/400/300`, // ใช้รูปสุ่มเพื่อให้เห็นความแตกต่าง
       description: faker.commerce.productDescription(),
       status: "available",
     });
   }
 });
 
-export const MOCK_PRODUCTS = MOCK_PRODUCTS_LIST;
-
-// 5. สร้างและ Export ข้อมูลสำหรับ "New Arrivals" โดยเฉพาะ (6 ชิ้นแรก)
-export const MOCK_NEW_ARRIVALS = MOCK_PRODUCTS.slice(0, 6);
-
-// 6. (ทางเลือก) สร้างข้อมูลสำหรับ "Featured Products" แบบสุ่ม 4 ชิ้น
-const shuffled = [...MOCK_PRODUCTS].sort(() => 0.5 - Math.random());
-export const MOCK_FEATURED_PRODUCTS = shuffled.slice(0, 6);
+// 4. Export แค่ตัวแปรเดียว ด้วยชื่อตัวพิมพ์เล็ก (camelCase) ตาม Convention
+export const mockProducts = generatedProducts;

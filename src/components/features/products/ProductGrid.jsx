@@ -1,14 +1,15 @@
 import { ProductCard } from "@/components/features/products/ProductCard";
+import { Typography } from "@/components/ui/typography";
 
-import { MOCK_FEATURED_PRODUCTS } from "@/data/mockProducts";
-
-export const ProductGrid = () => {
-  const newProducts = MOCK_FEATURED_PRODUCTS.slice(0, 6);
+export const ProductGrid = ({ products = [] }) => {
+  if (products.length === 0) {
+    return <Typography as="p">No products found in this category</Typography>;
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
-      {newProducts.map((product) => (
-        <ProductCard key={product.id} product={product} />
+      {products.map((product) => (
+        <ProductCard key={product._id} product={product} />
       ))}
     </div>
   );

@@ -30,6 +30,8 @@ import ImageCard from "@/components/ui/image-card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, X, ShoppingBag } from "lucide-react";
 
+import { formatCurrency } from "@/lib/utils";
+
 export const ProductQuickViewDialog = ({
   product,
   showActions = true,
@@ -41,11 +43,21 @@ export const ProductQuickViewDialog = ({
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
-    const isExisting = cartItems.find((item) => item.id === product.id);
+    if (!isLoggedIn) {
+      if (onClose) onClose();
+      openAuthDialog(() => {
+        addToCart(product._id);
+        openCart();
+      });
+      return;
+    }
+
+    const isExisting = cartItems.find((item) => item._id === product._id);
+
     if (isExisting) {
       setIsAlertOpen(true);
     } else {
-      addToCart(product);
+      addToCart(product._id);
       if (onClose) onClose();
       openCart();
     }
@@ -53,17 +65,18 @@ export const ProductQuickViewDialog = ({
 
   const handleBuyNow = () => {
     if (isLoggedIn) {
-      // เราใช้ `cartItems` และ `addToCart` ที่ดึงมาจาก hook ด้านบนได้เลย
-      const isExisting = cartItems.find((item) => item.id === product.id);
+      const isExisting = cartItems.find((item) => item._id === product._id);
       if (!isExisting) {
-        addToCart(product);
+        addToCart(product._id);
       }
-      // เราควรจะสั่งปิด Dialog ก่อนที่จะ navigate ด้วย
       if (onClose) onClose();
       navigate("/checkout");
     } else {
-      if (onClose) onClose(); // ปิด Quick View ก่อนเปิด Auth Dialog เพื่อ UX ที่ดี
-      openAuthDialog(() => navigate("/checkout"));
+      if (onClose) onClose();
+      openAuthDialog(() => {
+        addToCart(product._id);
+        navigate("/checkout");
+      });
     }
   };
 
@@ -92,7 +105,7 @@ export const ProductQuickViewDialog = ({
                 {product.category}
               </Badge>
               <div className="flex items-baseline gap-1">
-                <Typography as="h4">{product.price}</Typography>
+                <Typography as="h4">{formatCurrency(product.price)}</Typography>
                 <Typography
                   as="small"
                   className="text-neutral-700 font-semibold"

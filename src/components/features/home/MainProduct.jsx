@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchProducts } from "@/services/productService";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { CategorySelector } from "../../shared/CategorySelector";
@@ -7,32 +8,52 @@ import { ProductGrid } from "../products/ProductGrid";
 import { Typography } from "@/components/ui/typography";
 import element from "@/assets/images/home-page/banner_element-2.svg";
 
-import { MOCK_NEW_ARRIVALS } from "@/data/mockProducts";
+import Lottie from "lottie-react";
+import loadingAnimationData from "@/assets/animations/loading_animation.json";
+import errorAnimationData from "@/assets/animations/error_animation.json";
 
 const CATEGORIES = [
   "Living Room",
   "Bedroom",
-  "Kitchen",
-  "Home Office",
-  "Decorations",
+  "Dining & Kitchen",
+  "Decor & Lighting",
 ];
+const ALL_CATEGORIES = ["All", ...CATEGORIES];
+
 const ITEMS_PER_PAGE = 6;
 
 export const MainProduct = () => {
-  const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredProducts = useMemo(() => {
-    console.log(`Filtering for: ${selectedCategory}`);
-    return MOCK_NEW_ARRIVALS.filter((p) => p.category === selectedCategory);
-  }, [selectedCategory]);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const paginatedProducts = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    return filteredProducts.slice(startIndex, endIndex);
-  }, [currentPage, filteredProducts]);
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
 
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+        const params = { page: currentPage, limit: ITEMS_PER_PAGE };
+        if (selectedCategory !== "All") {
+          params.category = selectedCategory;
+        }
+
+        const data = await fetchProducts(params);
+        setProducts(data.products || []);
+        setTotalPages(data.totalPages || 1);
+      } catch (err) {
+        setError("Oops! Something went wrong while fetching products.");
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getProducts();
+  }, [selectedCategory, currentPage]);
 
   const handleCategoryChange = (newCategory) => {
     setSelectedCategory(newCategory);
@@ -50,6 +71,31 @@ export const MainProduct = () => {
       setCurrentPage(currentPage - 1);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
+        <Lottie
+          animationData={loadingAnimationData}
+          loop={true}
+          className="w-60 h-60"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
+        <Lottie
+          animationData={errorAnimationData}
+          loop={true}
+          className="w-60 h-60"
+          message={error}
+        />
+      </div>
+    );
+  }
 
   return (
     <section id="main-product">
@@ -80,7 +126,7 @@ export const MainProduct = () => {
           <div className="flex flex-col lg:flex-row p-1.5 gap-1.5 items-center lg:p-3 sticky top-1 bg-white border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300 ease-out">
             <div className="flex w-full">
               <CategorySelector
-                categories={CATEGORIES}
+                categories={ALL_CATEGORIES}
                 selectedCategory={selectedCategory}
                 onCategoryChange={handleCategoryChange}
               />
@@ -95,7 +141,7 @@ export const MainProduct = () => {
           </div>
 
           <div className="flex w-full justify-center">
-            <ProductGrid products={paginatedProducts} />
+            <ProductGrid products={products} />
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { MainLayout } from "./components/layouts/MainLayout";
 import { HomePage } from "./pages/HomePage";
-// import { ProtectedRoute } from "./components/shared/ProtectedRoute";
+import { AboutPages } from "./pages/AboutPages";
+import { ProtectedRoute } from "./components/shared/ProtectedRoute";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { OrderSuccessPage } from "./pages/OrderSuccessPage";
 import { OrderHistoryPage } from "./pages/OrderHistoryPage";
@@ -11,7 +11,6 @@ import { OrderDetailPage } from "./pages/OrderDetailPage";
 
 import Lottie from "lottie-react";
 import errorAnimationData from "@/assets/animations/error_animation.json";
-import { AboutPages } from "./pages/AboutPages";
 
 const router = createBrowserRouter([
   {
@@ -36,39 +35,43 @@ const router = createBrowserRouter([
         path: "/about-us",
         element: <AboutPages />,
       },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/checkout",
+            element: <CheckoutPage />,
+          },
+          {
+            path: "/order-success",
+            element: <OrderSuccessPage />,
+          },
+          {
+            path: "/orders",
+            element: <OrderHistoryPage />,
+          },
+          {
+            path: "/orders/:orderId",
+            element: <OrderDetailPage />,
+          },
+        ],
+      },
       // {
-      //   element: <ProtectedRoute />,
-      //   children: [
-      //     {
-      //       path: "/checkout",
-      //       element: <CheckoutPage />,
-      //     },
-      //     {
-      //       path: "/order-success",
-      //       element: <OrderSuccessPage />,
-      //     },
-      //     {
-      //       path: "/orders",
-      //       element: <OrderHistoryPage />,
-      //     },
-      //   ],
+      //   path: "/checkout",
+      //   element: <CheckoutPage />,
       // },
-      {
-        path: "/checkout",
-        element: <CheckoutPage />,
-      },
-      {
-        path: "/order-success",
-        element: <OrderSuccessPage />,
-      },
-      {
-        path: "/orders",
-        element: <OrderHistoryPage />,
-      },
-      {
-        path: "/orders/:orderId",
-        element: <OrderDetailPage />,
-      },
+      // {
+      //   path: "/order-success",
+      //   element: <OrderSuccessPage />,
+      // },
+      // {
+      //   path: "/orders",
+      //   element: <OrderHistoryPage />,
+      // },
+      // {
+      //   path: "/orders/:orderId",
+      //   element: <OrderDetailPage />,
+      // },
     ],
   },
 ]);
