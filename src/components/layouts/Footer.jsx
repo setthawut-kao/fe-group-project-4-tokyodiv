@@ -39,16 +39,10 @@ export const Footer = () => {
                 <Typography as="h2">Get to know us</Typography>
               </div>
               <div className="mx-auto">
-<<<<<<< HEAD
-              
-                <Button asChild>
-                  <Link to="/about-us">
-                    Learn More About Us <ArrowRight />
-=======
+
                 <Button asChild>
                   <Link to="/about-us" className="flex items-center gap-2">
                     Learn More About Us <ArrowRight className="w-4 h-4" />
->>>>>>> 49680e055f23d9889d292d795f3bfd7b10ed5d07
                   </Link>
                 </Button>
               </div>

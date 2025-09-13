@@ -11,11 +11,7 @@ import { OrderDetailPage } from "./pages/OrderDetailPage";
 
 import Lottie from "lottie-react";
 import errorAnimationData from "@/assets/animations/error_animation.json";
-<<<<<<< HEAD
-import { AboutPages } from "./pages/AboutPages";
 import EditUser from "./pages/EditUser";
-=======
->>>>>>> 49680e055f23d9889d292d795f3bfd7b10ed5d07
 
 const router = createBrowserRouter([
   {
@@ -41,10 +37,10 @@ const router = createBrowserRouter([
         element: <AboutPages />,
       },
       {
-<<<<<<< HEAD
         path: "/edit-user",
         element: <EditUser />,
-=======
+      },
+      {
         element: <ProtectedRoute />,
         children: [
           {
@@ -68,7 +64,6 @@ const router = createBrowserRouter([
             element: <OrderDetailPage />,
           },
         ],
->>>>>>> 49680e055f23d9889d292d795f3bfd7b10ed5d07
       },
       // {
       //   path: "/checkout",

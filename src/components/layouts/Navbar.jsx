@@ -40,13 +40,6 @@ export const Navbar = () => {
                 </Button>
               )}
             </div>
-<<<<<<< HEAD
-                  {/* <Link to="/edit-user">
-                    <img src='src/assets/images/User-profile/user.svg' height='48px' width='48px'>
-                  </img>
-                  </Link> */}
-=======
->>>>>>> 49680e055f23d9889d292d795f3bfd7b10ed5d07
           </nav>
         </Container>
       </header>
