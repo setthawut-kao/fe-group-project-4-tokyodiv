@@ -45,7 +45,10 @@ export const ProductQuickViewDialog = ({
   const handleAddToCart = () => {
     if (!isLoggedIn) {
       if (onClose) onClose();
-      openAuthDialog();
+      openAuthDialog(() => {
+        addToCart(product._id);
+        openCart();
+      });
       return;
     }
 

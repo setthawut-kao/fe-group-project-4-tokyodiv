@@ -6,16 +6,8 @@ const baseURL = import.meta.env.DEV
   : import.meta.env.VITE_PUBLIC_API_URL;
 
 const api = axios.create({
-  baseURL,
-  withCredentials: true, // critical for sending cookies!
-});
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+  baseURL: baseURL || "http://localhost:8001",
+  withCredentials: true, // httpOnly cookie
 });
 
 export default api;

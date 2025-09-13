@@ -7,16 +7,19 @@ export const useAuthStore = create((set, get) => ({
   isLoggedIn: false,
   isLoading: true,
   isAuthDialogOpen: false,
+  postLoginAction: null,
 
-  openAuthDialog: () => set({ isAuthDialogOpen: true }),
+  openAuthDialog: (action = null) =>
+    set({ isAuthDialogOpen: true, postLoginAction: action }),
 
-  closeAuthDialog: () => set({ isAuthDialogOpen: false }),
+  closeAuthDialog: () =>
+    set({ isAuthDialogOpen: false, postLoginAction: null }),
 
   checkAuthStatus: async () => {
     try {
       const user = await authService.getProfile();
       set({ user, isLoggedIn: true });
-      useCartStore.getState().fetchCart(); // เมื่อ Login อยู่ ให้ดึงข้อมูลตะกร้าทันที
+      useCartStore.getState().fetchCart();
     } catch (error) {
       console.error("Failed to check user status:", error);
       set({ user: null, isLoggedIn: false });
@@ -29,19 +32,20 @@ export const useAuthStore = create((set, get) => ({
     try {
       const user = await authService.userRegister(userData);
       set({ user, isLoggedIn: true });
-
-      // หลังจาก Register/Login สำเร็จ ให้ดึงข้อมูลตะกร้าจาก Server
       useCartStore.getState().fetchCart();
 
       const postAction = get().postLoginAction;
-      if (postAction) {
-        postAction(); //ทำสิ่งที่ค้างไว้
-        get().closeAuthDialog();
+      if (typeof postAction === "function") {
+        postAction();
       }
+      get().closeAuthDialog();
+
       return { success: true, data: user };
     } catch (error) {
-      console.error("Registration failed:", error.response.data);
-      return { success: false, message: error.message };
+      return {
+        success: false,
+        message: error.response?.data?.message || "Registration failed",
+      };
     }
   },
 
@@ -49,15 +53,21 @@ export const useAuthStore = create((set, get) => ({
     try {
       const user = await authService.userLogin(userData);
       set({ user, isLoggedIn: true });
-
-      // หลังจาก Register/Login สำเร็จ ให้ดึงข้อมูลตะกร้าจาก Server
       useCartStore.getState().fetchCart();
+
+      const postAction = get().postLoginAction;
+      if (typeof postAction === "function") {
+        postAction();
+      }
 
       get().closeAuthDialog();
 
       return { success: true, data: user };
     } catch (error) {
-      return { success: false, message: error.message };
+      return {
+        success: false,
+        message: error.response?.data?.message || "Login failed",
+      };
     }
   },
 
@@ -67,7 +77,11 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       console.error("Logout failed on server, but logging out client.", error);
     } finally {
-      set({ user: null, isLoggedIn: false, postLoginAction: null });
+      set({
+        user: null,
+        isLoggedIn: false,
+        postLoginAction: null,
+      });
       useCartStore.getState().clearCartLocal();
     }
   },

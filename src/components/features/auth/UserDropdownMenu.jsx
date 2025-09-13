@@ -53,19 +53,19 @@ export const UserDropdownMenu = ({ user }) => {
         <DropdownMenuSeparator />
         <Link to="/profile">
           <DropdownMenuItem>
-            <UserIcon className="h-4 w-4" />
+            <UserIcon className="w-4 h-4" />
             <span>Profile</span>
           </DropdownMenuItem>
         </Link>
         <Link to="/orders">
           <DropdownMenuItem>
-            <Package className="mr-2 h-4 w-4" />
+            <Package className="w-4 h-4" />
             <span>My Orders</span>
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={logout}>
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut className="w-4 h-4" />
           <span>Logout</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
