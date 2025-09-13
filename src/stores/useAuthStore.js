@@ -1,37 +1,34 @@
 import { create } from "zustand";
-import api from "@/lib/axios";
 import { useCartStore } from "./useCartStore";
+import * as authService from "@/services/authService";
 
 export const useAuthStore = create((set, get) => ({
   user: null,
   isLoggedIn: false,
   isLoading: true,
   isAuthDialogOpen: false,
-  postLoginAction: null,
 
-  openAuthDialog: (action = null) =>
-    set({ isAuthDialogOpen: true, postLoginAction: action }),
+  openAuthDialog: () => set({ isAuthDialogOpen: true }),
 
-  closeAuthDialog: () =>
-    set({ isAuthDialogOpen: false, postLoginAction: null }),
+  closeAuthDialog: () => set({ isAuthDialogOpen: false }),
 
   checkAuthStatus: async () => {
     try {
-      const response = await api.get("/api/auth/me");
-      set({ user: response.data, isLoggedIn: true });
+      const user = await authService.getProfile();
+      set({ user, isLoggedIn: true });
       useCartStore.getState().fetchCart(); // เมื่อ Login อยู่ ให้ดึงข้อมูลตะกร้าทันที
     } catch (error) {
       console.error("Failed to check user status:", error);
       set({ user: null, isLoggedIn: false });
     } finally {
-      set({ isLoading: false }); // ไม่ว่าจะสำเร็จหรือล้มเหลว ให้ตั้งค่า isLoading เป็น false เสมอ
+      set({ isLoading: false });
     }
   },
 
   register: async (userData) => {
     try {
-      const response = await api.post("/api/auth/register", userData); // ใช้ path สั้นๆ ได้เลย
-      set({ user: response.data, isLoggedIn: true });
+      const user = await authService.userRegister(userData);
+      set({ user, isLoggedIn: true });
 
       // หลังจาก Register/Login สำเร็จ ให้ดึงข้อมูลตะกร้าจาก Server
       useCartStore.getState().fetchCart();
@@ -41,41 +38,36 @@ export const useAuthStore = create((set, get) => ({
         postAction(); //ทำสิ่งที่ค้างไว้
         get().closeAuthDialog();
       }
-      return { success: true, data: response.data };
+      return { success: true, data: user };
     } catch (error) {
       console.error("Registration failed:", error.response.data);
-      return { success: false, message: error.response.data.message };
+      return { success: false, message: error.message };
     }
   },
 
   login: async (userData) => {
     try {
-      const response = await api.post("/api/auth/login", userData);
-      set({ user: response.data, isLoggedIn: true });
+      const user = await authService.userLogin(userData);
+      set({ user, isLoggedIn: true });
 
       // หลังจาก Register/Login สำเร็จ ให้ดึงข้อมูลตะกร้าจาก Server
       useCartStore.getState().fetchCart();
 
-      const postAction = get().postLoginAction;
-      if (postAction) {
-        postAction(); //ทำสิ่งที่ค้างไว้
-        get().closeAuthDialog();
-      }
-      return { success: true, data: response.data };
+      get().closeAuthDialog();
+
+      return { success: true, data: user };
     } catch (error) {
-      console.error("Login failed:", error.response.data);
-      return { success: false, message: error.response.data.message };
+      return { success: false, message: error.message };
     }
   },
 
   logout: async () => {
     try {
-      await api.post("/api/auth/logout");
-      set({ user: null, isLoggedIn: false });
-      useCartStore.getState().clearCartLocal(); // เคลียร์ตะกร้าใน state ด้วย
+      await authService.userLogout();
     } catch (error) {
-      console.error("Logout failed:", error);
-      set({ user: null, isLoggedIn: false });
+      console.error("Logout failed on server, but logging out client.", error);
+    } finally {
+      set({ user: null, isLoggedIn: false, postLoginAction: null });
       useCartStore.getState().clearCartLocal();
     }
   },
