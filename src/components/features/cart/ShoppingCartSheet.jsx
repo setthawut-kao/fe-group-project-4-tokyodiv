@@ -13,10 +13,12 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
-import { CartItem } from "./CartItem";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ShoppingBag } from "lucide-react";
+
+import { CartItem } from "./CartItem";
+
+import { formatCurrency } from "@/lib/utils";
 
 const EmptyCartView = () => (
   <div className="flex flex-col items-center justify-center h-full text-center">
@@ -48,9 +50,8 @@ const ActiveCartView = ({
   };
 
   const subtotal = items
-    .filter((item) => selectedItemIds.includes(item.id))
-    .reduce((sum, item) => sum + item.price, 0)
-    .toFixed(2);
+    .filter((item) => selectedItemIds.includes(item._id))
+    .reduce((sum, item) => sum + item.price, 0);
 
   return (
     <div className="flex flex-col h-full">
@@ -58,11 +59,11 @@ const ActiveCartView = ({
         <div className="flex flex-col gap-3">
           {items.map((item) => (
             <CartItem
-              key={item.id}
+              key={item._id}
               item={item}
-              isSelected={selectedItemIds.includes(item.id)}
-              onToggleSelection={toggleItemSelection}
-              onRemove={removeFromCart}
+              isSelected={selectedItemIds.includes(item._id)}
+              onToggleSelection={() => toggleItemSelection(item._id)}
+              onRemove={() => removeFromCart(item._id)}
             />
           ))}
         </div>
@@ -75,7 +76,7 @@ const ActiveCartView = ({
               <Typography as="p">Subtotal</Typography>
             </div>
             <div className="flex items-baseline gap-1">
-              <Typography as="h4">{subtotal}</Typography>
+              <Typography as="h4">{formatCurrency(subtotal)}</Typography>
               <Typography as="small" className="text-neutral-700 font-semibold">
                 THB
               </Typography>

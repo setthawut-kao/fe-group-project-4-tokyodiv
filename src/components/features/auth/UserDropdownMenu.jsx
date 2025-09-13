@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuthStore } from "@/stores/useAuthStore";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,10 +17,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { LogOut, Package } from "lucide-react";
+import { LogOut, Package, UserIcon } from "lucide-react";
 
 export const UserDropdownMenu = ({ user }) => {
-  const { logout } = useAuthStore();
+  const logout = useAuthStore((state) => state.logout);
 
   // ถ้ายังไม่มีข้อมูล user (อาจจะกำลังโหลด) ก็ไม่ต้องแสดงผลอะไร
   if (!user) return null;
@@ -29,7 +30,6 @@ export const UserDropdownMenu = ({ user }) => {
 
   const getInitials = (name) => {
     if (!name) return "";
-    // ตอนนี้เราจะ split จาก fullName ที่เราสร้างขึ้น
     return name
       .split(" ")
       .map((n) => n[0])
@@ -49,12 +49,20 @@ export const UserDropdownMenu = ({ user }) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Hi, {user.name}!</DropdownMenuLabel>
+        <DropdownMenuLabel>Hi, {user.firstName || "User"}!</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Package className="mr-2 h-4 w-4" />
-          <span>Order History</span>
-        </DropdownMenuItem>
+        <Link to="/profile">
+          <DropdownMenuItem>
+            <UserIcon className="h-4 w-4" />
+            <span>Profile</span>
+          </DropdownMenuItem>
+        </Link>
+        <Link to="/orders">
+          <DropdownMenuItem>
+            <Package className="mr-2 h-4 w-4" />
+            <span>My Orders</span>
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={logout}>
           <LogOut className="mr-2 h-4 w-4" />

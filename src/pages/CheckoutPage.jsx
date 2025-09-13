@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/useCartStore";
+import { createOrder } from "@/services/orderService";
 
 import { ProductCard } from "@/components/features/products/ProductCard";
 import { Typography } from "@/components/ui/typography";
@@ -30,8 +31,10 @@ export const CheckoutPage = () => {
   });
   const [isConfirmAlertOpen, setIsConfirmAlertOpen] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const itemsToCheckout = cartItems.filter((item) =>
-    selectedItemIds.includes(item.id)
+    selectedItemIds.includes(item._id)
   );
   const subtotal = itemsToCheckout.reduce((sum, item) => sum + item.price, 0);
 
@@ -46,10 +49,31 @@ export const CheckoutPage = () => {
     setIsConfirmAlertOpen(true);
   };
 
-  const handleFinalSubmit = () => {
-    console.log("Submitting order to backend:", { formData, itemsToCheckout });
-    clearCheckedOutItems();
-    navigate("/order-success");
+  const handleFinalSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      const orderData = {
+        shippingDetails: formData,
+        products: itemsToCheckout.map((item) => ({
+          _id: item._id,
+          name: item.name,
+          price: item.price,
+          imageUrl: item.imageUrl,
+        })),
+        totalAmount: subtotal,
+      };
+
+      await createOrder(orderData);
+
+      clearCheckedOutItems();
+      navigate("/order-success");
+    } catch (error) {
+      console.error("Failed to submit order:", error);
+      alert(error.message || "There was an issue placing your order.");
+      setIsConfirmAlertOpen(false);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -62,7 +86,7 @@ export const CheckoutPage = () => {
           </Typography>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {itemsToCheckout.map((item) => (
-              <ProductCard key={item.id} product={item} variant="cart" />
+              <ProductCard key={item._id} product={item} variant="cart" />
             ))}
           </div>
         </div>
@@ -94,8 +118,11 @@ export const CheckoutPage = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleFinalSubmit}>
-              Confirm & Place Order
+            <AlertDialogAction
+              onClick={handleFinalSubmit}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Placing Order..." : "Confirm & Place Order"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,18 +1,38 @@
-// import { useAuthStore } from "@/stores/useAuthStore";
-// import { Navigate, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { Navigate, Outlet } from "react-router-dom";
 
-// export const ProtectedRoute = () => {
-//   // 1. ถาม store ว่าตอนนี้มีคน login อยู่หรือไม่
-//   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+import Lottie from "lottie-react";
+import loadingAnimationData from "@/assets/animations/loading_animation.json";
 
-//   // 2. ตรวจสอบเงื่อนไข
-//   if (!isLoggedIn) {
-//     // 3. ถ้ายังไม่ Login, ให้ "วาร์ป" (Navigate) กลับไปหน้าแรก
-//     // `replace` คือการบอกว่าไม่ต้องบันทึกหน้านี้ใน history ของเบราว์เซอร์
-//     return <Navigate to="/" replace />;
-//   }
+export const ProtectedRoute = () => {
+  const { isLoggedIn, isLoading, openAuthDialog } = useAuthStore((state) => ({
+    isLoggedIn: state.isLoggedIn,
+    isLoading: state.isLoading,
+    openAuthDialog: state.openAuthDialog,
+  }));
 
-//   // 4. ถ้า Login แล้ว, ให้แสดง Component ลูกที่อยู่ข้างใน Route นี้
-//   // <Outlet /> คือ "ประตู" ที่จะไปแสดง Component ปลายทาง (เช่น CheckoutPage)
-//   return <Outlet />;
-// };
+  useEffect(() => {
+    if (!isLoading && !isLoggedIn) {
+      openAuthDialog();
+    }
+  }, [isLoading, isLoggedIn, openAuthDialog]);
+
+  //  สถานะที่ 1: กำลังตรวจสอบสถานะ... ให้แสดงหน้า Loading
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
+        <Lottie
+          animationData={loadingAnimationData}
+          loop={true}
+          className="w-60 h-60"
+        />
+      </div>
+    );
+  }
+
+  if (isLoggedIn) {
+    return <Outlet />;
+  }
+  return <Navigate to="/" replace />;
+};

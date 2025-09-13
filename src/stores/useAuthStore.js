@@ -1,12 +1,11 @@
 import { create } from "zustand";
-import axios from "axios";
-
-const API_URL = "http://localhost:8001"; //URL ของ Backend
+import api from "@/lib/axios";
+import { useCartStore } from "./useCartStore";
 
 export const useAuthStore = create((set, get) => ({
   user: null,
   isLoggedIn: false,
-  token: null,
+  isLoading: true,
   isAuthDialogOpen: false,
   postLoginAction: null,
 
@@ -16,57 +15,68 @@ export const useAuthStore = create((set, get) => ({
   closeAuthDialog: () =>
     set({ isAuthDialogOpen: false, postLoginAction: null }),
 
+  checkAuthStatus: async () => {
+    try {
+      const response = await api.get("/api/auth/me");
+      set({ user: response.data, isLoggedIn: true });
+      useCartStore.getState().fetchCart(); // เมื่อ Login อยู่ ให้ดึงข้อมูลตะกร้าทันที
+    } catch (error) {
+      console.error("Failed to check user status:", error);
+      set({ user: null, isLoggedIn: false });
+    } finally {
+      set({ isLoading: false }); // ไม่ว่าจะสำเร็จหรือล้มเหลว ให้ตั้งค่า isLoading เป็น false เสมอ
+    }
+  },
+
   register: async (userData) => {
     try {
-      // ยิง request ไปที่ Backend
-      const response = await axios.post(`${API_URL}/api/auth/signup`, userData);
-      if (response.data.success) {
-        localStorage.setItem("token", response.data.data.token);
-        set({
-          user: response.data.data.user,
-          token: response.data.data.token,
-          isLoggedIn: true,
-        });
+      const response = await api.post("/api/auth/register", userData); // ใช้ path สั้นๆ ได้เลย
+      set({ user: response.data, isLoggedIn: true });
 
-        const postAction = get().postLoginAction;
-        if (postAction) {
-          postAction(); // ทำงานที่ค้างไว้
-          get().closeAuthDialog(); // ปิด Dialog และเคลียร์ action
-        }
+      // หลังจาก Register/Login สำเร็จ ให้ดึงข้อมูลตะกร้าจาก Server
+      useCartStore.getState().fetchCart();
+
+      const postAction = get().postLoginAction;
+      if (postAction) {
+        postAction(); //ทำสิ่งที่ค้างไว้
+        get().closeAuthDialog();
       }
-      return response.data;
+      return { success: true, data: response.data };
     } catch (error) {
       console.error("Registration failed:", error.response.data);
-      return error.response.data;
+      return { success: false, message: error.response.data.message };
     }
   },
 
   login: async (userData) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/signin`, userData);
-      if (response.data.success) {
-        localStorage.setItem("token", response.data.data.token);
-        set({
-          user: response.data.data.user,
-          token: response.data.data.token,
-          isLoggedIn: true,
-        });
+      const response = await api.post("/api/auth/login", userData);
+      set({ user: response.data, isLoggedIn: true });
 
-        const postAction = get().postLoginAction;
-        if (postAction) {
-          postAction(); // ทำงานที่ค้างไว้
-          get().closeAuthDialog(); // ปิด Dialog และเคลียร์ action
-        }
+      // หลังจาก Register/Login สำเร็จ ให้ดึงข้อมูลตะกร้าจาก Server
+      useCartStore.getState().fetchCart();
+
+      const postAction = get().postLoginAction;
+      if (postAction) {
+        postAction(); //ทำสิ่งที่ค้างไว้
+        get().closeAuthDialog();
       }
-      return response.data;
+      return { success: true, data: response.data };
     } catch (error) {
       console.error("Login failed:", error.response.data);
-      return error.response.data;
+      return { success: false, message: error.response.data.message };
     }
   },
 
-  logout: () => {
-    localStorage.removeItem("token");
-    set({ user: null, token: null, isLoggedIn: false });
+  logout: async () => {
+    try {
+      await api.post("/api/auth/logout");
+      set({ user: null, isLoggedIn: false });
+      useCartStore.getState().clearCartLocal(); // เคลียร์ตะกร้าใน state ด้วย
+    } catch (error) {
+      console.error("Logout failed:", error);
+      set({ user: null, isLoggedIn: false });
+      useCartStore.getState().clearCartLocal();
+    }
   },
 }));

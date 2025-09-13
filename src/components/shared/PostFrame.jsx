@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Typography } from "../ui/typography";
 
+import Logo from "@/assets/logo.svg";
+
 import imageArrivals from "@/assets/images/home-page/NewArrive.webp";
 
 export const PostFrame = ({
@@ -24,8 +26,8 @@ export const PostFrame = ({
         <div className="flex justify-between">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-3">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="Avatar" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src alt="Avatar logo" />
+              <AvatarFallback>RF</AvatarFallback>
             </Avatar>
             <div>
               <CardTitle>

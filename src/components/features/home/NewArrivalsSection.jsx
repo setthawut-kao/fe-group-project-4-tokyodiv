@@ -1,44 +1,75 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchProducts } from "@/services/productService";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { PaginationControls } from "../../shared/PaginationControls";
 import { PostFrame } from "@/components/shared/PostFrame";
 import { ProductCard } from "../products/ProductCard";
 import { Typography } from "@/components/ui/typography";
+import element from "@/assets/images/home-page/banner_element-1.svg";
 
-import Lottie from "lottie-react";
-// import loadingAnimationData from "@/assets/animations/loading_animation.json";
-import { MOCK_NEW_ARRIVALS } from "@/data/mockProducts";
+import { Animation } from "@/components/shared/Animation";
+import loadingAnimationData from "@/assets/animations/loading_animation.json";
+import errorAnimationData from "@/assets/animations/error_animation.json";
 
 export const NewArrivalsSection = () => {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // const [isLoading, setIsLoading] = useState(true);
-  // if (isLoading) {
-  //   return (
-  //     // 👈 แก้ไข div ตรงนี้
-  //     <div className="fixed inset-0 flex justify-center items-center bg-background z-50">
-  //       <Lottie
-  //         animationData={loadingAnimationData}
-  //         loop={true}
-  //         className="w-48 h-48"
-  //       />
-  //     </div>
-  //   );
-  // }
+  useEffect(() => {
+    const getNewArrivals = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchProducts({ sort: "createdAt", limit: 6 });
+        setProducts(data.products || []);
+      } catch (err) {
+        setError("Failed to load new arrivals.");
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getNewArrivals();
+  }, []);
 
   const handleNext = () => {
-    const nextIndex = (currentIndex + 1) % MOCK_NEW_ARRIVALS.length;
+    if (products.length === 0) return;
+    const nextIndex = (currentIndex + 1) % products.length;
     setCurrentIndex(nextIndex);
   };
 
   const handlePrev = () => {
-    const prevIndex =
-      (currentIndex - 1 + MOCK_NEW_ARRIVALS.length) % MOCK_NEW_ARRIVALS.length;
+    if (products.length === 0) return;
+    const prevIndex = (currentIndex - 1 + products.length) % products.length;
     setCurrentIndex(prevIndex);
   };
 
-  const currentProduct = MOCK_NEW_ARRIVALS[currentIndex];
+  if (isLoading) {
+    return (
+      <Animation
+        type="fullPage"
+        loop={true}
+        animationData={loadingAnimationData}
+      />
+    );
+  }
+
+  if (error) {
+    return (
+      <Animation
+        type="fullPage"
+        loop={true}
+        animationData={errorAnimationData}
+        message={error}
+      />
+    );
+  }
+
+  if (products.length === 0) return null;
+
+  const currentProduct = products[currentIndex];
 
   return (
     <section>
@@ -64,7 +95,7 @@ export const NewArrivalsSection = () => {
                   onPrev={handlePrev}
                   onNext={handleNext}
                   currentPage={currentIndex + 1}
-                  totalPages={MOCK_NEW_ARRIVALS.length}
+                  totalPages={products.length}
                 />
               }
             >
@@ -76,14 +107,16 @@ export const NewArrivalsSection = () => {
         </div>
 
         <div className="hidden lg:block">
-          <div className=" bg-white border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition ease-out duration-300">
-            <AspectRatio ratio={9 / 16} className="w-full">
-              <img
-                src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=1887&auto=format&fit=crop"
-                alt="Promotional banner for new arrivals."
-                className="h-full w-full rounded-sm object-cover"
-              />
-            </AspectRatio>
+          <div className="sticky top-24">
+            <div className="bg-white border-border border-2 rounded-lg shadow-shadow hover:scale-105 hover:shadow-[8px_8px_0px_#000] transition duration-300">
+              <AspectRatio ratio={9 / 16} className="w-full">
+                <img
+                  src={element}
+                  alt="Promotional banner for Main Product."
+                  className="w-full h-full object-cover"
+                />
+              </AspectRatio>
+            </div>
           </div>
         </div>
       </div>

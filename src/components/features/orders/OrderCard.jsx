@@ -4,15 +4,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 
+import { formatCurrency, formatDate } from "@/lib/utils";
+
 import { ArrowRight } from "lucide-react";
 
 export const OrderCard = ({ order }) => {
   const navigate = useNavigate();
-  const orderDate = new Date(order.orderDate).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 
   return (
     <div className="bg-white rounded-base border-2 border-border shadow-shadow p-6 space-y-3">
@@ -29,7 +26,7 @@ export const OrderCard = ({ order }) => {
           </div>
         </div>
         <Typography as="p" className="text-neutral-600">
-          Placed on {orderDate}
+          Placed on {formatDate(order.orderDate)}
         </Typography>
       </div>
 
@@ -37,7 +34,7 @@ export const OrderCard = ({ order }) => {
         <div>
           <Typography as="p">Total Amount:</Typography>
           <div className="flex items-baseline gap-1">
-            <Typography as="h4">{order.totalAmount.toFixed(2)}</Typography>
+            <Typography as="h4">{formatCurrency(order.totalAmount)}</Typography>
             <Typography as="p" className="text-neutral-700">
               THB
             </Typography>
