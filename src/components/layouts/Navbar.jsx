@@ -40,11 +40,10 @@ export const Navbar = () => {
                 </Button>
               )}
             </div>
-            <Button asChild>
-                  <Link to="/about-us">
-                    Learn More About Us <ArrowRight />
-                  </Link>
-                </Button>
+                  {/* <Link to="/edit-user">
+                    <img src='src/assets/images/User-profile/user.svg' height='48px' width='48px'>
+                  </img>
+                  </Link> */}
           </nav>
         </Container>
       </header>

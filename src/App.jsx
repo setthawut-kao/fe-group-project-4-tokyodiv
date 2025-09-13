@@ -12,6 +12,7 @@ import { OrderDetailPage } from "./pages/OrderDetailPage";
 import Lottie from "lottie-react";
 import errorAnimationData from "@/assets/animations/error_animation.json";
 import { AboutPages } from "./pages/AboutPages";
+import EditUser from "./pages/EditUser";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/about-us",
         element: <AboutPages />,
+      },
+      {
+        path: "/edit-user",
+        element: <EditUser />,
       },
       // {
       //   element: <ProtectedRoute />,
