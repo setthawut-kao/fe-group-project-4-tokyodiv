@@ -23,7 +23,7 @@ function FlipCard({ frontImg, name, backText }) {
         }`}
       >
         {/* ด้านหน้า */}
-        <div className="absolute w-full h-full bg-green-100 border-4 border-black rounded-lg shadow-[6px_6px_0_0_#000] flex flex-col items-center justify-center [backface-visibility:hidden]">
+        <div className="absolute w-full h-full bg-white rounded-base border-2 border-border shadow-shadow flex flex-col items-center justify-center [backface-visibility:hidden]">
           {/* <h2 className="font-bold text-xl mb-2">{name}</h2> */}
           <img
             src={frontImg}
@@ -33,7 +33,7 @@ function FlipCard({ frontImg, name, backText }) {
         </div>
 
         {/* ด้านหลัง (ข้อความ) */}
-        <div className="absolute w-full h-full bg-yellow-200 border-4 border-black rounded-lg shadow-[6px_6px_0_0_#000] flex items-center justify-center text-center px-4 text-lg font-semibold [transform:rotateY(180deg)] [backface-visibility:hidden]">
+        <div className="absolute w-full h-full bg-amber-100 rounded-base border-2 border-border shadow-shadow flex items-center justify-center text-center px-4 text-lg font-semibold [transform:rotateY(180deg)] [backface-visibility:hidden]">
           {backText}
         </div>
       </div>
@@ -47,7 +47,7 @@ export const AboutPages = () => {
       <section>
         <div className="mt-8">
           {/* About Us — Re:Furnish (Neobrutalism style) */}
-          <Card className="bg-amber-100 border-4 border-black rounded-2xl shadow-[8px_8px_0_0_#000]">
+          <Card className="bg-amber-100">
             <CardHeader className="space-y-2">
               <CardTitle className="text-2xl md:text-3xl tracking-tight">
                 About Us — Re:Furnish
@@ -69,7 +69,7 @@ export const AboutPages = () => {
 
             <CardContent className="space-y-6">
               {/* Story blurb */}
-              <div className="p-4 bg-white border-4 border-black rounded-xl shadow-[4px_4px_0_0_#000]">
+              <div className="p-4 bg-white rounded-base border-2 border-border shadow-shadow">
                 <p className="leading-relaxed">
                   We revive pre-loved pieces with care, creativity, and
                   honesty—so every item returns with a second chapter worth
@@ -82,7 +82,7 @@ export const AboutPages = () => {
                 <h3 className="text-xl font-bold">Our philosophy</h3>
                 <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {/* Sustainable */}
-                  <div className="p-4 bg-lime-200 border-4 border-black rounded-xl shadow-[4px_4px_0_0_#000] hover:translate-x-1 hover:-translate-y-1 transition">
+                  <div className="p-4 bg-lime-200 rounded-base border-2 border-border shadow-shadow hover:translate-x-1 hover:-translate-y-1 transition">
                     <p className="text-lg font-extrabold">Sustainable</p>
                     <p className="text-sm mt-1">
                       We care for the planet and promote resource circulation.
@@ -90,13 +90,13 @@ export const AboutPages = () => {
                   </div>
 
                   {/* Unique */}
-                  <div className="p-4 bg-pink-200 border-4 border-black rounded-xl shadow-[4px_4px_0_0_#000] hover:translate-x-1 hover:-translate-y-1 transition">
+                  <div className="p-4 bg-pink-200 rounded-base border-2 border-border shadow-shadow hover:translate-x-1 hover:-translate-y-1 transition">
                     <p className="text-lg font-extrabold">Unique</p>
                     <p className="text-sm mt-1">Every item is one-of-a-kind.</p>
                   </div>
 
                   {/* Story-driven */}
-                  <div className="p-4 bg-sky-200 border-4 border-black rounded-xl shadow-[4px_4px_0_0_#000] hover:translate-x-1 hover:-translate-y-1 transition">
+                  <div className="p-4 bg-sky-200 rounded-base border-2 border-border shadow-shadow hover:translate-x-1 hover:-translate-y-1 transition">
                     <p className="text-lg font-extrabold">Story-driven</p>
                     <p className="text-sm mt-1">
                       We don’t just sell objects; we pass on their stories.
@@ -104,7 +104,7 @@ export const AboutPages = () => {
                   </div>
 
                   {/* Refurbished */}
-                  <div className="p-4 bg-amber-200 border-4 border-black rounded-xl shadow-[4px_4px_0_0_#000] hover:translate-x-1 hover:-translate-y-1 transition">
+                  <div className="p-4 bg-amber-200 rounded-base border-2 border-border shadow-shadow hover:translate-x-1 hover:-translate-y-1 transition">
                     <p className="text-lg font-extrabold">Refurbished</p>
                     <p className="text-sm mt-1">
                       Every piece is carefully taken care of and improved.
@@ -112,7 +112,7 @@ export const AboutPages = () => {
                   </div>
 
                   {/* Creative */}
-                  <div className="p-4 bg-violet-200 border-4 border-black rounded-xl shadow-[4px_4px_0_0_#000] hover:translate-x-1 hover:-translate-y-1 transition">
+                  <div className="p-4 bg-violet-200 rounded-base border-2 border-border shadow-shadow hover:translate-x-1 hover:-translate-y-1 transition">
                     <p className="text-lg font-extrabold">Creative</p>
                     <p className="text-sm mt-1">
                       We see beauty and value in what others might overlook.
@@ -120,7 +120,7 @@ export const AboutPages = () => {
                   </div>
 
                   {/* Trustworthy */}
-                  <div className="p-4 bg-teal-200 border-4 border-black rounded-xl shadow-[4px_4px_0_0_#000] hover:translate-x-1 hover:-translate-y-1 transition">
+                  <div className="p-4 bg-teal-200 rounded-base border-2 border-border shadow-shadow hover:translate-x-1 hover:-translate-y-1 transition">
                     <p className="text-lg font-extrabold">Trustworthy</p>
                     <p className="text-sm mt-1">
                       We are transparent and honest in our presentation.
@@ -143,26 +143,26 @@ export const AboutPages = () => {
       <br />
       <br />
 
-      <div className="min-h-screen flex items-start justify-center gap-6">
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
         <FlipCard
-          frontImg="src/assets/images/creator/kao.webp"
-          backText="Setthawut(Kao)"
+          frontImg="src/assets/images/creator/gad.webp"
+          backText="16_Nuttapat(Gad/แก๊ด)"
         />
         <FlipCard
-          frontImg="src/assets/images/creator/bae.webp"
-          backText="Wanpen(Bae)"
+          frontImg="src/assets/images/creator/kao.webp"
+          backText="28_Setthawut(Kao/เก้า)"
         />
         <FlipCard
           frontImg="src/assets/images/creator/kim.webp"
-          backText="Thanawat(kim)"
+          backText="36_Thanawat(Kim/คิม)"
         />
         <FlipCard
           frontImg="src/assets/images/creator/Ja.webp"
-          backText="Thunyaluk(Ja)"
+          backText="37_Thunyaluk(Ja/จ๋า)"
         />
         <FlipCard
-          frontImg="src/assets/images/creator/gad.webp"
-          backText="Nuttapat(Gad)"
+          frontImg="src/assets/images/creator/bae.webp"
+          backText="40_Wanpen(Bae/เป้)"
         />
       </div>
     </div>
