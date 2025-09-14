@@ -49,7 +49,9 @@ export const UserDropdownMenu = ({ user }) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Hi, {user.firstName || "User"}!</DropdownMenuLabel>
+        <DropdownMenuLabel className="truncate">
+          Hi!, {user.firstName || "User"}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link to="/profile">
           <DropdownMenuItem>

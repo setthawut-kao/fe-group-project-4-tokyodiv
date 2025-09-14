@@ -26,7 +26,12 @@ export const useCartStore = create((set) => ({
   addToCart: async (productId) => {
     try {
       const response = await api.post("/api/cart/me", { productId });
-      set({ cartItems: response.data.items }); // อัปเดต state ด้วยข้อมูลล่าสุดจาก server
+      set((state) => ({
+        cartItems: response.data.items,
+        selectedItemIds: Array.from(
+          new Set([...state.selectedItemIds, productId])
+        ),
+      }));
     } catch (error) {
       console.error("Failed to add to cart:", error);
     }

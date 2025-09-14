@@ -2,20 +2,10 @@ import api from "@/lib/axios";
 
 export const fetchProducts = async (params = {}) => {
   try {
-    let response;
-    const queryParams = new URLSearchParams(params);
+    const queryParams = new URLSearchParams(params).toString();
 
-    if (queryParams.has("category")) {
-      const category = queryParams.get("category");
-      queryParams.delete("category");
-      const remainingParams = queryParams.toString();
-      response = await api.get(
-        `/api/products/category/${category}?${remainingParams}`
-      );
-    } else {
-      const allParams = queryParams.toString();
-      response = await api.get(`/api/products?${allParams}`);
-    }
+    const response = await api.get(`/api/products?${queryParams}`);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);

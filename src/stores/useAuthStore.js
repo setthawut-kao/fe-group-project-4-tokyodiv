@@ -30,7 +30,7 @@ export const useAuthStore = create((set, get) => ({
 
   register: async (userData) => {
     try {
-      const user = await authService.userRegister(userData);
+      const user = await authService.Register(userData);
       set({ user, isLoggedIn: true });
       useCartStore.getState().fetchCart();
 
@@ -51,7 +51,7 @@ export const useAuthStore = create((set, get) => ({
 
   login: async (userData) => {
     try {
-      const user = await authService.userLogin(userData);
+      const user = await authService.Login(userData);
       set({ user, isLoggedIn: true });
       useCartStore.getState().fetchCart();
 
@@ -73,7 +73,7 @@ export const useAuthStore = create((set, get) => ({
 
   logout: async () => {
     try {
-      await authService.userLogout();
+      await authService.Logout();
     } catch (error) {
       console.error("Logout failed on server, but logging out client.", error);
     } finally {

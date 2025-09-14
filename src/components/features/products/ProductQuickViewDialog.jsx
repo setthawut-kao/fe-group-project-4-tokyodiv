@@ -65,17 +65,12 @@ export const ProductQuickViewDialog = ({
 
   const handleBuyNow = () => {
     if (isLoggedIn) {
-      const isExisting = cartItems.find((item) => item._id === product._id);
-      if (!isExisting) {
-        addToCart(product._id);
-      }
       if (onClose) onClose();
-      navigate("/checkout");
+      navigate("/checkout", { state: { itemsToCheckout: [product] } });
     } else {
       if (onClose) onClose();
       openAuthDialog(() => {
-        addToCart(product._id);
-        navigate("/checkout");
+        navigate("/checkout", { state: { itemsToCheckout: [product] } });
       });
     }
   };

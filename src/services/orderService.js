@@ -1,10 +1,5 @@
 import api from "@/lib/axios";
 
-/**
- *
- * @param {object} orderData
- * @returns {Promise<object>}
- */
 export const createOrder = async (orderData) => {
   try {
     const response = await api.post("/api/orders", orderData);
@@ -15,10 +10,6 @@ export const createOrder = async (orderData) => {
   }
 };
 
-/**
- *
- * @returns {Promise<Array>}
- */
 export const fetchMyOrders = async () => {
   try {
     const response = await api.get("/api/orders/me");
@@ -29,11 +20,6 @@ export const fetchMyOrders = async () => {
   }
 };
 
-/**
- *
- * @param {string} orderId
- * @returns {Promise<object>}
- */
 export const fetchOrderById = async (orderId) => {
   try {
     const response = await api.get(`/api/orders/${orderId}`);

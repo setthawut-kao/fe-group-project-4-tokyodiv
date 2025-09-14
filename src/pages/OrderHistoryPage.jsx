@@ -56,13 +56,13 @@ export const OrderHistoryPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-3 lg:gap-6 my-10 lg:my-20 items-center">
+    <div className="flex flex-col gap-3 lg:gap-6 my-10 lg:my-20">
       <TitleBar title="Your Order History" onBack={() => navigate("/")} />
       <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3 lg:gap-10">
         {orders.length > 0 ? (
           orders.map((order) => <OrderCard key={order._id} order={order} />)
         ) : (
-          <div className="p-8 text-center bg-white rounded-base border-2 border-border shadow-shadow">
+          <div className="p-10 text-center bg-white rounded-base border-2 border-border shadow-shadow">
             <Typography as="h4">You haven't placed any orders yet.</Typography>
             <Button className="mt-4" onClick={() => navigate("/")}>
               Start Shopping

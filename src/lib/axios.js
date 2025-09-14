@@ -6,7 +6,7 @@ const baseURL = import.meta.env.DEV
   : import.meta.env.VITE_PUBLIC_API_URL;
 
 const api = axios.create({
-  baseURL: baseURL || "http://localhost:8001",
+  baseURL: baseURL || "http://localhost:8080",
   withCredentials: true, // httpOnly cookie
 });
 

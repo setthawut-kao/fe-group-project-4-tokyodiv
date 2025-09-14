@@ -1,4 +1,5 @@
 import Lottie from "lottie-react";
+import { Typography } from "../ui/typography";
 
 /**
  * Component สำหรับแสดง Lottie Animation ที่สามารถนำกลับมาใช้ซ้ำได้

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useCartStore } from "@/stores/useCartStore";
 import { createOrder } from "@/services/orderService";
 
@@ -24,18 +24,24 @@ export const CheckoutPage = () => {
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     recipientName: "",
     phoneNumber: "",
     address: "",
   });
+
   const [isConfirmAlertOpen, setIsConfirmAlertOpen] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const itemsToCheckout = cartItems.filter((item) =>
+  const itemsFromCart = cartItems.filter((item) =>
     selectedItemIds.includes(item._id)
   );
+
+  const itemsToCheckout = location.state?.itemsToCheckout || itemsFromCart;
+
   const subtotal = itemsToCheckout.reduce((sum, item) => sum + item.price, 0);
 
   const isFormValid =
