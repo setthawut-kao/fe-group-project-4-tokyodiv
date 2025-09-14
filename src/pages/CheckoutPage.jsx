@@ -71,7 +71,8 @@ export const CheckoutPage = () => {
 
       await createOrder(orderData);
 
-      clearCheckedOutItems();
+      await clearCheckedOutItems();
+
       navigate("/order-success");
     } catch (error) {
       console.error("Failed to submit order:", error);

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import api from "@/lib/axios";
 
-export const useCartStore = create((set) => ({
+export const useCartStore = create((set, get) => ({
   // --- State ---
   cartItems: [],
   isCartOpen: false,
@@ -66,13 +66,24 @@ export const useCartStore = create((set) => ({
       }
     }),
 
-  clearCheckedOutItems: () =>
-    set((state) => ({
-      // กรอง cartItems เดิม ให้เหลือแต่ชิ้นที่ "ไม่ถูกเลือก"
-      cartItems: state.cartItems.filter(
-        (item) => !state.selectedItemIds.includes(item.id)
-      ),
-      // ล้างรายการที่ถูกเลือกทั้งหมด
-      selectedItemIds: [],
-    })),
+  clearCheckedOutItems: async () => {
+    try {
+      const { selectedItemIds } = get();
+      if (selectedItemIds.length === 0) return;
+
+      // 1. ยิง API ไปที่ Backend เพื่อสั่งลบ (บรรทัดนี้จบที่วงเล็บ)
+      const response = await api.delete("/api/cart/me/clear-items", {
+        data: { productIds: selectedItemIds },
+      });
+
+      // 2. เมื่อ API ทำงานสำเร็จ ค่อยมา set state (ย้ายออกมาอยู่ตรงนี้)
+      set({
+        cartItems: response.data.items,
+        selectedItemIds: [],
+      });
+    } catch (error) {
+      console.error("Failed to clear checked out items:", error);
+      set({ selectedItemIds: [] });
+    }
+  },
 }));
