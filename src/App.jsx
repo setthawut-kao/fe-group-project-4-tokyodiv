@@ -1,22 +1,65 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { Home } from "./pages/Home";
 import { MainLayout } from "./components/layouts/MainLayout";
+import { HomePage } from "./pages/HomePage";
+import { AboutPages } from "./pages/AboutPages";
+import { ProtectedRoute } from "./components/shared/ProtectedRoute";
+import { ProfilePage } from "./pages/ProfilePage";
+import { CheckoutPage } from "./pages/CheckoutPage";
+import { OrderSuccessPage } from "./pages/OrderSuccessPage";
+import { OrderHistoryPage } from "./pages/OrderHistoryPage";
+import { OrderDetailPage } from "./pages/OrderDetailPage";
+
+import Lottie from "lottie-react";
+import errorAnimationData from "@/assets/animations/error_animation.json";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     errorElement: (
-      <div className="min-h-screen flex justify-center items-center">
-        <h1 className="text-4xl">404 - Page Not Found</h1>
-      </div>
+      <section className="w-full h-screen flex justify-center items-center">
+        <Lottie
+          animationData={errorAnimationData}
+          loop={true}
+          autoplay={true}
+          className="w-140 h-140"
+        />
+      </section>
     ),
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <HomePage />,
+      },
+      {
+        path: "/about-us",
+        element: <AboutPages />,
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/checkout",
+            element: <CheckoutPage />,
+          },
+          {
+            path: "/order-success",
+            element: <OrderSuccessPage />,
+          },
+          {
+            path: "/profile",
+            element: <ProfilePage />,
+          },
+          {
+            path: "/orders",
+            element: <OrderHistoryPage />,
+          },
+          {
+            path: "/orders/:orderId",
+            element: <OrderDetailPage />,
+          },
+        ],
       },
     ],
   },

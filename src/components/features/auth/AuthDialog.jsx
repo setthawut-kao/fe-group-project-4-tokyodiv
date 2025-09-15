@@ -1,5 +1,6 @@
+import { useAuthStore } from "@/stores/useAuthStore";
+
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,18 +11,21 @@ import {
 } from "@/components/ui/dialog";
 import { LoginForm } from "./LoginForm";
 import { RegisterForm } from "./RegisterForm";
-import { ArrowRight } from "lucide-react";
 
-export function AuthDialog() {
+export const AuthDialog = () => {
+  const { isAuthDialogOpen, closeAuthDialog } = useAuthStore();
   const [view, setView] = useState("login");
 
+  const handleOpenChange = (isOpen) => {
+    if (!isOpen) {
+      // ถ้า Dialog กำลังจะปิด, ให้ reset view กลับไปที่ 'login'
+      setView("login");
+    }
+    closeAuthDialog(); // เรียก action เดิมเพื่อปิด
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>
-          Login <ArrowRight />
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isAuthDialogOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-xs lg:max-w-sm">
         <DialogHeader>
           <DialogTitle>
@@ -39,4 +43,4 @@ export function AuthDialog() {
       </DialogContent>
     </Dialog>
   );
-}
+};
