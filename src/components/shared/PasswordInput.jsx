@@ -8,7 +8,7 @@ export const PasswordInput = (props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex w-full max-w-sm items-center space-x-1">
+    <div className="flex w-full max-w-sm items-center space-x-2">
       <Input
         type={showPassword ? "text" : "password"}
         {...props} // ส่ง props ทั้งหมดที่รับมา (เช่น id, value, onChange) ไปให้ Input ตัวจริง
