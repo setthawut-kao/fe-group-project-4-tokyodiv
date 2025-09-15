@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import { useAuthStore } from "@/stores/useAuthStore";
 
-import { Container } from "./container";
+import { Container } from "./Container";
 import { Navbar } from "./Navbar";
 import { ShoppingCartSheet } from "../features/cart/ShoppingCartSheet";
 import { Footer } from "./Footer";
