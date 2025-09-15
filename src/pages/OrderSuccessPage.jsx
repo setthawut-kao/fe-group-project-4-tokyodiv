@@ -8,7 +8,7 @@ import successAnimationData from "@/assets/animations/success_animation.json";
 
 export const OrderSuccessPage = () => {
   return (
-    <section className="flex flex-col gap-3 lg:gap-6 my-10 lg:my-20 items-center">
+    <section className="flex flex-col gap-3 lg:gap-10 my-10 lg:my-20 items-center">
       <Animation
         animationData={successAnimationData}
         className="w-48 h-48"

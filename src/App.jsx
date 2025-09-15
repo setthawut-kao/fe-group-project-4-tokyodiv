@@ -4,6 +4,7 @@ import { MainLayout } from "./components/layouts/MainLayout";
 import { HomePage } from "./pages/HomePage";
 import { AboutPages } from "./pages/AboutPages";
 import { ProtectedRoute } from "./components/shared/ProtectedRoute";
+import { ProfilePage } from "./pages/ProfilePage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { OrderSuccessPage } from "./pages/OrderSuccessPage";
 import { OrderHistoryPage } from "./pages/OrderHistoryPage";
@@ -11,7 +12,6 @@ import { OrderDetailPage } from "./pages/OrderDetailPage";
 
 import Lottie from "lottie-react";
 import errorAnimationData from "@/assets/animations/error_animation.json";
-import EditUser from "./pages/EditUser";
 
 const router = createBrowserRouter([
   {
@@ -37,10 +37,6 @@ const router = createBrowserRouter([
         element: <AboutPages />,
       },
       {
-        path: "/edit-user",
-        element: <EditUser />,
-      },
-      {
         element: <ProtectedRoute />,
         children: [
           {
@@ -51,10 +47,10 @@ const router = createBrowserRouter([
             path: "/order-success",
             element: <OrderSuccessPage />,
           },
-          // {
-          //   path: "/profile",
-          //   element: <ProfilePage />,
-          // },
+          {
+            path: "/profile",
+            element: <ProfilePage />,
+          },
           {
             path: "/orders",
             element: <OrderHistoryPage />,
@@ -65,22 +61,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "/checkout",
-      //   element: <CheckoutPage />,
-      // },
-      // {
-      //   path: "/order-success",
-      //   element: <OrderSuccessPage />,
-      // },
-      // {
-      //   path: "/orders",
-      //   element: <OrderHistoryPage />,
-      // },
-      // {
-      //   path: "/orders/:orderId",
-      //   element: <OrderDetailPage />,
-      // },
     ],
   },
 ]);

@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Typography } from "@/components/ui/typography";
 import { ArrowRight } from "lucide-react";
-
-import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword";
+import { PasswordInput } from "@/components/shared/PasswordInput";
+import { toast } from "sonner";
 
 import avatar1 from "@/assets/images/avatar/avatar-1.svg";
 import avatar2 from "@/assets/images/avatar/avatar-2.svg";
@@ -21,7 +21,7 @@ const getRandomAvatar = () => {
   return avatarPool[randomIndex];
 };
 
-export const RegisterForm = ({ onSwitch, onSuccess }) => {
+export const RegisterForm = ({ onSwitch }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -29,6 +29,8 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
     password: "",
     confirmPassword: "",
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const register = useAuthStore((state) => state.register);
 
@@ -38,10 +40,12 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!"); // TODO: เปลี่ยนเป็น Alert Dialog ในอนาค
-      return; // 👈 หยุดการทำงานทันที ถ้ารหัสผ่านไม่ตรงกัน
+      toast.error("Passwords do not match!");
+      setIsSubmitting(false);
+      return;
     }
 
     const randomAvatarUrl = getRandomAvatar();
@@ -55,17 +59,9 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
     };
 
     const result = await register(userData);
-
-    console.log("API Response from Backend:", result);
-
-    if (result && result.success) {
-      if (onSuccess) onSuccess();
-    } else {
-      const errorMessage =
-        result?.message ||
-        result?.error ||
-        "An unknown error occurred. Please try again.";
-      alert(errorMessage);
+    setIsSubmitting(false);
+    if (!result.success) {
+      toast.error(result.message || "An unknown error occurred.");
     }
   };
 
@@ -108,7 +104,7 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password-register">Password</Label>
-            <ToggleShowPassword
+            <PasswordInput
               id="password"
               placeholder="Enter your password"
               value={formData.password}
@@ -118,7 +114,7 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <ToggleShowPassword
+            <PasswordInput
               id="confirmPassword"
               placeholder="Confirm your password"
               value={formData.confirmPassword}
@@ -128,8 +124,13 @@ export const RegisterForm = ({ onSwitch, onSuccess }) => {
           </div>
         </div>
         <div className="flex flex-col gap-3 mt-6">
-          <Button type="submit" className="w-full cursor-pointer">
-            Create Account <ArrowRight className="w-4 h-4" />
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full cursor-pointer"
+          >
+            {isSubmitting ? "Creating Account..." : "Create Account"}
+            <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
       </form>

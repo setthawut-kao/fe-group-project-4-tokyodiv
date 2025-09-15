@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { useCartStore } from "./useCartStore";
 import * as authService from "@/services/authService";
 
+import { toast } from "sonner";
+
 export const useAuthStore = create((set, get) => ({
   user: null,
   isLoggedIn: false,
@@ -34,6 +36,10 @@ export const useAuthStore = create((set, get) => ({
       set({ user, isLoggedIn: true });
       useCartStore.getState().fetchCart();
 
+      toast.success("Registration successful!", {
+        description: `Welcome to Re:furnish, ${user.firstName}!`,
+      });
+
       const postAction = get().postLoginAction;
       if (typeof postAction === "function") {
         postAction();
@@ -54,6 +60,10 @@ export const useAuthStore = create((set, get) => ({
       const user = await authService.Login(userData);
       set({ user, isLoggedIn: true });
       useCartStore.getState().fetchCart();
+
+      toast.success("Login successful!", {
+        description: `Welcome back, ${user.firstName}!`,
+      });
 
       const postAction = get().postLoginAction;
       if (typeof postAction === "function") {
@@ -84,5 +94,9 @@ export const useAuthStore = create((set, get) => ({
       });
       useCartStore.getState().clearCartLocal();
     }
+  },
+
+  updateUser: (updatedUserData) => {
+    set({ user: updatedUserData });
   },
 }));

@@ -8,6 +8,7 @@ import { ShoppingCartSheet } from "../features/cart/ShoppingCartSheet";
 import { Footer } from "./Footer";
 import { CartFAB } from "../features/cart/CartFAB";
 import { AuthDialog } from "../features/auth/AuthDialog";
+import { Toaster } from "../ui/sonner";
 
 import { Animation } from "@/components/shared/Animation";
 import loadingAnimationData from "@/assets/animations/loading_animation.json";
@@ -46,6 +47,7 @@ export const MainLayout = () => {
       <ShoppingCartSheet />
       <CartFAB />
       <AuthDialog />
+      <Toaster richColors />
     </div>
   );
 };

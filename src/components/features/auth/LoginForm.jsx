@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Typography } from "@/components/ui/typography";
 import { ArrowRight } from "lucide-react";
+import { PasswordInput } from "@/components/shared/PasswordInput";
+import { toast } from "sonner";
 
-import { ToggleShowPassword } from "@/components/features/auth/ToggleShowPassword";
-
-export const LoginForm = ({ onSwitch, onSuccess }) => {
+export const LoginForm = ({ onSwitch }) => {
   // 1. สร้าง State สำหรับฟอร์ม
   const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 2. ดึง Action `login` มาจาก Store
   const login = useAuthStore((state) => state.login);
@@ -22,15 +24,14 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsSubmitting(true);
     const result = await login(formData);
+    setIsSubmitting(false);
 
-    if (result && result.success) {
-      // เช็คว่า result ไม่ใช่ undefined ก่อน
-      if (onSuccess) onSuccess(); // ถ้าสำเร็จ ให้ปิด Dialog
-    } else {
-      // ถ้า result มี message ก็ให้แสดง, ถ้าไม่มีก็แสดงข้อความทั่วไป
-      alert(result?.message || "Login failed. Please check your credentials.");
+    if (!result.success) {
+      toast.error(
+        result.message || "Login failed. Please check your credentials."
+      );
     }
   };
 
@@ -50,8 +51,8 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <ToggleShowPassword
+            <Label htmlFor="password-login">Password</Label>
+            <PasswordInput
               id="password"
               placeholder="Password"
               value={formData.password}
@@ -61,8 +62,13 @@ export const LoginForm = ({ onSwitch, onSuccess }) => {
           </div>
         </div>
         <div className="flex flex-col gap-3 mt-6">
-          <Button type="submit" className="w-full cursor-pointer">
-            Login <ArrowRight className="w-4 h-4" />
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full cursor-pointer"
+          >
+            {isSubmitting ? "Logging in..." : "Login"}
+            <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
       </form>

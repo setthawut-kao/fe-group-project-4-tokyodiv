@@ -90,7 +90,7 @@ export const OrderDetailPage = () => {
   }
 
   return (
-    <div className="lex flex-col gap-3 lg:gap-6 my-10 lg:my-20">
+    <div className="lex flex-col gap-3 lg:gap-10 my-10 lg:my-20">
       <TitleBar
         title={`Order Details #${order._id.slice(-6).toUpperCase()}`}
         onBack={() => navigate("/orders")}

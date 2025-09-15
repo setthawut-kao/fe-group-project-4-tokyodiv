@@ -56,7 +56,7 @@ export const OrderHistoryPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-3 lg:gap-6 my-10 lg:my-20">
+    <div className="flex flex-col gap-3 lg:gap-10 my-10 lg:my-20">
       <TitleBar title="Your Order History" onBack={() => navigate("/")} />
       <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3 lg:gap-10">
         {orders.length > 0 ? (

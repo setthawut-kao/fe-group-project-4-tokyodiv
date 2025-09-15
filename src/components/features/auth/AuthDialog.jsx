@@ -16,8 +16,16 @@ export const AuthDialog = () => {
   const { isAuthDialogOpen, closeAuthDialog } = useAuthStore();
   const [view, setView] = useState("login");
 
+  const handleOpenChange = (isOpen) => {
+    if (!isOpen) {
+      // ถ้า Dialog กำลังจะปิด, ให้ reset view กลับไปที่ 'login'
+      setView("login");
+    }
+    closeAuthDialog(); // เรียก action เดิมเพื่อปิด
+  };
+
   return (
-    <Dialog open={isAuthDialogOpen} onOpenChange={closeAuthDialog}>
+    <Dialog open={isAuthDialogOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-xs lg:max-w-sm">
         <DialogHeader>
           <DialogTitle>
