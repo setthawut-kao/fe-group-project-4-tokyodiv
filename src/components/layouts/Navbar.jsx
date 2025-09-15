@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { Typography } from "../ui/typography";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
-import { Container } from "./container";
+import { Container } from "./Container";
 import Logo from "@/assets/logo.svg?react";
 import { UserDropdownMenu } from "../features/auth/UserDropdownMenu";
 import { useAuthStore } from "@/stores/useAuthStore";

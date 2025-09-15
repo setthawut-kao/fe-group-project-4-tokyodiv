@@ -39,7 +39,6 @@ export const Footer = () => {
                 <Typography as="h2">Get to know us</Typography>
               </div>
               <div className="mx-auto">
-
                 <Button asChild>
                   <Link to="/about-us" className="flex items-center gap-2">
                     Learn More About Us <ArrowRight className="w-4 h-4" />
