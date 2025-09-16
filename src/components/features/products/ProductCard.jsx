@@ -21,7 +21,11 @@ export const ProductCard = ({ product, variant = "default" }) => {
     <Dialog open={isQuickViewOpen} onOpenChange={setQuickViewOpen}>
       <div className="flex flex-col gap-2 h-full">
         {product.imageUrl && (
-          <ImageCard caption={product.name} imageUrl={product.imageUrl} />
+          <ImageCard
+            className="bg-white"
+            caption={product.name}
+            imageUrl={product.imageUrl}
+          />
         )}
         <div className="flex w-full px-3 py-2 gap-3 items-center justify-between bg-white rounded-base border-2 border-border shadow-shadow overflow-hidden mt-auto">
           <div className="flex flex-col items-center">
