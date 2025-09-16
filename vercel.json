@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://be-re-furnish.onrender.com"
-    },
-    {
       "source": "/(.*)",
       "destination": "/"
     }
