@@ -9,6 +9,8 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 
+import { motion } from "framer-motion";
+
 export const Navbar = () => {
   const scrollDirection = useScrollDirection();
   const { isLoggedIn, user, openAuthDialog } = useAuthStore();
@@ -26,9 +28,14 @@ export const Navbar = () => {
         <Container>
           <nav className="flex h-20 items-center justify-between">
             <div className="flex items-center">
-              <Link className="flex items-center px-1 py-1 gap-1bg-white rounded-base border-2 border-border shadow-shadow hover:bg-teal-100 hover:scale-105 hover:rotate-z-3 transition">
-                <Logo className="w-10 h-10 rounded-lg hover:text-teal-900 hover:scale-105 hover:rotate-z-12 transition" />
-                <Typography as="h2">Re:Furnish</Typography>
+              <Link className="flex items-center px-3 py-1 gap-2 bg-white rounded-base border-2 border-border shadow-shadow hover:bg-teal-100 hover:scale-105 hover:rotate-z-3 transition">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2 }}
+                >
+                  <Logo className="w-12 h-12 rounded-lg hover:scale-105 hover:rotate-z-12 transition" />
+                </motion.div>
+                <Typography as="h3">Re:Furnish</Typography>
               </Link>
             </div>
             <div className="flex items-center gap-4">

@@ -113,7 +113,7 @@ export const MainProduct = () => {
         <div className="flex flex-col lg:col-span-2 gap-10">
           <div>
             <Typography as="h2">The Collection!</Typography>
-            <Typography as="p" className="text-teal-900">
+            <Typography as="p" className="text-teal-800">
               Browse all our available pieces or select a category to find
               exactly what you're looking for
             </Typography>

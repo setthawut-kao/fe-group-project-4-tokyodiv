@@ -77,7 +77,7 @@ export const NewArrivalsSection = () => {
         <div className="flex flex-col gap-10">
           <div>
             <Typography as="h2">This Week's Highlights</Typography>
-            <Typography as="p" className="text-teal-900">
+            <Typography as="p" className="text-teal-800">
               More than just furniture.
               <br />
               Explore this week's highlights, each with a soul of its own.

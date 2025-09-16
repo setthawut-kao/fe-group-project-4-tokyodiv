@@ -10,9 +10,11 @@ import {
 } from "@/components/ui/card";
 import { Typography } from "../ui/typography";
 
-import Logo from "@/assets/logo.svg";
+import Logo from "@/assets/logo.svg?react";
 
 import imageArrivals from "@/assets/images/home-page/NewArrive.webp";
+
+import { motion } from "framer-motion";
 
 export const PostFrame = ({
   children,
@@ -26,8 +28,14 @@ export const PostFrame = ({
         <div className="flex justify-between">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-3">
             <Avatar>
-              <AvatarImage src alt="Avatar logo" />
-              <AvatarFallback>RF</AvatarFallback>
+              <AvatarFallback>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 4 }}
+                >
+                  <Logo className="w-full h-full" />
+                </motion.div>
+              </AvatarFallback>
             </Avatar>
             <div>
               <CardTitle>

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { Outlet, ScrollRestoration } from "react-router-dom";
+import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { Container } from "./Container";
 import { Navbar } from "./Navbar";
@@ -15,6 +16,8 @@ import loadingAnimationData from "@/assets/animations/loading_animation.json";
 
 export const MainLayout = () => {
   const isLoading = useAuthStore((state) => state.isLoading);
+
+  const location = useLocation();
 
   useEffect(() => {
     // เรียกใช้ action `checkAuthStatus` แค่ 1 ครั้งตอนที่แอปเริ่มทำงาน
@@ -34,11 +37,21 @@ export const MainLayout = () => {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Navbar />
-      <main className="w-full flex-grow">
-        <Container>
-          <Outlet />
-        </Container>
-      </main>
+      <AnimatePresence mode="wait">
+        <motion.main
+          key={location.pathname}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 15 }}
+          transition={{ duration: 0.3 }}
+          className="w-full flex-grow"
+        >
+          <Container>
+            <Outlet />
+          </Container>
+        </motion.main>
+      </AnimatePresence>
+
       <Footer />
       <ScrollRestoration />
 
