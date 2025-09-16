@@ -9,7 +9,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export const Navbar = () => {
   const scrollDirection = useScrollDirection();

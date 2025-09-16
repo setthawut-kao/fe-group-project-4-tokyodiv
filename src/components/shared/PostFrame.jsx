@@ -14,7 +14,7 @@ import Logo from "@/assets/logo.svg?react";
 
 import imageArrivals from "@/assets/images/home-page/NewArrive.webp";
 
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export const PostFrame = ({
   children,
@@ -31,7 +31,7 @@ export const PostFrame = ({
               <AvatarFallback>
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 2 }}
+                  transition={{ duration: 4 }}
                 >
                   <Logo className="w-full h-full" />
                 </motion.div>

@@ -11,7 +11,7 @@ import elementSmallLamp from "@/assets/images/hero/small-lamp.svg";
 import elementStorageTable from "@/assets/images/hero/storage-table.svg";
 import elementVase from "@/assets/images/hero/vase.svg";
 
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 import { ArrowRight, ShoppingBag } from "lucide-react";
 
