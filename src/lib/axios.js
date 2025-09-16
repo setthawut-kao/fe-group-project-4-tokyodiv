@@ -14,7 +14,6 @@ api.interceptors.request.use((config) => {
   // If no Authorization header is already set, try to get token from localStorage
   if (!config.headers.Authorization) {
     const token = localStorage.getItem("token");
-    console.log("4. 🕵️ Interceptor is running, found token:", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

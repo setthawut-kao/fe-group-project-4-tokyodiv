@@ -68,14 +68,10 @@ export const useAuthStore = create((set, get) => ({
   login: async (userData) => {
     try {
       const response = await authService.Login(userData);
-      console.log("🕵️ LOGIN RESPONSE FROM BACKEND:", response);
       const { user, accessToken } = response;
-      console.log("2. 🪙 Extracted accessToken:", accessToken);
+
       localStorage.setItem("token", accessToken);
-      console.log(
-        "3. 🧐 Verifying token in localStorage:",
-        localStorage.getItem("token")
-      );
+
       set({ user, isLoggedIn: true, token: accessToken });
       useCartStore.getState().fetchCart();
 
