@@ -84,7 +84,11 @@ export const ProductQuickViewDialog = ({
         </DialogHeader>
 
         <div className="flex flex-col gap-3">
-          <ImageCard caption={product.name} imageUrl={product.imageUrl} />
+          <ImageCard
+            className="bg-white"
+            caption={product.name}
+            imageUrl={product.imageUrl}
+          />
           <div>
             <Accordion type="single" collapsible>
               <AccordionItem value="description">

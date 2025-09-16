@@ -141,7 +141,7 @@ export const ProfilePage = () => {
             <AvatarImage src={user.avatarUrl} alt={fullName} />
             <AvatarFallback className="text-3xl">{userInitials}</AvatarFallback>
           </Avatar>
-          <Typography as="h3" className="truncate w-full">
+          <Typography as="h3" className="flex w-full truncate justify-center">
             {fullName}
           </Typography>
         </div>
