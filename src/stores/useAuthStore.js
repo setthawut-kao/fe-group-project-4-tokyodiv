@@ -8,6 +8,7 @@ export const useAuthStore = create((set, get) => ({
   user: null,
   isLoggedIn: false,
   isLoading: true,
+  token: null,
   isAuthDialogOpen: false,
   postLoginAction: null,
 
@@ -18,13 +19,19 @@ export const useAuthStore = create((set, get) => ({
     set({ isAuthDialogOpen: false, postLoginAction: null }),
 
   checkAuthStatus: async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return set({ isLoading: false }); // ถ้าไม่มี token ก็ไม่ต้องทำอะไรต่อ
+    }
+
     try {
       const user = await authService.getProfile();
-      set({ user, isLoggedIn: true });
+      set({ user, isLoggedIn: true, token });
       useCartStore.getState().fetchCart();
     } catch (error) {
       console.error("Failed to check user status:", error);
-      set({ user: null, isLoggedIn: false });
+      localStorage.removeItem("token");
+      set({ user: null, isLoggedIn: false, token: null });
     } finally {
       set({ isLoading: false });
     }
@@ -32,8 +39,11 @@ export const useAuthStore = create((set, get) => ({
 
   register: async (userData) => {
     try {
-      const user = await authService.Register(userData);
-      set({ user, isLoggedIn: true });
+      const response = await authService.Register(userData);
+      const { user, accessToken } = response;
+      localStorage.setItem("token", accessToken);
+      set({ user, isLoggedIn: true, token: accessToken });
+
       useCartStore.getState().fetchCart();
 
       toast.success("Registration successful!", {
@@ -57,8 +67,10 @@ export const useAuthStore = create((set, get) => ({
 
   login: async (userData) => {
     try {
-      const user = await authService.Login(userData);
-      set({ user, isLoggedIn: true });
+      const response = await authService.Login(userData);
+      const { user, accessToken } = response;
+      localStorage.setItem("token", accessToken);
+      set({ user, isLoggedIn: true, token: accessToken });
       useCartStore.getState().fetchCart();
 
       toast.success("Login successful!", {
@@ -87,10 +99,12 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       console.error("Logout failed on server, but logging out client.", error);
     } finally {
+      localStorage.removeItem("token");
       set({
         user: null,
         isLoggedIn: false,
         postLoginAction: null,
+        token: null,
       });
       useCartStore.getState().clearCartLocal();
     }
