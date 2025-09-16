@@ -14,7 +14,7 @@ export const useCartStore = create((set, get) => ({
   fetchCart: async () => {
     try {
       const response = await api.get("/api/cart/me");
-      set({ cartItems: response.data.items });
+      set({ cartItems: response.data?.items || [] });
     } catch (error) {
       console.error("Failed to fetch cart:", error);
       // set cartItems เป็น [] ถ้า user ยังไม่ login
