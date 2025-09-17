@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { SplashScreen } from "../shared/SplashScreen";
 
 import { Container } from "./Container";
 import { Navbar } from "./Navbar";
@@ -15,8 +16,10 @@ import { Animation } from "@/components/shared/Animation";
 import loadingAnimationData from "@/assets/animations/loading_animation.json";
 
 export const MainLayout = () => {
-  const isLoading = useAuthStore((state) => state.isLoading);
-
+  const { isLoading, isLoggingIn } = useAuthStore((state) => ({
+    isLoading: state.isLoading,
+    isLoggingIn: state.isLoggingIn,
+  }));
   const location = useLocation();
 
   useEffect(() => {
@@ -36,6 +39,7 @@ export const MainLayout = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
+      <AnimatePresence>{isLoggingIn && <SplashScreen />}</AnimatePresence>
       <Navbar />
       <AnimatePresence mode="wait">
         <motion.main

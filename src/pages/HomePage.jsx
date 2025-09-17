@@ -17,11 +17,11 @@ export const HomePage = () => {
           <NewArrivalsSection />
         </ScrollReveal>
 
-        <Element name="main-product">
-          <ScrollReveal>
+        <ScrollReveal>
+          <Element name="main-product">
             <MainProduct />
-          </ScrollReveal>
-        </Element>
+          </Element>
+        </ScrollReveal>
       </section>
     </>
   );
