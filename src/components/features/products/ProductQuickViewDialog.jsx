@@ -78,6 +78,15 @@ export const ProductQuickViewDialog = ({
   return (
     <>
       <DialogContent className="max-w-sm px-4">
+        <DialogClose asChild>
+          <Button
+            size="icon"
+            variant="reverse"
+            className="bg-white cursor-pointer absolute top-2 right-2"
+          >
+            <X className="w-4 h-4" />
+          </Button>
+        </DialogClose>
         <DialogHeader className="sr-only">
           <DialogTitle>{product.name}</DialogTitle>
           <DialogDescription>{product.description}</DialogDescription>
@@ -116,7 +125,7 @@ export const ProductQuickViewDialog = ({
 
             {showActions && (
               <div className="flex items-center gap-3">
-                <DialogClose asChild>
+                {/* <DialogClose asChild>
                   <Button
                     size="icon"
                     variant="reverse"
@@ -124,7 +133,7 @@ export const ProductQuickViewDialog = ({
                   >
                     <X className="w-4 h-4" />
                   </Button>
-                </DialogClose>
+                </DialogClose> */}
 
                 <Button
                   onClick={handleAddToCart}

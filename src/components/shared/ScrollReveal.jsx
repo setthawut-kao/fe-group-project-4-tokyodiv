@@ -1,42 +1,44 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "framer-motion";
 
-gsap.registerPlugin(ScrollTrigger);
+export const ScrollReveal = ({
+  children,
+  className,
+  duration = 0.8,
+  delay = 0,
+  once = true,
+  amount = 0.2,
+  direction = "up",
+}) => {
+  const offset = {
+    up: { y: 50, x: 0 },
+    down: { y: -50, x: 0 },
+    left: { y: 0, x: 50 },
+    right: { y: 0, x: -50 },
+  };
 
-export const ScrollReveal = ({ children, className }) => {
-  const revealRef = useRef(null);
-
-  useEffect(() => {
-    const element = revealRef.current;
-
-    if (!element) return;
-
-    gsap.set(element, { opacity: 0, y: 50 });
-
-    const tween = gsap.to(element, {
+  const revealVariants = {
+    hidden: { opacity: 0, ...offset[direction] },
+    visible: {
       opacity: 1,
+      x: 0,
       y: 0,
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: element,
-        start: "top 85%",
-        toggleActions: "play none none reverse",
+      transition: {
+        duration,
+        delay,
+        ease: "easeOut",
       },
-    });
-
-    return () => {
-      if (tween.scrollTrigger) {
-        tween.scrollTrigger.kill();
-      }
-      tween.kill();
-    };
-  }, []);
+    },
+  };
 
   return (
-    <div ref={revealRef} className={`will-change-reveal ${className || ""}`}>
+    <motion.div
+      className={className}
+      variants={revealVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once, amount }}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 };

@@ -8,6 +8,7 @@ export const useAuthStore = create((set, get) => ({
   user: null,
   isLoggedIn: false,
   isLoading: true,
+  isLoggingIn: false,
   token: null,
   isAuthDialogOpen: false,
   postLoginAction: null,
@@ -38,13 +39,28 @@ export const useAuthStore = create((set, get) => ({
   },
 
   register: async (userData) => {
-    try {
-      const response = await authService.Register(userData);
-      const { user, accessToken } = response;
-      localStorage.setItem("token", accessToken);
-      set({ user, isLoggedIn: true, token: accessToken });
+    set({ isLoggingIn: true });
 
-      useCartStore.getState().fetchCart();
+    try {
+      const MINIMUM_DURATION = 3500; // 👈 กำหนดเวลาขั้นต่ำ (2.5 วินาที)
+
+      // สร้าง Promise สำหรับการโหลดข้อมูล
+      const dataFetchLogic = async () => {
+        const response = await authService.Register(userData);
+        const { user, accessToken } = response;
+        localStorage.setItem("token", accessToken);
+        set({ user, isLoggedIn: true, token: accessToken });
+        await useCartStore.getState().fetchCart();
+        return user; // ส่งค่า user กลับไป
+      };
+
+      // สร้าง Promise สำหรับการหน่วงเวลา
+      const timerPromise = new Promise((resolve) =>
+        setTimeout(resolve, MINIMUM_DURATION)
+      );
+
+      // รอให้ทั้งสองอย่างทำงานเสร็จ
+      const [user] = await Promise.all([dataFetchLogic(), timerPromise]);
 
       toast.success("Registration successful!", {
         description: `Welcome to Re:furnish, ${user.firstName}!`,
@@ -58,22 +74,32 @@ export const useAuthStore = create((set, get) => ({
 
       return { success: true, data: user };
     } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || "Registration failed",
-      };
+      toast.error(error.response?.data?.message || "Registration failed");
+      return { success: false, message: error.response?.data?.message };
+    } finally {
+      set({ isLoggingIn: false }); // ปิด Splash Screen
     }
   },
 
   login: async (userData) => {
+    set({ isLoggingIn: true });
     try {
-      const response = await authService.Login(userData);
-      const { user, accessToken } = response;
+      const MINIMUM_DURATION = 3500; // 👈 กำหนดเวลาขั้นต่ำ (2.5 วินาที)
 
-      localStorage.setItem("token", accessToken);
+      const dataFetchLogic = async () => {
+        const response = await authService.Login(userData);
+        const { user, accessToken } = response;
+        localStorage.setItem("token", accessToken);
+        set({ user, isLoggedIn: true, token: accessToken });
+        await useCartStore.getState().fetchCart();
+        return user;
+      };
 
-      set({ user, isLoggedIn: true, token: accessToken });
-      useCartStore.getState().fetchCart();
+      const timerPromise = new Promise((resolve) =>
+        setTimeout(resolve, MINIMUM_DURATION)
+      );
+
+      const [user] = await Promise.all([dataFetchLogic(), timerPromise]);
 
       toast.success("Login successful!", {
         description: `Welcome back, ${user.firstName}!`,
@@ -88,10 +114,10 @@ export const useAuthStore = create((set, get) => ({
 
       return { success: true, data: user };
     } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || "Login failed",
-      };
+      toast.error(error.response?.data?.message || "Login failed");
+      return { success: false, message: error.response?.data?.message };
+    } finally {
+      set({ isLoggingIn: false }); // ปิด Splash Screen
     }
   },
 

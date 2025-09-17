@@ -134,18 +134,18 @@ export const RegisterForm = ({ onSwitch }) => {
           </Button>
         </div>
       </form>
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center gap-3">
         <Typography as="small" className="font-semibold">
-          Already have an account ?{" "}
-          <Button
-            type="button"
-            variant="reverse"
-            onClick={onSwitch}
-            className="bg-white hover:underline focus:outline-none cursor-pointer"
-          >
-            Login
-          </Button>
+          Already have an account ?
         </Typography>
+        <Button
+          type="button"
+          variant="reverse"
+          onClick={onSwitch}
+          className="bg-white hover:underline focus:outline-none cursor-pointer"
+        >
+          Login
+        </Button>
       </div>
     </div>
   );
