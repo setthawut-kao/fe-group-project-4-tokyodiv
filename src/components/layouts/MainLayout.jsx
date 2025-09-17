@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { AnimatePresence, motion } from "framer-motion";
+import { SplashScreen } from "../shared/SplashScreen";
 
 import { Container } from "./Container";
 import { Navbar } from "./Navbar";
@@ -16,13 +17,11 @@ import loadingAnimationData from "@/assets/animations/loading_animation.json";
 
 export const MainLayout = () => {
   const isLoading = useAuthStore((state) => state.isLoading);
-
-  const location = useLocation();
+  const isLoggingIn = useAuthStore((state) => state.isLoggingIn);
 
   useEffect(() => {
-    // เรียกใช้ action `checkAuthStatus` แค่ 1 ครั้งตอนที่แอปเริ่มทำงาน
     useAuthStore.getState().checkAuthStatus();
-  }, []); // `[]` หมายถึงให้ hook นี้ทำงานแค่ครั้งเดียว
+  }, []);
 
   if (isLoading) {
     return (
@@ -36,27 +35,22 @@ export const MainLayout = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <Navbar />
-      <AnimatePresence mode="wait">
-        <motion.main
-          key={location.pathname}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 15 }}
-          transition={{ duration: 0.3 }}
-          className="w-full flex-grow"
-        >
-          <Container>
-            <Outlet />
-          </Container>
-        </motion.main>
+      <AnimatePresence mode="sync">
+        {isLoggingIn && <SplashScreen />}
       </AnimatePresence>
+
+      <Navbar />
+
+      <main className="w-full flex-grow">
+        <Container>
+          <Outlet />
+        </Container>
+      </main>
 
       <Footer />
       <ScrollRestoration />
 
       {/* --- Global Components --- */}
-      {/* Component เหล่านี้จะลอยอยู่เหนือทุกหน้า และพร้อมถูกเรียกใช้งาน */}
       <ShoppingCartSheet />
       <CartFAB />
       <AuthDialog />

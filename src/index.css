@@ -77,3 +77,9 @@
     @apply font-heading;
   }
 }
+
+@layer utilities {
+  .will-change-reveal {
+    will-change: transform, opacity;
+  }
+}

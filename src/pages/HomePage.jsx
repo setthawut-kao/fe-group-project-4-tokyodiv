@@ -9,19 +9,19 @@ export const HomePage = () => {
   return (
     <>
       <section className="flex flex-col gap-20 lg:gap-40 my-10 lg:mt-20 scroll-smooth transition">
-        <ScrollReveal>
+        <ScrollReveal direction="up" duration={1}>
           <HeroSection />
         </ScrollReveal>
 
-        <ScrollReveal>
+        <ScrollReveal direction="up" duration={1}>
           <NewArrivalsSection />
         </ScrollReveal>
 
-        <Element name="main-product">
-          <ScrollReveal>
+        <ScrollReveal direction="up" duration={1}>
+          <Element name="main-product">
             <MainProduct />
-          </ScrollReveal>
-        </Element>
+          </Element>
+        </ScrollReveal>
       </section>
     </>
   );
