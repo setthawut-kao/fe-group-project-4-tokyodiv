@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { Typography } from "../ui/typography";
@@ -16,13 +17,6 @@ export const Navbar = () => {
 
   const { isLoggedIn, user, openAuthDialog } = useAuthStore();
 
-  const navigate = useNavigate();
-
-  const handleNavigateHome = () => {
-    window.scrollTo(0, 0);
-    navigate("/");
-  };
-
   return (
     <>
       <header
@@ -36,8 +30,8 @@ export const Navbar = () => {
         <Container>
           <nav className="flex h-20 items-center justify-between">
             <div className="flex items-center">
-              <div
-                onClick={handleNavigateHome}
+              <Link
+                to="/"
                 className="flex items-center px-3 py-1 gap-2 bg-white rounded-base border-2 border-border shadow-shadow hover:bg-teal-100 hover:scale-105 hover:rotate-z-3 transition cursor-pointer"
               >
                 <motion.div
@@ -47,7 +41,7 @@ export const Navbar = () => {
                   <Logo className="w-12 h-12 rounded-lg hover:scale-105 hover:rotate-z-12 transition" />
                 </motion.div>
                 <Typography as="h3">Re:Furnish</Typography>
-              </div>
+              </Link>
             </div>
             <div className="flex items-center gap-4">
               {isLoggedIn ? (

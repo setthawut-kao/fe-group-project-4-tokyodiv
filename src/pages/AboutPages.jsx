@@ -145,23 +145,23 @@ export const AboutPages = () => {
 
       <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
         <FlipCard
-          frontImg="src/assets/images/creator/gad.webp"
+          frontImg="https://res.cloudinary.com/dxm379t4i/image/upload/v1758132754/Gemini_Generated_Image_9i375c9i375c9i37_s18qpo.png"
           backText="16_Nuttapat(Gad/แก๊ด)"
         />
         <FlipCard
-          frontImg="src/assets/images/creator/kao.webp"
+          frontImg="https://res.cloudinary.com/dxm379t4i/image/upload/v1758132754/Gemini_Generated_Image_rriy4frriy4frriy_rtewgs.png"
           backText="28_Setthawut(Kao/เก้า)"
         />
         <FlipCard
-          frontImg="src/assets/images/creator/kim.webp"
+          frontImg="https://res.cloudinary.com/dxm379t4i/image/upload/v1758132754/Gemini_Generated_Image_jfcl7sjfcl7sjfcl_yizpyk.png"
           backText="36_Thanawat(Kim/คิม)"
         />
         <FlipCard
-          frontImg="src/assets/images/creator/Ja.webp"
+          frontImg="https://res.cloudinary.com/dxm379t4i/image/upload/v1758132754/Gemini_Generated_Image_2kej0p2kej0p2kej_l3i9ak.png"
           backText="37_Thunyaluk(Ja/จ๋า)"
         />
         <FlipCard
-          frontImg="src/assets/images/creator/bae.webp"
+          frontImg="https://res.cloudinary.com/dxm379t4i/image/upload/v1758132754/Gemini_Generated_Image_l4oq27l4oq27l4oq_vn7dxx.png"
           backText="40_Wanpen(Bae/เป้)"
         />
       </div>
