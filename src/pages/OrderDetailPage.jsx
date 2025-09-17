@@ -63,12 +63,16 @@ export const OrderDetailPage = () => {
 
   if (error) {
     return (
-      <Animation
-        type="fullPage"
-        loop={true}
-        animationData={errorAnimationData}
-        message={error}
-      />
+      <div className="flex flex-col justify-center items-center h-[70vh]">
+        <Animation
+          type="inline"
+          animationData={errorAnimationData}
+          message={error}
+        />
+        <Button className="mt-4" onClick={() => navigate("/orders")}>
+          Back to Order History
+        </Button>
+      </div>
     );
   }
 

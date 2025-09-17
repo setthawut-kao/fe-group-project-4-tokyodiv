@@ -65,6 +65,7 @@ export const CheckoutPage = () => {
           name: item.name,
           price: item.price,
           imageUrl: item.imageUrl,
+          category: item.category,
         })),
         totalAmount: subtotal,
       };
