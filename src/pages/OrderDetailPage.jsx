@@ -107,8 +107,8 @@ export const OrderDetailPage = () => {
           <Badge className="px-2 py-1">{order.status || "Delivered"}</Badge>
         </div>
 
-        <div className="lg:col-span-2 space-y-4">
-          <Typography as="h3">Items ({order.products.length})</Typography>
+        <div className="lg:col-span-2 space-y-3">
+          <Badge variant="neutral">Items ({order.products.length})</Badge>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-10">
             {order.products.map((item) => (
               <ProductCard key={item._id} product={item} variant="cart" />
