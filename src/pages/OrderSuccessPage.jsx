@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, Navigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
@@ -7,6 +7,11 @@ import { Animation } from "@/components/shared/Animation";
 import successAnimationData from "@/assets/animations/success_animation.json";
 
 export const OrderSuccessPage = () => {
+  const location = useLocation();
+  if (!location.state?.fromCheckout) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <section className="flex flex-col gap-3 lg:gap-10 my-10 lg:my-20 items-center">
       <Animation
@@ -23,6 +28,12 @@ export const OrderSuccessPage = () => {
           You can return to the homepage to keep shopping or view the details of
           your order
         </Typography>
+        {location.state.orderId && (
+          <Typography as="p" className="text-center">
+            Order Confirmation: #
+            {location.state.orderId.slice(-6).toUpperCase()}
+          </Typography>
+        )}
       </div>
 
       <div className="flex flex-col w-full lg:max-w-xs gap-3">

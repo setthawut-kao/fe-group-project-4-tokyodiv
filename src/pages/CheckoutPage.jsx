@@ -71,11 +71,16 @@ export const CheckoutPage = () => {
         totalAmount: subtotal,
       };
 
-      await createOrder(orderData);
+      const newOrder = await createOrder(orderData);
 
       await clearCheckedOutItems();
 
-      navigate("/order-success");
+      navigate("/order-success", {
+        state: {
+          fromCheckout: true,
+          orderId: newOrder._id,
+        },
+      });
     } catch (error) {
       console.error("Failed to submit order:", error);
       alert(error.message || "There was an issue placing your order.");
